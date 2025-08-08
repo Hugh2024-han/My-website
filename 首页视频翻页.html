@@ -1,0 +1,101 @@
+<div id="custom-video-gallery" style="max-width: 100%; overflow: hidden; position: relative;">
+    <!-- 视频容器 -->
+    <div class="video-gallery-container" style="display: flex; transition: transform 0.5s ease-in-out; width: 100%;">
+        <!--第一个-->
+        <div class="video-container" style="flex: 0 0 25%; padding: 0 7.5px; box-sizing: border-box;">
+            <iframe src="https://www.youtube.com/embed/OqRCcXl0v_0?si=Ed66BvFrnBZkJ7jr" style="width: 100%; aspect-ratio: 335/250; border: 2px solid white; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); border-radius: 6px;" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <!--第二个-->
+        <div class="video-container" style="flex: 0 0 25%; padding: 0 7.5px; box-sizing: border-box;">
+            <iframe src="https://www.youtube.com/embed/IZv1NewJutQ?si=9i-q8Lt7r0fLPvno" style="width: 100%; aspect-ratio: 335/250; border: 2px solid white; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); border-radius: 6px;" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <!--第三个-->
+        <div class="video-container" style="flex: 0 0 25%; padding: 0 7.5px; box-sizing: border-box;">
+            <iframe src="https://www.youtube.com/embed/byILjZXHTA4?si=IpflZsgi0arKV9K8" style="width: 100%; aspect-ratio: 335/250; border: 2px solid white; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); border-radius: 6px;" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <!--第四个-->
+        <div class="video-container" style="flex: 0 0 25%; padding: 0 7.5px; box-sizing: border-box;">
+            <iframe src="https://www.youtube.com/embed/YCC_zEb1xN8?si=5vuojKbHndg2hVvU" style="width: 100%; aspect-ratio: 335/250; border: 2px solid white; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); border-radius: 6px;" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <!--第五个-->
+        <div class="video-container" style="flex: 0 0 25%; padding: 0 7.5px; box-sizing: border-box;">
+            <iframe src="https://www.youtube.com/embed/CM0jW1BEh0g?si=P_V6b7bEaFJ-Kz7U" style="width: 100%; aspect-ratio: 335/250; border: 2px solid white; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); border-radius: 6px;" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <!--第六个-->
+        <div class="video-container" style="flex: 0 0 25%; padding: 0 7.5px; box-sizing: border-box;">
+            <iframe src="https://www.youtube.com/embed/KU_E8kNsUbc?si=wFB-nMpL-QGpO14i" style="width: 100%; aspect-ratio: 335/250; border: 2px solid white; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); border-radius: 6px;" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <!--第七个-->
+        <div class="video-container" style="flex: 0 0 25%; padding: 0 7.5px; box-sizing: border-box;">
+            <iframe src="https://www.youtube.com/embed/5j-Z2bWoGMc?si=d88m7sXqYFgYWXB6" style="width: 100%; aspect-ratio: 335/250; border: 2px solid white; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); border-radius: 6px;" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <!--第八个-->
+        <div class="video-container" style="flex: 0 0 25%; padding: 0 7.5px; box-sizing: border-box;">
+            <iframe src="https://www.youtube.com/embed/vJcymLCJTM8?si=66vXemvPURNztF2V" style="width: 100%; aspect-ratio: 335/250; border: 2px solid white; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); border-radius: 6px;" frameborder="0" allowfullscreen></iframe>
+        </div>
+    </div>
+
+    <!-- 导航按钮 -->
+    <div style="display: flex; justify-content: center; gap: 20px; margin-top: 10px;">
+        <button class="video-gallery-nav" id="custom-video-gallery-prev-btn" style="padding: 8px 16px; background: rgb(1, 47, 96); color: white;border: none; border-radius: 4px; cursor: pointer;"><</button>
+        <button class="video-gallery-nav" id="custom-video-gallery-next-btn" style="padding: 8px 16px; background: rgb(1, 47, 96); color: white;border: none; border-radius: 4px; cursor: pointer;"> ></button>
+    </div>
+</div>
+
+<script>
+// 使用DOMContentLoaded确保DOM完全加载
+document.addEventListener('DOMContentLoaded', function() {
+    try {
+        // 使用更具体的选择器
+        const gallery = document.getElementById('custom-video-gallery');
+        if (!gallery) {
+            console.error('视频画廊容器未找到');
+            return;
+        }
+        
+        const container = gallery.querySelector('.video-gallery-container');
+        const prevBtn = gallery.querySelector('#custom-video-gallery-prev-btn');
+        const nextBtn = gallery.querySelector('#custom-video-gallery-next-btn');
+        const videos = gallery.querySelectorAll('.video-container');
+        
+        if (!container || !prevBtn || !nextBtn || videos.length === 0) {
+            console.error('视频画廊元素未正确初始化');
+            return;
+        }
+        
+        const videosPerPage = 4;
+        let currentPage = 0;
+        const totalPages = Math.ceil(videos.length / videosPerPage) - 1;
+        
+        function updateGallery() {
+            const offset = -currentPage * 100;
+            container.style.transform = `translateX(${offset}%)`;
+            
+            // 调试日志
+            console.log(`当前页: ${currentPage}, 总页数: ${totalPages}, 偏移量: ${offset}%`);
+        }
+        
+        // 添加事件监听器
+        prevBtn.addEventListener('click', function() {
+            currentPage = currentPage > 0 ? currentPage - 1 : totalPages;
+            updateGallery();
+        });
+        
+        nextBtn.addEventListener('click', function() {
+            currentPage = currentPage < totalPages ? currentPage + 1 : 0;
+            updateGallery();
+        });
+        
+        // 初始化
+        updateGallery();
+        
+        // 添加窗口大小变化时的响应
+        window.addEventListener('resize', function() {
+            updateGallery();
+        });
+        
+    } catch (error) {
+        console.error('视频画廊初始化错误:', error);
+    }
+});
+</script>

@@ -1,0 +1,160 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Card Gallery</title>
+    <style type="text/css">
+        /* 将样式限定在特定容器内 */
+        #exhibition-cards-container * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        #exhibition-cards-container {
+            background-color: #ffffff;
+            padding: 40px 20px;
+            margin: 0 auto;
+        }
+        
+        #exhibition-cards-container .card-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 20px;
+        }
+        
+        #exhibition-cards-container .card {
+            width: calc(25% - 20px);
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+        }
+        
+        #exhibition-cards-container .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        #exhibition-cards-container .card-img {
+            width: 100%;
+            height: 180px;
+            overflow: hidden;
+        }
+        
+        #exhibition-cards-container .card-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        #exhibition-cards-container .card:hover .card-img img {
+            transform: scale(1.1);
+        }
+        
+        #exhibition-cards-container .card-content {
+            padding: 20px;
+        }
+        
+        #exhibition-cards-container .card-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        #exhibition-cards-container .card-desc {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+        
+        #exhibition-cards-container .card-link {
+            display: inline-block;
+            color: #3498db;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+        
+        #exhibition-cards-container .card-link:hover {
+            color: #2980b9;
+        }
+        
+        @media (max-width: 992px) {
+            #exhibition-cards-container .card {
+                width: calc(50% - 15px);
+            }
+        }
+        
+        @media (max-width: 576px) {
+            #exhibition-cards-container .card {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 其他网页内容 -->
+    
+    <!-- 卡片区块 - 使用特定ID限定作用域 -->
+    <div id="exhibition-cards-container">
+        <div class="card-row">
+            <!-- 卡片1 -->
+            <div class="card">
+                <div class="card-img"><img alt="卡片1图片" src="https://a0.ldycdn.com/cloud/lrBpoKomlnSRjlmqqipjim/LOGO.png" /></div>
+                <div class="card-content">
+                    <h3 class="card-title" style="text-align: center;"><span style="font-size:20px;"><strong>Medlab Asia 2025</strong></span></h3><br />
+                    <div> </div>
+                    <p class="card-desc" style="text-align: center;"><span style="line-height:1;"><a href="https://www.czmeditech.com/czmeditech-exhibition.html">Kuala Lumpur<br />
+                    July.16-July.18<br />
+                    2025 </a></span></p>
+                    <div style="text-align: center;"><span style="line-height:1;"><a class="card-link" href="#">Read More →</a></span></div>
+                </div>
+            </div>
+            <!-- 卡片2 -->
+            <div class="card">
+                <div class="card-img"><img alt="卡片2图片" src="https://a0.ldycdn.com/cloud/lpBpoKomlnSRjlmqqiojip/LOGO.png" /></div>
+                <div class="card-content">
+                    <h3 class="card-title" style="text-align: center;"><strong><span style="font-size:20px;">EXPO MED 2025</span></strong></h3><br />
+                    <div> </div>
+                    <p class="card-desc" style="text-align: center;"><span style="line-height:1;"><a href="https://www.czmeditech.com/czmeditech-exhibition.html">Mexico City<br />
+                    Aug.19-Aug.21<br />
+                    2025 </a></span></p>
+                    <div style="text-align: center;"><span style="line-height:1;"><a class="card-link" href="#">Read More →</a></span></div>
+                </div>
+            </div>
+            <!-- 卡片3 -->
+            <div class="card">
+                <div class="card-img"><img alt="卡片3图片" src="https://a0.ldycdn.com/cloud/liBpoKomlnSRjlmqqimjim/LOGO.png" /></div>
+                <div class="card-content">
+                    <h3 class="card-title" style="text-align: center;"><strong><span style="font-size:20px;">Medical Fair Thailand 2025</span></strong></h3>
+                    <p class="card-title" style="text-align: center;"><span style="line-height:1;"><a href="https://www.czmeditech.com/czmeditech-exhibition.html">Bangkok<br />
+                    Sept.10-Sept.12<br />
+                    2025 </a></span></p>
+                    <p style="text-align: center;"><span style="line-height:1;"><a class="card-link" href="#">Read More →</a></span></p>
+                </div>
+            </div>
+            <!-- 卡片4 -->
+            <div class="card">
+                <div class="card-img"><img alt="卡片4图片" src="https://a0.ldycdn.com/cloud/lmBpoKomlnSRjlmqqiqjip/LOGO.png" /></div>
+                <div class="card-content">
+                    <h3 class="card-title" style="text-align: center;"><strong><span style="font-size:20px;">INDO HEALTH CARE EXPO</span></strong></h3>
+                    <p class="card-title" style="text-align: center;"><span style="line-height:1;"><a href="https://www.czmeditech.com/czmeditech-exhibition.html">BSD City<br />
+                
+                    Sept.25-Sept.28<br />
+                    2025 </a></span></p>
+                    <p style="text-align: center;"><span style="line-height:1;"><a class="card-link" href="#">Read More →</a></span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 其他网页内容 -->
+</body>

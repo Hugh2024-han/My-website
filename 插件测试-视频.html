@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>独立轮播组件</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* 限定样式作用范围，只影响轮播组件内部 */
+        #independent-carousel-container * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        #independent-carousel-container {
+            font-family: Arial, sans-serif;
+            background-color: rgb(255, 255, 255);
+            width: 100%;
+            padding: 20px 0;
+        }
+        
+        #independent-carousel-container .custom-carousel {
+            position: relative;
+            max-width: 1180px;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+        
+        #independent-carousel-container .carousel-track {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+        
+        #independent-carousel-container .show-item {
+            flex: 0 0 265px;
+            margin: 0 10px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        #independent-carousel-container .videor {
+            position: relative;
+        }
+        
+        #independent-carousel-container .imgBox {
+            position: relative;
+            height: 200px;
+            overflow: hidden;
+        }
+        
+        #independent-carousel-container .imgBox img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        
+        #independent-carousel-container .imgBox:hover img {
+            transform: scale(1.05);
+        }
+        
+        #independent-carousel-container .play {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50px;
+            height: 50px;
+            background-color: rgba(255,255,255,0.8);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #333;
+            font-size: 20px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        #independent-carousel-container .play:hover {
+            background-color: rgba(255,255,255,1);
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+        
+        #independent-carousel-container .description {
+            padding: 15px;
+            background-color: #fff;
+        }
+        
+        #independent-carousel-container .banner-name {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        #independent-carousel-container .moreBtn {
+            display: inline-block;
+            padding: 8px 15px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+        }
+        
+        #independent-carousel-container .moreBtn:hover {
+            background-color: #0056b3;
+        }
+        
+        #independent-carousel-container .carousel-nav {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+            z-index: 10;
+        }
+        
+        #independent-carousel-container .carousel-btn {
+            width: 40px;
+            height: 40px;
+            background-color: rgba(0,0,0,0.5);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        #independent-carousel-container .carousel-btn:hover {
+            background-color: rgba(0,0,0,0.8);
+        }
+        
+        #independent-carousel-container .carousel-dots {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        
+        #independent-carousel-container .dot {
+            width: 12px;
+            height: 12px;
+            background-color: #ccc;
+            border-radius: 50%;
+            margin: 0 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        #independent-carousel-container .dot.active {
+            background-color: #007bff;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            #independent-carousel-container .show-item {
+                flex: 0 0 calc(50% - 20px);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            #independent-carousel-container .show-item {
+                flex: 0 0 calc(100% - 20px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 独立轮播容器，使用特定ID -->
+    <div id="independent-carousel-container">
+        <div class="custom-carousel">
+            <div class="carousel-nav">
+                <button class="carousel-btn prev-btn"><i class="fas fa-chevron-left"></i></button>
+                <button class="carousel-btn next-btn"><i class="fas fa-chevron-right"></i></button>
+            </div>
+            
+            <div class="carousel-track">
+                <div class="show-item">
+                    <div class="videor">
+                        <div class="imgBox">
+                           <!--第一个-->
+                           <div class="video-container" style="flex: 0 0 25%; padding: 0 7.5px; box-sizing: border-box;">
+                               <iframe src="https://www.youtube.com/embed/OqRCcXl0v_0?si=Ed66BvFrnBZkJ7jr" style="width: 100%; aspect-ratio: 335/250; border: 2px solid white; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); border-radius: 6px;" frameborder="0" allowfullscreen></iframe>
+                           </div>
+                        </div>
+                    </div>
+
+                </div>
+              <div class="show-item">
+                    <div class="videor">
+                        <div class="imgBox">
+                            <!--第二个-->
+                            <div class="video-container" style="flex: 0 0 25%; padding: 0 7.5px; box-sizing: border-box;">
+                                <iframe src="https://www.youtube.com/embed/IZv1NewJutQ?si=9i-q8Lt7r0fLPvno" style="width: 100%; aspect-ratio: 335/250; border: 2px solid white; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); border-radius: 6px;" frameborder="0" allowfullscreen></iframe>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="show-item">
+                    <div class="videor">
+                        <div class="imgBox">
+                            <!--第三个-->
+                            <div class="video-container" style="flex: 0 0 25%; padding: 0 7.5px; box-sizing: border-box;">
+                                <iframe src="https://www.youtube.com/embed/byILjZXHTA4?si=IpflZsgi0arKV9K8" style="width: 100%; aspect-ratio: 335/250; border: 2px solid white; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); border-radius: 6px;" frameborder="0" allowfullscreen></iframe>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="show-item">
+                    <div class="videor">
+                        <div class="imgBox">
+                           <!--第四个-->
+                           <div class="video-container" style="flex: 0 0 25%; padding: 0 7.5px; box-sizing: border-box;">
+                               <iframe src="https://www.youtube.com/embed/YCC_zEb1xN8?si=5vuojKbHndg2hVvU" style="width: 100%; aspect-ratio: 335/250; border: 2px solid white; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); border-radius: 6px;" frameborder="0" allowfullscreen></iframe>
+                           </div>
+                        </div>
+                    </div>
+
+                  
+                </div>
+                <div class="show-item">
+                    <div class="videor">
+                        <div class="imgBox">
+                            <!--第五个-->
+                            <div class="video-container" style="flex: 0 0 25%; padding: 0 7.5px; box-sizing: border-box;">
+                                <iframe src="https://www.youtube.com/embed/CM0jW1BEh0g?si=P_V6b7bEaFJ-Kz7U" style="width: 100%; aspect-ratio: 335/250; border: 2px solid white; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); border-radius: 6px;" frameborder="0" allowfullscreen></iframe>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="show-item">
+                    <div class="videor">
+                        <div class="imgBox">
+                           <!--第六个-->
+                           <div class="video-container" style="flex: 0 0 25%; padding: 0 7.5px; box-sizing: border-box;">
+                               <iframe src="https://www.youtube.com/embed/KU_E8kNsUbc?si=wFB-nMpL-QGpO14i" style="width: 100%; aspect-ratio: 335/250; border: 2px solid white; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); border-radius: 6px;" frameborder="0" allowfullscreen></iframe>
+                           </div>
+                        </div>
+                    </div>
+
+                </div>
+                
+                <div class="show-item">
+                    <div class="videor">
+                        <div class="imgBox">
+                           <!--第七个-->
+                           <div class="video-container" style="flex: 0 0 25%; padding: 0 7.5px; box-sizing: border-box;">
+                               <iframe src="https://www.youtube.com/embed/5j-Z2bWoGMc?si=d88m7sXqYFgYWXB6" style="width: 100%; aspect-ratio: 335/250; border: 2px solid white; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); border-radius: 6px;" frameborder="0" allowfullscreen></iframe>
+                           </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            
+            <div class="carousel-dots">
+                <div class="dot active" data-index="0"></div>
+                <div class="dot" data-index="1"></div>
+                <div class="dot" data-index="2"></div>
+                <div class="dot" data-index="3"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 使用IIFE(立即调用函数表达式)封装代码，避免全局污染
+        (function() {
+            // 限定选择器范围到独立容器内
+            const container = document.getElementById('independent-carousel-container');
+            const track = container.querySelector('.carousel-track');
+            const items = container.querySelectorAll('.show-item');
+            const dots = container.querySelectorAll('.dot');
+            const prevBtn = container.querySelector('.prev-btn');
+            const nextBtn = container.querySelector('.next-btn');
+            
+            let currentIndex = 0;
+            let itemWidth = items[0].offsetWidth + 20;
+            
+            function updateCarousel() {
+                track.style.transform = `translateX(-${currentIndex * itemWidth}px)`;
+                
+                dots.forEach((dot, index) => {
+                    dot.classList.toggle('active', index === currentIndex);
+                });
+            }
+            
+            nextBtn.addEventListener('click', function() {
+                if (currentIndex < items.length - 1) {
+                    currentIndex++;
+                } else {
+                    currentIndex = 0;
+                }
+                updateCarousel();
+            });
+            
+            prevBtn.addEventListener('click', function() {
+                if (currentIndex > 0) {
+                    currentIndex--;
+                } else {
+                    currentIndex = items.length - 1;
+                }
+                updateCarousel();
+            });
+            
+            dots.forEach(dot => {
+                dot.addEventListener('click', function() {
+                    currentIndex = parseInt(this.getAttribute('data-index'));
+                    updateCarousel();
+                });
+            });
+            
+            let autoPlayInterval = setInterval(() => {
+                if (currentIndex < items.length - 1) {
+                    currentIndex++;
+                } else {
+                    currentIndex = 0;
+                }
+                updateCarousel();
+            }, 3000);
+            
+            const carousel = container.querySelector('.custom-carousel');
+            carousel.addEventListener('mouseenter', () => {
+                clearInterval(autoPlayInterval);
+            });
+            
+            carousel.addEventListener('mouseleave', () => {
+                autoPlayInterval = setInterval(() => {
+                    if (currentIndex < items.length - 1) {
+                        currentIndex++;
+                    } else {
+                        currentIndex = 0;
+                    }
+                    updateCarousel();
+                }, 3000);
+            });
+            
+            window.addEventListener('resize', function() {
+                itemWidth = items[0].offsetWidth + 20;
+                updateCarousel();
+            });
+        })();
+    </script>
+</body>
+</html>

@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<!-- 文档基础设置 -->
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>多产品图片悬停切换效果</title>
+		<style>
+			#medical-products-gallery .products-container {
+				display: flex;
+				flex-wrap: wrap;
+				justify-content: center;
+				max-width: 1800px;
+				margin: 0 auto;
+				padding: 10px;
+			}
+
+			#medical-products-gallery .image-card {
+				width: calc(25% - 40px);
+				min-width: 280px;
+				margin: 5px;
+				position: relative;
+				overflow: hidden;
+				transition: transform 0.3s ease;
+			}
+
+			#medical-products-gallery .image-card:hover {
+				transform: translateY(-5px);
+			}
+
+			#medical-products-gallery .image-container {
+				position: relative;
+				height: 350px;
+			}
+
+			#medical-products-gallery .image-container img {
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+				transition: opacity 0.5s ease;
+				position: absolute;
+				top: 0;
+				left: 0;
+			}
+
+			#medical-products-gallery .before-image {
+				opacity: 1;
+			}
+
+			#medical-products-gallery .after-image {
+				opacity: 0;
+			}
+
+			/* 修改后的文字信息区域样式 */
+			#medical-products-gallery .image-info {
+				padding: 15px;
+				background: rgba(50, 50, 50, 0.7); /* 半透明灰色背景 */
+				position: absolute;
+				bottom: 0;
+				left: 0;
+				right: 0;
+				color: white;
+				text-align: center; /* 文字居中 */
+				display: flex;
+				flex-direction: column;
+				justify-content: center; /* 垂直居中 */
+				align-items: center; /* 水平居中 */
+				height: 80px; /* 固定高度 */
+				transition: all 0.3s ease; /* 添加过渡效果 */
+			}
+
+			/* 悬停时文字信息区域样式 */
+			#medical-products-gallery .image-card:hover .image-info {
+				height: 80px; /* 保持相同高度 */
+				bottom: calc(50% - 40px); /* 垂直居中 (总高度80px/2) */
+				background: rgba(50, 50, 50, 0.8); /* 悬停时背景稍深 */
+			}
+
+			#medical-products-gallery .image-title {
+				font-size: 18px;
+				font-weight: bold;
+				margin-bottom: 5px;
+			}
+
+			#medical-products-gallery .image-description {
+				font-size: 14px;
+			}
+
+			#medical-products-gallery .image-card:hover .before-image {
+				opacity: 0;
+			}
+
+			#medical-products-gallery .image-card:hover .after-image {
+				opacity: 1;
+			}
+
+			/* 响应式设计 */
+			@media (max-width: 1199px) {
+				#medical-products-gallery .image-card {
+					width: calc(33.333% - 40px);
+				}
+			}
+
+			@media (max-width: 991px) {
+				#medical-products-gallery .image-card {
+					width: calc(50% - 40px);
+				}
+			}
+
+			@media (max-width: 767px) {
+				#medical-products-gallery .products-container {
+					padding: 15px;
+				}
+
+				#medical-products-gallery .image-card {
+					width: calc(50% - 30px);
+					margin: 15px;
+				}
+			}
+
+			@media (max-width: 600px) {
+				#medical-products-gallery .image-card {
+					width: 100%;
+					max-width: 400px;
+					margin: 15px auto;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<div id="medical-products-gallery">
+			<div class="products-container">
+				<!-- 第一行产品 -->
+				<div class="image-card">
+					<div class="image-container">
+						<img src="https://a3.ldycdn.com/cloud/lqBpoKomlnSRklkrimmpip/386.jpg" alt="产品1前视图"
+							class="before-image">
+						<img src="https://a3.ldycdn.com/cloud/lnBpoKomlnSRklkrimomip/386.jpg" alt="产品1后视图"
+							class="after-image">
+					</div>
+					<div class="image-info">
+						<div class="image-title">Ulnar and Radial</div>
+						<div class="image-description">Radius Intramedullary Nail System</div>
+					</div>
+				</div>
+
+				<!-- 产品2-8的结构与产品1相同，只是内容和图片不同 -->
+				<!-- 产品2 -->
+				<div class="image-card">
+				    <div class="image-container">
+				        <img src="https://a3.ldycdn.com/cloud/lmBpoKomlnSRklkrimrmiq/386.jpg" 
+				             alt="Humerus 前视图" 
+				             class="before-image">
+				        <img src="https://a3.ldycdn.com/cloud/lkBpoKomlnSRklkrimlmip/386.jpg" 
+				             alt="Humerus 后视图" 
+				             class="after-image">
+				    </div>
+				    <div class="image-info">
+				        <div class="image-title">Humerus</div>
+				        <div class="image-description">Humerus Intramedullary Nail System</div>
+				    </div>
+				</div>
+				
+				<!-- 产品3 -->
+				<div class="image-card">
+				    <div class="image-container">
+				        <img src="https://a3.ldycdn.com/cloud/llBpoKomlnSRklkrimopip/386.jpg" 
+				             alt="Femur 前视图" 
+				             class="before-image">
+				        <img src="https://a3.ldycdn.com/cloud/liBpoKomlnSRklkrimjmip/386.jpg" 
+				             alt="Femur 后视图" 
+				             class="after-image">
+				    </div>
+				    <div class="image-info">
+				        <div class="image-title">Femur</div>
+				        <div class="image-description">Femur Intramedullary Nail System</div>
+				    </div>
+				</div>
+				
+				<!-- 产品4 -->
+				<div class="image-card">
+				    <div class="image-container">
+				        <img src="https://a3.ldycdn.com/cloud/lkBpoKomlnSRklkrimnpip/386.jpg" 
+				             alt="Tibia 前视图" 
+				             class="before-image">
+				        <img src="https://a3.ldycdn.com/cloud/lrBpoKomlnSRklkrimimip/386.jpg" 
+				             alt="Tibia 后视图" 
+				             class="after-image">
+				    </div>
+				    <div class="image-info">
+				        <div class="image-title">Tibia</div>
+				        <div class="image-description">Tibia Intramedullary Nail System</div>
+				    </div>
+				</div>
+				
+				<!-- 第二行产品 -->
+				<!-- 产品5 -->
+				<div class="image-card">
+				    <div class="image-container">
+				        <img src="https://a3.ldycdn.com/cloud/loBpoKomlnSRklkrimppip/386.jpg" 
+				             alt="Foot and Ankle 前视图" 
+				             class="before-image">
+				        <img src="https://a3.ldycdn.com/cloud/llBpoKomlnSRklkrimnmip/386.jpg" 
+				             alt="Foot and Ankle 后视图" 
+				             class="after-image">
+				    </div>
+				    <div class="image-info">
+				        <div class="image-title">Foot and Ankle</div>
+				        <div class="image-description">Foot and Ankle Intramedullary Nail System</div>
+				    </div>
+				</div>
+				
+				<!-- 产品6 -->
+				<div class="image-card">
+				    <div class="image-container">
+				        <img src="https://a0.ldycdn.com/cloud/lnBpoKomlnSRklkrimqpip/386.jpg" 
+				             alt="Fibula 前视图" 
+				             class="before-image">
+				        <img src="https://a0.ldycdn.com/cloud/ljBpoKomlnSRklkrimkmip/386.jpg" 
+				             alt="Fibula 后视图" 
+				             class="after-image">
+				    </div>
+				    <div class="image-info">
+				        <div class="image-title">Fibula</div>
+				        <div class="image-description">Fibula Intramedullary Nail System</div>
+				    </div>
+				</div>
+				
+				<!-- 产品7 -->
+				<div class="image-card">
+				    <div class="image-container">
+				        <img src="https://a2.ldycdn.com/cloud/ljBpoKomlnSRkllrnkijiq/386.jpg" 
+				             alt="Hand and Wrist 前视图" 
+				             class="before-image">
+				        <img src="https://a2.ldycdn.com/cloud/ljBpoKomlnSRkllrnkijiq/386.jpg" 
+				             alt="Hand and Wrist 后视图" 
+				             class="after-image">
+				    </div>
+				    <div class="image-info">
+				        <div class="image-title">Instrument Set</div>
+				        <div class="image-description">Intramedullary Nail Instrument Set System</div>
+				    </div>
+				</div>
+				
+				
+				
+				<!-- 产品8 -->
+				<div class="image-card">
+				    <div class="image-container">
+				        <img src="https://a2.ldycdn.com/cloud/lkBpoKomlnSRkllrnkjjiq/386.jpg" 
+				             alt="Pediatric 前视图" 
+				             class="before-image">
+				        <img src="https://a2.ldycdn.com/cloud/lkBpoKomlnSRkllrnkjjiq/386.jpg" 
+				             alt="Pediatric 后视图" 
+				             class="after-image">
+				    </div>
+				    <div class="image-info">
+				        <div class="image-title">Box</div>
+				        <div class="image-description">Intramedullary Nail Box System</div>
+				    </div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

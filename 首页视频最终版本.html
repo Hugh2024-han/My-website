@@ -1,0 +1,36 @@
+<div id="custom-video-gallery" style="max-width: 100%; overflow: hidden; position: relative;">
+    <div class="video-gallery-container" style="display: flex; transition: transform 0.5s ease-in-out; width: 100%;">
+        <div class="video-container" style="flex: 0 0 25%; padding: 0 7.5px; box-sizing: border-box;">
+            <iframe src="https://www.youtube.com/embed/OqRCcXl0v_0?si=Ed66BvFrnBZkJ7jr" style="width: 100%; aspect-ratio: 335/250; border: 2px solid white; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); border-radius: 6px;" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <div class="video-container" style="flex: 0 0 25%; padding: 0 7.5px; box-sizing: border-box;">
+            <iframe src="https://www.youtube.com/embed/IZv1NewJutQ?si=9i-q8Lt7r0fLPvno" style="width: 100%; aspect-ratio: 335/250; border: 2px solid white; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); border-radius: 6px;" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <div class="video-container" style="flex: 0 0 25%; padding: 0 7.5px; box-sizing: border-box;">
+            <iframe src="https://www.youtube.com/embed/byILjZXHTA4?si=IpflZsgi0arKV9K8" style="width: 100%; aspect-ratio: 335/250; border: 2px solid white; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); border-radius: 6px;" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <div class="video-container" style="flex: 0 0 25%; padding: 0 7.5px; box-sizing: border-box;">
+            <iframe src="https://www.youtube.com/embed/YCC_zEb1xN8?si=5vuojKbHndg2hVvU" style="width: 100%; aspect-ratio: 335/250; border: 2px solid white; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); border-radius: 6px;" frameborder="0" allowfullscreen></iframe>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const gallery = document.getElementById('custom-video-gallery');
+    const container = gallery.querySelector('.video-gallery-container');
+    const videos = gallery.querySelectorAll('.video-container');
+    
+    const videosPerPage = 4;
+    let currentPage = 0;
+    const totalPages = Math.ceil(videos.length / videosPerPage) - 1;
+    
+    function updateGallery() {
+        const offset = -currentPage * 100;
+        container.style.transform = `translateX(${offset}%)`;
+    }
+    
+    // 初始化
+    updateGallery();
+});
+</script>
