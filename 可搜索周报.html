@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Tony任务卡</title>
+		<style>
+			* {
+				box-sizing: border-box;
+				margin: 0;
+				padding: 0;
+				font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+			}
+
+			body {
+				background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+				color: #333;
+				line-height: 1.6;
+				padding: 20px;
+				min-height: 100vh;
+			}
+
+			.container {
+				max-width: 1200px;
+				margin: 0 auto;
+				background: white;
+				border-radius: 12px;
+				box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+				overflow: hidden;
+			}
+
+			header {
+				background: #4a6fa5;
+				color: white;
+				padding: 25px;
+				text-align: center;
+			}
+
+			h1 {
+				font-size: 2.2rem;
+				margin-bottom: 10px;
+			}
+
+			.description {
+				font-size: 1.1rem;
+				opacity: 0.9;
+				max-width: 800px;
+				margin: 0 auto;
+			}
+
+			.search-container {
+				padding: 25px;
+				background: #f8f9fa;
+				border-bottom: 1px solid #eaecef;
+			}
+
+			.search-box {
+				display: flex;
+				max-width: 700px;
+				margin: 0 auto;
+				box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+				border-radius: 10px;
+				overflow: hidden;
+			}
+
+			#search-input {
+				flex: 1;
+				padding: 16px 20px;
+				font-size: 1.1rem;
+				border: none;
+				outline: none;
+				background: white;
+			}
+
+			#search-btn {
+				padding: 16px 25px;
+				background: #4a6fa5;
+				color: white;
+				border: none;
+				cursor: pointer;
+				font-size: 1.1rem;
+				font-weight: 600;
+				transition: background 0.3s;
+			}
+
+			#search-btn:hover {
+				background: #385d8a;
+			}
+
+			.search-info {
+				text-align: center;
+				margin-top: 15px;
+				font-size: 1rem;
+				color: #6c757d;
+			}
+
+			.table-container {
+				overflow-x: auto;
+				padding: 20px;
+			}
+
+			table {
+				width: 100%;
+				border-collapse: collapse;
+				margin: 20px auto;
+				font-size: 1rem;
+			}
+
+			th,
+			td {
+				padding: 16px 20px;
+				text-align: left;
+				border-bottom: 1px solid #eaecef;
+			}
+
+			th {
+				background: #f8f9fa;
+				font-weight: 600;
+				color: #4a6fa5;
+				position: sticky;
+				top: 0;
+			}
+
+			tr:hover {
+				background: #f1f6fc;
+			}
+
+			.highlight {
+				background: #fff9c9;
+				padding: 2px 0;
+				border-radius: 3px;
+				font-weight: 600;
+			}
+
+			.no-results {
+				text-align: center;
+				padding: 40px;
+				color: #6c757d;
+				font-style: italic;
+				display: none;
+			}
+
+			footer {
+				text-align: center;
+				padding: 20px;
+				color: #6c757d;
+				font-size: 0.9rem;
+				border-top: 1px solid #eaecef;
+			}
+
+			@media (max-width: 768px) {
+
+				th,
+				td {
+					padding: 12px 15px;
+				}
+
+				#search-input {
+					padding: 14px;
+					font-size: 1rem;
+				}
+
+				#search-btn {
+					padding: 14px 20px;
+				}
+			}
+
+			@media (max-width: 480px) {
+				header {
+					padding: 15px;
+				}
+
+				h1 {
+					font-size: 1.8rem;
+				}
+
+				.search-box {
+					flex-direction: column;
+				}
+
+				#search-btn {
+					border-radius: 0 0 10px 10px;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<header>
+				<h1>Tony任务卡</h1>
+				<p class="description">在下方搜索框中输入关键词，实时筛选多个表格内容。支持同时搜索多个表格的所有字段。</p>
+			</header>
+
+			<div class="search-container">
+				<div class="search-box">
+					<input type="text" id="search-input" placeholder="输入关键词搜索...">
+					<button id="search-btn">搜索</button>
+				</div>
+				<div class="search-info">
+					找到 <span id="results-count">0</span> 条匹配记录
+				</div>
+			</div>
+
+			<div class="table-container">
+				<!-- 第一个表格 -->
+				<details>
+					<summary>已完成任务表格</summary>
+					<table id="completed-table">
+						<thead>
+							<tr>
+								<th style="width: 10%;">任务时间</th>
+								<th style="width: 10%;">任务名称</th>
+								<th style="width: 40%;">备注</th>
+								<th style="width: 10%;">所属</th>
+								<th style="width: 40%;">下一步动作</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr> <th colspan="5">2025/8/11-2025/8/17</th></tr>
+							<!--已经完成工作计划-->
+							<tr>
+								<td>8月11日-8月17日</td>
+								<td>MIC商机回复查看</td>
+								<td>MIC没有联系方式的限制，所有前几轮的沟通集中在联系方式的交换，不存在明显问题</td>
+								<td>平台分析</td>
+								<td>完成
+								</td>
+							</tr>
+							<tr>
+								<td>8月11日-8月17日</td>
+								<td>新站落地页搭建</td>
+								<td>
+									<p><a href="http://en-medituauma.tw.ldyjz.com/exhibition.html" target="_blank">网址：展会</a></p>
+									<p><a href="https://en-medituauma.tw.ldyjz.com/news.html" target="_blank">网址：Blog</a></p>
+									<p><a href="http://en-medituauma.tw.ldyjz.com/download.html" target="_blank">网址：下载</a></p>
+									<p><a href="https://en-medituauma.tw.ldyjz.com/contactus.html" target="_blank">网址：Coutact Us</a></p></td>
+								<td>创伤新站</td>
+								<td>完成</td>
+							</tr>
+							<tr>
+								<td>8月11日-8月17日</td>
+								<td>8月Blog发布</td>
+								<td>
+									<p>产品链接和配图完成</p></td>
+								<td>老站</td>
+								<td>完成</td>
+							</tr>
+							<tr>
+								<td>8月11日-8月17日</td>
+								<td>老站落地页优化</td>
+								<td>
+								<p><a href="https://www.czmeditech.com/" target="_blank">网址：首页6个流程和3个身份</a></p>
+								<p><a href="https://www.czmeditech.com/become-our-dealer.html" target="_blank">网址：Become our Dealer</a></p>
+								<p><a href="https://www.czmeditech.com/about-us.html" target="_blank">网址：About Us</a></p></td>
+								<td>老站</td>
+								<td>
+								<p>老站的页面优化英语站的修改和西语站是不同步的</p>
+								<ul>
+								<li>产品，文章，下载会同步</li>
+								<li>但是只在首次发布同步，后续更新不同步</li>
+								</ul>
+								<ol>
+								  <li>6个流程增加了View More的箭头，将对应内容放在About Us内，3个身份增加了Deatails链接，将详细内容放在Become our Dealer中</li>
+								  <li>Become our Dealer有专门的文字文案，后续内容要再调整，等宋总安排</li>
+								  <li>搭建6个流程的详细文案</li>
+								</ol></td>
+							</tr>
+							<tr>
+								<td>8月11日-8月17日</td>
+							<td>业务员询盘登记表</td>
+							<td></td>
+							<td>表格统计</td>
+							<td>完成</td>
+							</tr>
+							<tr>
+								<td>8月11日-8月17日</td>
+							<td>MIC发品</td>
+							<td>锁定板系列</td>
+							<td>MIC</td>
+							<td>锁定板系列发品持续</td>
+							</tr>
+							<tr>
+								<td>8月11日-8月17日</td>
+							<td>谷歌询盘统计</td>
+							<td>8月上半月份的询盘量下降，需关注讨论下一步动作</td>
+							<td>表格统计</td>
+							<td>完成</td>
+							</tr>
+							<tr>
+								<td>8月11日-8月17日</td>
+							<td>创伤板查漏补缺
+							</td>
+							<td>
+							<ol>
+							<ul>建立产品表格</ul>
+							<ul>通用模板文案</ul>
+							</ol>
+							</td>
+							<td>
+							全平台
+							</td>
+							<td>
+							<ol>
+							<li>3个平台的通用模板搭建，缺少对应配图</li>
+							<ul>
+							<li>老站筛查未发布产品并补齐</li>
+							<li>新站搭建产品链接</li>
+							<li>MIC建立详情页模板</li>
+							</ul>
+							<li>老站和新站产品发布：预计3周</li>
+							</ol>
+							</td>
+							</tr>
+						</tbody>
+					</table>
+				</details>
+				<p>本周任务</p>
+				<!-- 第二个表格 -->
+				<table id="current-table">
+					<thead>
+						<tr>
+							<th style="width: 10%;">任务时间</th>
+							<th style="width: 10%;">任务名称</th>
+							<th style="width: 40%;">备注</th>
+							<th style="width: 10%;">所属</th>
+							<th style="width: 40%;">下一步动作</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>电动工具产品图册图</td>
+							<td></td>
+							<td>电动工具查漏补缺</td>
+							<td>因为新站的DDL是8月31日，所以电动工具的图册图需要前置化准备
+							</td>
+						</tr>
+						<tr> <th colspan="5">2025/8/18-2025/8/24</th></tr>
+						<tr>
+							<td>8月18日-8月24日</td>
+							<td>新站落地页搭建</td>
+							<td>
+								<p>目录导航</a></p>
+								<p><a href="https://en-medituauma.tw.ldyjz.com/products.html" target="_blank">网址：产品展示页</a></p>
+								<p>7个部位的分类落地页设计（本周完成设计和图片要求，下周搭建）</p>
+							</td>
+							<td>创伤新站</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>8月18日-8月24日</td>
+							<td>创伤板查漏补缺</td>
+							<td>
+						<ol>
+						<li>3个平台的通用模板搭建，缺少对应配图</li>
+						<ul>
+						<li>老站筛查未发布产品并补齐</li>
+						<li>新站搭建产品链接</li>
+						<li>MIC建立详情页模板</li>
+						</ul>
+						<li>老站和新站产品发布：预计3周</li>
+						</ol>
+						</td>
+							<td>全平台</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>8月18日-8月24日</td>
+							<td>老站落地页优化</td>
+							<td>
+							Become our Dealer有专门的文字文案，后续内容要再调整，等宋总安排</td>
+							<td>老站</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>8月18日-8月24日</td>
+						<td>业务员询盘登记表</td>
+						<td></td>
+						<td>表格统计</td>
+						<td></td>
+						</tr>
+					</tbody>
+				</table>
+
+				<!-- 第三个表格 -->
+				<details>
+					<summary>其他任务表格</summary>
+					<table id="other-table">
+						<thead>
+							<tr>
+								<th>任务周期</th>
+								<th>任务名称</th>
+								<th>资料路径</th>
+								<th>任务目的</th>
+								<th>保存路径</th>
+								<th>数量要求</th>
+								<th>任务要求</th>
+								<th>备注</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>2025/8/11-2025/8/17</td>
+								<td>OEM/ODM</td>
+								<td>
+									<a href="https://www.czmeditech.com/oem-odm.html" target="_blank">网址：OEM/ODM</a>
+								</td>
+								<td>老站OEM/ODM优化</td>
+								<td>\\192.168.110.249\美工\全平台素材\谷歌\落地页优化\OEMODM</td>
+								<td>张</td>
+								<td></td>
+								<td>Rachel负责</td>
+							</tr>
+						</tbody>
+					</table>
+				</details>
+				<!-- 第四个表格 -->
+				<details>
+					<summary>下周任务表格</summary>
+					<table id="other-table">
+						<thead>
+							<tr>
+								<th>任务周期</th>
+								<th>任务名称</th>
+								<th>资料路径</th>
+								<th>任务目的</th>
+								<th>保存路径</th>
+								<th>数量要求</th>
+								<th>任务要求</th>
+								<th>备注</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>2025/8/25-2025/8/31</td>
+								<td>电动工具通用模板</td>
+								<td>
+									<a href="https://en-medituauma.tw.ldyjz.com/Power-Tool-pd560488448.html"
+										target="_blank">网址：电动工具通用</a>
+								</td>
+								<td>全平台</td>
+								<td>\\192.168.110.249\美工\全平台素材\谷歌\查漏补缺\电动工具查漏补缺\新站电动工具</td>
+								<td>11张</td>
+								<td></td>
+								<td></td>
+							</tr>
+						</tbody>
+					</table>
+				</details>
+
+				<div class="no-results" id="no-results">
+					没有找到匹配的记录，请尝试其他搜索词。
+				</div>
+			</div>
+
+			<footer>
+				<p>多表格搜索筛选功能 &copy; 2025</p>
+			</footer>
+		</div>
+
+		<script>
+			document.addEventListener('DOMContentLoaded', function() {
+				const searchInput = document.getElementById('search-input');
+				const searchBtn = document.getElementById('search-btn');
+				const tables = document.querySelectorAll('table'); // 获取所有表格
+				const resultsCount = document.getElementById('results-count');
+				const noResults = document.getElementById('no-results');
+
+				// 初始显示所有行并计算总数
+				let totalRows = 0;
+				tables.forEach(table => {
+					const tbody = table.getElementsByTagName('tbody')[0];
+					if (tbody) {
+						totalRows += tbody.getElementsByTagName('tr').length;
+					}
+				});
+				resultsCount.textContent = totalRows;
+
+				// 搜索功能
+				function performSearch() {
+					const searchText = searchInput.value.toLowerCase().trim();
+					let matchCount = 0;
+
+					// 遍历所有表格
+					tables.forEach(table => {
+						const tbody = table.getElementsByTagName('tbody')[0];
+						if (!tbody) return;
+
+						const rows = tbody.getElementsByTagName('tr');
+
+						// 遍历当前表格的所有行
+						for (let i = 0; i < rows.length; i++) {
+							const cells = rows[i].getElementsByTagName('td');
+							let rowMatch = false;
+
+							// 跳过表头行（如果表头行有th标签）
+							if (rows[i].getElementsByTagName('th').length > 0) {
+								// 如果是表头行，根据需求决定是否参与搜索
+								// 这里我们让表头行始终显示
+								rows[i].style.display = '';
+								continue;
+							}
+
+							// 遍历行中的每个单元格
+							for (let j = 0; j < cells.length; j++) {
+								const cellText = cells[j].textContent.toLowerCase();
+
+								// 如果搜索关键词为空，或者单元格内容包含关键词
+								if (searchText === '' || cellText.includes(searchText)) {
+									rowMatch = true;
+
+									// 高亮显示匹配的文本
+									if (searchText !== '') {
+										const regex = new RegExp(`(${escapeRegExp(searchText)})`, 'gi');
+										cells[j].innerHTML = cells[j].textContent.replace(regex,
+											'<span class="highlight">$1</span>');
+									}
+								} else {
+									// 移除之前的高亮
+									cells[j].innerHTML = cells[j].textContent;
+								}
+							}
+
+							// 显示或隐藏行
+							if (rowMatch) {
+								rows[i].style.display = '';
+								matchCount++;
+							} else {
+								rows[i].style.display = 'none';
+							}
+						}
+					});
+
+					// 更新结果计数
+					resultsCount.textContent = matchCount;
+
+					// 显示或隐藏"无结果"消息
+					if (matchCount === 0 && searchText !== '') {
+						noResults.style.display = 'block';
+					} else {
+						noResults.style.display = 'none';
+					}
+				}
+
+				// 辅助函数：转义正则表达式特殊字符
+				function escapeRegExp(string) {
+					return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+				}
+
+				// 添加事件监听器
+				searchInput.addEventListener('input', performSearch);
+				searchBtn.addEventListener('click', performSearch);
+
+				// 支持按回车键搜索
+				searchInput.addEventListener('keypress', function(e) {
+					if (e.key === 'Enter') {
+						performSearch();
+					}
+				});
+			});
+		</script>
+	</body>
+</html>
