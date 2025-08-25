@@ -1,997 +1,979 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>周报</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --primary-color: #3498db;
-            --secondary-color: #2980b9;
-            --text-color: #333;
-            --bg-color: #fff;
-            --hover-color: #f8f9fa;
-            --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            padding-top: 70px;
-            background-color: #f5f7fa;
-            min-height: 200vh;
-            /* 为了演示滚动效果 */
-        }
-
-        .navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background-color: var(--bg-color);
-            box-shadow: var(--shadow);
-            z-index: 1000;
-            padding: 0 20px;
-        }
-
-        .nav-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 1200px;
-            margin: 0 auto;
-            height: 70px;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            text-decoration: none;
-            color: var(--primary-color);
-            font-weight: 700;
-            font-size: 1.5rem;
-        }
-
-        .logo i {
-            margin-right: 10px;
-            font-size: 1.8rem;
-        }
-
-        .nav-menu {
-            display: flex;
-            list-style: none;
-        }
-
-        .nav-item {
-            position: relative;
-        }
-
-        .nav-link {
-            display: block;
-            padding: 0 15px;
-            line-height: 70px;
-            color: var(--text-color);
-            text-decoration: none;
-            transition: color 0.3s;
-            font-weight: 500;
-        }
-
-        .nav-link:hover {
-            color: var(--primary-color);
-        }
-
-        .nav-link:hover::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 15px;
-            width: calc(100% - 30px);
-            height: 3px;
-            background-color: var(--primary-color);
-        }
-
-        /* 导航栏搜索框样式 */
-        .nav-search-box {
-            position: relative;
-            width: 250px;
-        }
-
-        .nav-search-input {
-            width: 100%;
-            padding: 10px 15px;
-            padding-right: 40px;
-            border: 1px solid #ddd;
-            border-radius: 20px;
-            outline: none;
-            transition: border-color 0.3s;
-        }
-
-        .nav-search-input:focus {
-            border-color: var(--primary-color);
-        }
-
-        .nav-search-btn {
-            position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: none;
-            border: none;
-            color: #777;
-            cursor: pointer;
-        }
-
-        .hamburger {
-            display: none;
-            cursor: pointer;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            color: var(--text-color);
-        }
-
-        .dropdown {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            width: 200px;
-            background-color: var(--bg-color);
-            box-shadow: var(--shadow);
-            border-radius: 5px;
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(10px);
-            transition: all 0.3s;
-            z-index: 99;
-        }
-
-        .nav-item:hover .dropdown {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-        }
-
-        .dropdown-item {
-            display: block;
-            padding: 12px 20px;
-            color: var(--text-color);
-            text-decoration: none;
-            transition: all 0.3s;
-        }
-
-        .dropdown-item:hover {
-            background-color: var(--hover-color);
-            color: var(--primary-color);
-        }
-
-        /* 返回顶部按钮 */
-        .back-to-top {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 50px;
-            height: 50px;
-            background-color: var(--primary-color);
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-decoration: none;
-            box-shadow: var(--shadow);
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s;
-            z-index: 999;
-        }
-
-        .back-to-top.visible {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .back-to-top:hover {
-            background-color: var(--secondary-color);
-        }
-
-        @media screen and (max-width: 768px) {
-            .nav-menu {
-                position: fixed;
-                top: 70px;
-                left: -100%;
-                width: 100%;
-                height: calc(100vh - 70px);
-                background-color: var(--bg-color);
-                flex-direction: column;
-                transition: left 0.3s;
-                box-shadow: var(--shadow);
-            }
-
-            .nav-menu.active {
-                left: 0;
-            }
-
-            .nav-item {
-                width: 100%;
-            }
-
-            .nav-link {
-                line-height: 50px;
-                padding: 0 20px;
-                border-bottom: 1px solid #eee;
-            }
-
-            .nav-link:hover::after {
-                display: none;
-            }
-
-            .dropdown {
-                position: static;
-                width: 100%;
-                opacity: 1;
-                visibility: visible;
-                transform: none;
-                box-shadow: none;
-                display: none;
-                background-color: #f9f9f9;
-            }
-
-            .dropdown.active {
-                display: block;
-            }
-
-            .nav-item:hover .dropdown {
-                transform: none;
-            }
-
-            .hamburger {
-                display: block;
-            }
-
-            .nav-search-box {
-                width: 150px;
-            }
-        }
-
-        /* 页面内容样式 */
-        .content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-			margin-top: 70px;
-			padding-top: 70px;
-        }
-
-        .section {
-            background: white;
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: var(--shadow);
-        }
-        
-        body {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            color: #333;
-            line-height: 1.6;
-            padding: 20px;
-            min-height: 100vh;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-			margin-top: 70px;
-        }
-        
-        header {
-            background: #4a6fa5;
-            color: white;
-            padding: 25px;
-            text-align: center;
-        }
-        
-        h1 {
-            font-size: 2.2rem;
-            margin-bottom: 10px;
-        }
-        
-        .description {
-            font-size: 1.1rem;
-            opacity: 0.9;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        
-        .search-container {
-            padding: 25px;
-            background: #f8f9fa;
-            border-bottom: 1px solid #eaecef;
-        }
-        
-        /* 主内容搜索框样式 */
-        .main-search-box {
-            display: flex;
-            max-width: 700px;
-            margin: 0 auto;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-            border-radius: 10px;
-            overflow: hidden;
-        }
-        
-        #search-input {
-            flex: 1;
-            padding: 16px 20px;
-            font-size: 1.1rem;
-            border: none;
-            outline: none;
-            background: white;
-        }
-        
-        #search-btn {
-            padding: 16px 25px;
-            background: #4a6fa5;
-            color: white;
-            border: none;
-            cursor: pointer;
-            font-size: 1.1rem;
-            font-weight: 600;
-            transition: background 0.3s;
-        }
-        
-        #search-btn:hover {
-            background: #385d8a;
-        }
-        
-        .search-info {
-            text-align: center;
-            margin-top: 15px;
-            font-size: 1rem;
-            color: #6c757d;
-        }
-        
-        .table-container {
-            overflow-x: auto;
-            padding: 20px;
-        }
-        
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px auto;
-            font-size: 1rem;
-        }
-        
-        th, td {
-            padding: 16px 20px;
-            text-align: left;
-            border-bottom: 1px solid #eaecef;
-        }
-        
-        th {
-            background: #f8f9fa;
-            font-weight: 600;
-            color: #4a6fa5;
-            position: sticky;
-            top: 0;
-        }
-        
-        tr:hover {
-            background: #f1f6fc;
-        }
-        
-        .highlight {
-            background: #fff9c9;
-            padding: 2px 0;
-            border-radius: 3px;
-            font-weight: 600;
-        }
-        
-        .no-results {
-            text-align: center;
-            padding: 40px;
-            color: #6c757d;
-            font-style: italic;
-            display: none;
-        }
-        
-        footer {
-            text-align: center;
-            padding: 20px;
-            color: #6c757d;
-            font-size: 0.9rem;
-            border-top: 1px solid #eaecef;
-        }
-        
-        @media (max-width: 768px) {
-            th, td {
-                padding: 12px 15px;
-            }
-        
-            #search-input {
-                padding: 14px;
-                font-size: 1rem;
-            }
-        
-            #search-btn {
-                padding: 14px 20px;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            header {
-                padding: 15px;
-            }
-        
-            h1 {
-                font-size: 1.8rem;
-            }
-        
-            .main-search-box {
-                flex-direction: column;
-            }
-        
-            #search-btn {
-                border-radius: 0 0 10px 10px;
-            }
-        }
-    </style>
-</head>
-<body>
-    <!-- 导航栏将在这里由JavaScript加载 -->
-    <div id="navbar-container"></div>
-
-    <!-- 页面内容 -->
-    <div class="container">
-        <header>
-            <h1>周报</h1>
-            <p class="description">在下方搜索框中输入关键词，实时筛选多个表格内容。支持同时搜索多个表格的所有字段。</p>
-        </header>
-    
-        <div class="search-container">
-            <div class="main-search-box">
-                <input type="text" id="search-input" placeholder="输入关键词搜索...">
-                <button id="search-btn">搜索</button>
-            </div>
-            <div class="search-info">
-                找到 <span id="results-count">0</span> 条匹配记录
-            </div>
-        </div>
-    
-        <div class="table-container">
-        	<!-- 第一个表格 -->
-        	<details>
-        		<summary>已完成任务表格</summary>
-        		<table id="completed-table">
-        			<thead>
-        				<tr>
-        					<th style="width: 10%;">任务时间</th>
-        					<th style="width: 10%;">任务名称</th>
-        					<th style="width: 40%;">备注</th>
-        					<th style="width: 10%;">所属</th>
-        					<th style="width: 40%;">下一步动作</th>
-        				</tr>
-        			</thead>
-        			<tbody>
-        				<tr> <th colspan="5">2025/8/11-2025/8/17</th></tr>
-        				<!--已经完成工作计划-->
-        				<tr>
-        					<td>8月11日-8月17日</td>
-        					<td>MIC商机回复查看</td>
-        					<td>MIC没有联系方式的限制，所有前几轮的沟通集中在联系方式的交换，不存在明显问题</td>
-        					<td>平台分析</td>
-        					<td>完成
-        					</td>
-        				</tr>
-        				<tr>
-        					<td>8月11日-8月17日</td>
-        					<td>新站落地页搭建</td>
-        					<td>
-        						<p><a href="http://en-medituauma.tw.ldyjz.com/exhibition.html" target="_blank">网址：展会</a></p>
-        						<p><a href="https://en-medituauma.tw.ldyjz.com/news.html" target="_blank">网址：Blog</a></p>
-        						<p><a href="http://en-medituauma.tw.ldyjz.com/download.html" target="_blank">网址：下载</a></p>
-        						<p><a href="https://en-medituauma.tw.ldyjz.com/contactus.html" target="_blank">网址：Coutact Us</a></p></td>
-        					<td>创伤新站</td>
-        					<td>完成</td>
-        				</tr>
-        				<tr>
-        					<td>8月11日-8月17日</td>
-        					<td>8月Blog发布</td>
-        					<td>
-        						<p>产品链接和配图完成</p></td>
-        					<td>老站</td>
-        					<td>完成</td>
-        				</tr>
-        				<tr>
-        					<td>8月11日-8月17日</td>
-        					<td>老站落地页优化</td>
-        					<td>
-        					<p><a href="https://www.czmeditech.com/" target="_blank">网址：首页6个流程和3个身份</a></p>
-        					<p><a href="https://www.czmeditech.com/become-our-dealer.html" target="_blank">网址：Become our Dealer</a></p>
-        					<p><a href="https://www.czmeditech.com/about-us.html" target="_blank">网址：About Us</a></p></td>
-        					<td>老站</td>
-        					<td>
-        					<p>老站的页面优化英语站的修改和西语站是不同步的</p>
-        					<ul>
-        					<li>产品，文章，下载会同步</li>
-        					<li>但是只在首次发布同步，后续更新不同步</li>
-        					</ul>
-        					<ol>
-        					  <li>6个流程增加了View More的箭头，将对应内容放在About Us内，3个身份增加了Deatails链接，将详细内容放在Become our Dealer中</li>
-        					  <li>Become our Dealer有专门的文字文案，后续内容要再调整，等宋总安排</li>
-        					  <li>搭建6个流程的详细文案</li>
-        					</ol></td>
-        				</tr>
-        				<tr>
-        					<td>8月11日-8月17日</td>
-        				<td>业务员询盘登记表</td>
-        				<td></td>
-        				<td>表格统计</td>
-        				<td>完成</td>
-        				</tr>
-        				<tr>
-        					<td>8月11日-8月17日</td>
-        				<td>MIC发品4个</td>
-        				<td>锁定板系列</td>
-        				<td>MIC</td>
-        				<td>锁定板系列发品持续</td>
-        				</tr>
-        				<tr>
-        					<td>8月11日-8月17日</td>
-        				<td>谷歌询盘统计</td>
-        				<td>8月上半月份的询盘量下降，需关注讨论下一步动作</td>
-        				<td>表格统计</td>
-        				<td>完成</td>
-        				</tr>
-        				<tr>
-        					<td>8月11日-8月17日</td>
-        				<td>创伤板查漏补缺
-        				</td>
-        				<td>
-        				<ol>
-        				<ul>建立产品表格</ul>
-        				<ul>通用模板文案</ul>
-        				</ol>
-        				</td>
-        				<td>
-        				全平台
-        				</td>
-        				<td>
-        				<ol>
-        				<li>3个平台的通用模板搭建，缺少对应配图</li>
-        				<ul>
-        				<li>老站筛查未发布产品并补齐</li>
-        				<li>新站搭建产品链接</li>
-        				<li>MIC建立详情页模板</li>
-        				</ul>
-        				<li>老站和新站产品发布：预计3周</li>
-        				</ol>
-        				</td>
-        				</tr>
-        				<tr> <th colspan="5">2025/8/18-2025/8/24</th></tr>
-        				<tr>
-        					<td>8月18日-8月24日</td>
-        					<td>新站落地页搭建</td>
-        					<td>
-        						<p><a href="https://en-medituauma.tw.ldyjz.com/" target="_blank">目录导航</a></p>
-        						<p><a href="https://en-medituauma.tw.ldyjz.com/products.html" target="_blank">网址：产品展示页</a></p>
-        						<p>7个部位的分类落地页设计（本周完成设计和图片要求，下周搭建）</p>
-        						<ul>
-        						<li><a href="http://en-medituauma.tw.ldyjz.com/category-foot-bones.html" target="_blank">
-        								  网址：新站足踝分类落地页</a></li>
-        															<li><a href="http://en-medituauma.tw.ldyjz.com/category-lower-limb-bones.html" target="_blank">
-        																  		  网址：下肢分类落地页</a></li>
-        															<li><a href="http://en-medituauma.tw.ldyjz.com/category-palm-bones.html" target="_blank">
-        																  		  网址：手掌分类落地页</a></li>
-        															<li><a href="http://en-medituauma.tw.ldyjz.com/category-pediatric.html" target="_blank">
-        																		网址：儿童分类落地页</a></li>
-        															<li><a href="http://en-medituauma.tw.ldyjz.com/category-pelvic-bones.html" target="_blank">
-        																		网址：盆骨分类落地页</a></li>
-        															<li><a href="http://en-medituauma.tw.ldyjz.com/category-trunk-bones.html" target="_blank">
-        																		网址：躯干分类落地页</a></li>
-        															<li><a href="http://en-medituauma.tw.ldyjz.com/category-upper-limb-bones.html" target="_blank">
-        																		网址：上肢分类落地页</a></li>	</ul>
-        					</td>
-        					<td>创伤新站</td>
-        					<td>电动工具产品链接搭建</td>
-        				</tr>
-        				<tr>
-        					<td>8月25日-9月7日</td>
-        					<td>创伤板查漏补缺</td>
-        					<td>
-        				<ol>
-        				<li>3个平台的通用模板搭建，缺少对应配图</li>
-        				<ul>
-        				<li>老站筛查未发布产品并补齐</li>
-        				<li>新站搭建产品链接</li>
-        				<li>MIC建立详情页模板</li>
-        				</ul>
-        				<li>老站和新站产品发布：预计3周</li>
-        				</ol>
-        				</td>
-        					<td>全平台</td>
-        					<td><p>剩余2周</p><p>新站总计预发品92个，目前进度（20/92）</p><p>老站总计预发品26个，目前进度（26/26）</p></td>
-        				</tr>
-        				<tr>
-        					<td>8月18日-8月24日</td>
-        				<td>MIC发品4个</td>
-        				<td>锁定板系列</td>
-        				<td>MIC</td>
-        				<td>锁定板系列发品持续</td>
-        				</tr>
-        				<tr>
-        					<td>8月18日-8月24日</td>
-        					<td>老站落地页优化</td>
-        					<td>
-        					<p>Become our Dealer有专门的文字文案，后续内容要再调整，等宋总安排</p>
-        					<p>About Us文案和图片细节调整</p>
-        					<p><a href="https://www.czmeditech.com/about-us.html" target="_blank">关于我们网址</a></p></td>
-        					<td>老站</td>
-        					<td></td>
-        				</tr>
-        				<tr>
-        					<td>8月18日-8月24日</td>
-        				<td>业务员询盘登记表</td>
-        				<td></td>
-        				<td>表格统计</td>
-        				<td></td>
-        				</tr>				
-        			</tbody>
-        		</table>
-        	</details>
-        	<p>下周任务</p>
-        	<!-- 第二个表格 -->
-        	<table id="current-table">
-        		<thead>
-        			<tr>
-        				<th style="width: 10%;">任务时间</th>
-        				<th style="width: 10%;">任务名称</th>
-        				<th style="width: 40%;">备注</th>
-        				<th style="width: 10%;">所属</th>
-        				<th style="width: 40%;">下一步动作</th>
-        			</tr>
-        		</thead>
-        		<tbody>
-        			<tr> <th colspan="5">2025/8/25-2025/8/31</th></tr>
-        			<tr>
-        				<td>8月25日-9月7日</td>
-        				<td>创伤板查漏补缺</td>
-        				<td>
-        			<ol>
-        			<li>3个平台的通用模板搭建，缺少对应配图</li>
-        			<ul>
-        			<li>老站筛查未发布产品并补齐</li>
-        			<li>新站搭建产品链接</li>
-        			<li>MIC建立详情页模板</li>
-        			</ul>
-        			<li>老站和新站产品发布：预计3周</li>
-        			</ol>
-        			</td>
-        				<td>全平台</td>
-        				<td><p>剩余2周</p><p>新站总计预发品92个，目前进度（20/92）</p><p>老站总计预发品26个，目前进度（26/26）</p></td>
-        			</tr>						
-        			<tr>
-        				<td>8月25日-9月21日</td>
-        				<td>电动工具查漏补缺</td>
-        				<td>
-        			<ol>
-        			<li>3个平台的通用模板搭建，对应配图</li>
-        			<ul>
-        			<li>老站筛查未发布产品并补齐</li>
-        			<li>新站搭建产品链接</li>
-        			<li>MIC建立详情页模板</li>
-        			</ul>
-        			<li>老站和新站产品发布：预计4周</li>
-        			</ol>
-        			</td>
-        				<td>全平台</td>
-        				<td></td>
-        			</tr>
-        			<tr>
-        				<td>8月25日-8月31日</td>
-        				<td>电动工具通用模板</td>
-        				<td>
-        					<p><a href="https://en-medituauma.tw.ldyjz.com/Power-Tool-pd560488448.html"
-        						target="_blank">网址：新站电动工具通用</a></p>
-    						<p><a href="https://www.czmeditech.com/--pd510877448.html"
-    							target="_blank">网址：老站电动工具通用</a></p>
-    							
-        				</td>
-        				<td>全平台</td>
-        				<td></td>
-        			</tr>
-        			<tr>
-        				<td>8月25日-8月31日</td>
-        				<td>MIC展示厅更新</td>
-        				<td>因为新品的更新，所以MIC展示厅展示的产品和Banner也要同步更新
-        				</td>
-        				<td></td>
-        				<td></td>
-        			</tr>
-        			<tr>
-        				<td>8月25日-8月31日</td>
-        			<td>业务员询盘登记表</td>
-        			<td></td>
-        			<td>表格统计</td>
-        			<td></td>
-        			</tr>
-        			<tr>
-        				<td>8月25日-8月31日</td>
-        			<td>MIC发品4个</td>
-        			<td>锁定板系列</td>
-        			<td>MIC</td>
-        			<td>锁定板系列发品持续</td>
-        			</tr>
-        		</tbody>
-        	</table>
-        	<!-- 第三个表格 -->
-        	<details>
-        		<summary>其他任务表格</summary>
-        		<table id="other-table">
-        			<thead>
-        				<tr>
-        					<th style="width: 10%;">任务时间</th>
-        					<th style="width: 10%;">任务名称</th>
-        					<th style="width: 40%;">备注</th>
-        					<th style="width: 10%;">所属</th>
-        					<th style="width: 40%;">下一步动作</th>
-        				</tr>
-        			</thead>
-        			<tbody>
-        				<tr>
-        					<td>2025/8/11-2025/8/17</td>
-        					<td>OEM/ODM</td>
-        					<td>
-        						<a href="https://www.czmeditech.com/oem-odm.html" target="_blank">网址：OEM/ODM</a>
-        					</td>
-        					<td>老站OEM/ODM优化</td>
-        					<td>Rachel负责</td>
-        				</tr>
-        			</tbody>
-        		</table>
-        	</details>
-        	<div class="no-results" id="no-results">
-        		没有找到匹配的记录，请尝试其他搜索词。
-        	</div>
-        </div>
-
-        <footer>
-            <p>多表格搜索筛选功能 &copy; 2025</p>
-        </footer>
-    </div>
-
-    <!-- 返回顶部按钮 -->
-    <a href="#" class="back-to-top">
-        <i class="fas fa-arrow-up"></i>
-    </a>
-
-    <script>
-        // 加载导航栏
-        function loadNavbar() {
-            const navbarContainer = document.getElementById('navbar-container');
-
-            // 创建导航栏HTML
-            const navbarHTML = `
-                <nav class="navbar">
-                    <div class="nav-container">
-                        <a href="#" class="logo">
-                            <i class="fas fa-rocket"></i>
-                            <span>Hugh的工作网站</span>
-                        </a>
-
-                        <ul class="nav-menu">
-                            <li class="nav-item">
-                                <a href="https://hugh2024-han.github.io/My-website/Hugh%E7%9A%84%E5%B7%A5%E4%BD%9C%E7%BD%91%E7%AB%99.html" class="nav-link">首页</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">报表</a>
-                                <div class="dropdown">
-                                    <a href="https://hugh2024-han.github.io/My-website/TonyTask.html" class="dropdown-item">Tony任务卡</a>
-                                    <a href="https://hugh2024-han.github.io/My-website/%E6%AF%8F%E5%91%A8%E5%91%A8%E6%8A%A5.html" class="dropdown-item">每周周报</a>
-                                </div>
-                            </li>
-                            <li class="nav-item">
-                                <a href="https://hugh2024-han.github.io/My-website/%E5%91%A8%E6%8A%A5.html" class="nav-link">周报</a>
-                            </li>
-                        </ul>
-
-                        <div class="nav-search-box">
-                            <input type="text" class="nav-search-input" placeholder="搜索...">
-                            <button class="nav-search-btn">
-                                <i class="fas fa-search"></i>
-                            </button>
-                        </div>
-
-                        <button class="hamburger">
-                            <i class="fas fa-bars"></i>
-                        </button>
-                    </div>
-                </nav>
-            `;
-
-            navbarContainer.innerHTML = navbarHTML;
-
-            // 初始化导航菜单功能
-            initNavbar();
-        }
-
-        // 初始化导航菜单功能
-        function initNavbar() {
-            const hamburger = document.querySelector('.hamburger');
-            const navMenu = document.querySelector('.nav-menu');
-
-            if (hamburger && navMenu) {
-                hamburger.addEventListener('click', () => {
-                    navMenu.classList.toggle('active');
-                    hamburger.innerHTML = navMenu.classList.contains('active') ?
-                        '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
-                });
-
-                // 移动端下拉菜单处理
-                document.querySelectorAll('.nav-link').forEach(link => {
-                    if (link.nextElementSibling && link.nextElementSibling.classList.contains('dropdown')) {
-                        link.addEventListener('click', (e) => {
-                            if (window.innerWidth <= 768) {
-                                e.preventDefault();
-                                link.nextElementSibling.classList.toggle('active');
-                            }
-                        });
-                    }
-                });
-
-                // 点击其他地方关闭菜单
-                document.addEventListener('click', (e) => {
-                    if (window.innerWidth <= 768 &&
-                        !e.target.closest('.nav-menu') &&
-                        !e.target.closest('.hamburger')) {
-                        navMenu.classList.remove('active');
-                        if (hamburger) {
-                            hamburger.innerHTML = '<i class="fas fa-bars"></i>';
-                        }
-
-                        document.querySelectorAll('.dropdown').forEach(dropdown => {
-                            dropdown.classList.remove('active');
-                        });
-                    }
-                });
-            }
-        }
-
-        // 返回顶部功能
-        function initBackToTop() {
-            const backToTopButton = document.querySelector('.back-to-top');
-
-            window.addEventListener('scroll', () => {
-                if (window.pageYOffset > 300) {
-                    backToTopButton.classList.add('visible');
-                } else {
-                    backToTopButton.classList.remove('visible');
-                }
-            });
-
-            backToTopButton.addEventListener('click', (e) => {
-                e.preventDefault();
-                window.scrollTo({
-                    top: 0,
-                    behavior: 'smooth'
-                });
-            });
-        }
-
-        // 页面加载完成后初始化
-        document.addEventListener('DOMContentLoaded', () => {
-            loadNavbar();
-            initBackToTop();
-        });
-        document.addEventListener('DOMContentLoaded', function() {
-            const searchInput = document.getElementById('search-input');
-            const searchBtn = document.getElementById('search-btn');
-            const tables = document.querySelectorAll('table'); // 获取所有表格
-            const resultsCount = document.getElementById('results-count');
-            const noResults = document.getElementById('no-results');
-
-            // 初始显示所有行并计算总数
-            let totalRows = 0;
-            tables.forEach(table => {
-                const tbody = table.getElementsByTagName('tbody')[0];
-                if (tbody) {
-                    totalRows += tbody.getElementsByTagName('tr').length;
-                }
-            });
-            resultsCount.textContent = totalRows;
-
-            // 搜索功能
-            function performSearch() {
-                const searchText = searchInput.value.toLowerCase().trim();
-                let matchCount = 0;
-
-                // 遍历所有表格
-                tables.forEach(table => {
-                    const tbody = table.getElementsByTagName('tbody')[0];
-                    if (!tbody) return;
-                    
-                    const rows = tbody.getElementsByTagName('tr');
-
-                    // 遍历当前表格的所有行
-                    for (let i = 0; i < rows.length; i++) {
-                        const cells = rows[i].getElementsByTagName('td');
-                        let rowMatch = false;
-
-                        // 跳过表头行（如果表头行有th标签）
-                        if (rows[i].getElementsByTagName('th').length > 0) {
-                            // 如果是表头行，根据需求决定是否参与搜索
-                            // 这里我们让表头行始终显示
-                            rows[i].style.display = '';
-                            continue;
-                        }
-
-                        // 遍历行中的每个单元格
-                        for (let j = 0; j < cells.length; j++) {
-                            const cellText = cells[j].textContent.toLowerCase();
-
-                            // 如果搜索关键词为空，或者单元格内容包含关键词
-                            if (searchText === '' || cellText.includes(searchText)) {
-                                rowMatch = true;
-
-                                // 高亮显示匹配的文本
-                                if (searchText !== '') {
-                                    const regex = new RegExp(`(${escapeRegExp(searchText)})`, 'gi');
-                                    cells[j].innerHTML = cells[j].textContent.replace(regex,
-                                        '<span class="highlight">$1</span>');
-                                }
-                            } else {
-                                // 移除之前的高亮
-                                cells[j].innerHTML = cells[j].textContent;
-                            }
-                        }
-
-                        // 显示或隐藏行
-                        if (rowMatch) {
-                            rows[i].style.display = '';
-                            matchCount++;
-                        } else {
-                            rows[i].style.display = 'none';
-                        }
-                    }
-                });
-
-                // 更新结果计数
-                resultsCount.textContent = matchCount;
-
-                // 显示或隐藏"无结果"消息
-                if (matchCount === 0 && searchText !== '') {
-                    noResults.style.display = 'block';
-                } else {
-                    noResults.style.display = 'none';
-                }
-            }
-
-            // 辅助函数：转义正则表达式特殊字符
-            function escapeRegExp(string) {
-                return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-            }
-
-            // 添加事件监听器
-            searchInput.addEventListener('input', performSearch);
-            searchBtn.addEventListener('click', performSearch);
-
-            // 支持按回车键搜索
-            searchInput.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    performSearch();
-                }
-            });
-        });
-    </script>
-</body>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>周报</title>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+		<style>
+			:root {
+				--primary-color: #3498db;
+				--secondary-color: #2980b9;
+				--text-color: #333;
+				--bg-color: #fff;
+				--hover-color: #f8f9fa;
+				--shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+			}
+
+			* {
+				margin: 0;
+				padding: 0;
+				box-sizing: border-box;
+				font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+			}
+
+			body {
+				padding-top: 70px;
+				background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+				color: #333;
+				line-height: 1.6;
+				min-height: 100vh;
+			}
+
+			.navbar {
+				position: fixed;
+				top: 0;
+				left: 0;
+				width: 100%;
+				background-color: var(--bg-color);
+				box-shadow: var(--shadow);
+				z-index: 1000;
+				padding: 0 20px;
+			}
+
+			.nav-container {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				max-width: 1200px;
+				margin: 0 auto;
+				height: 70px;
+			}
+
+			.logo {
+				display: flex;
+				align-items: center;
+				text-decoration: none;
+				color: var(--primary-color);
+				font-weight: 700;
+				font-size: 1.5rem;
+			}
+
+			.logo i {
+				margin-right: 10px;
+				font-size: 1.8rem;
+			}
+
+			.nav-menu {
+				display: flex;
+				list-style: none;
+			}
+
+			.nav-item {
+				position: relative;
+			}
+
+			.nav-link {
+				display: block;
+				padding: 0 15px;
+				line-height: 70px;
+				color: var(--text-color);
+				text-decoration: none;
+				transition: color 0.3s;
+				font-weight: 500;
+			}
+
+			.nav-link:hover {
+				color: var(--primary-color);
+			}
+
+			.nav-link:hover::after {
+				content: '';
+				position: absolute;
+				bottom: 0;
+				left: 15px;
+				width: calc(100% - 30px);
+				height: 3px;
+				background-color: var(--primary-color);
+			}
+
+			.nav-search-box {
+				position: relative;
+				width: 250px;
+			}
+
+			.nav-search-input {
+				width: 100%;
+				padding: 10px 15px;
+				padding-right: 40px;
+				border: 1px solid #ddd;
+				border-radius: 20px;
+				outline: none;
+				transition: border-color 0.3s;
+			}
+
+			.nav-search-input:focus {
+				border-color: var(--primary-color);
+			}
+
+			.nav-search-btn {
+				position: absolute;
+				right: 10px;
+				top: 50%;
+				transform: translateY(-50%);
+				background: none;
+				border: none;
+				color: #777;
+				cursor: pointer;
+			}
+
+			.hamburger {
+				display: none;
+				cursor: pointer;
+				background: none;
+				border: none;
+				font-size: 1.5rem;
+				color: var(--text-color);
+				z-index: 1001;
+			}
+
+			.dropdown {
+				position: absolute;
+				top: 100%;
+				left: 0;
+				width: 200px;
+				background-color: var(--bg-color);
+				box-shadow: var(--shadow);
+				border-radius: 5px;
+				opacity: 0;
+				visibility: hidden;
+				transform: translateY(10px);
+				transition: all 0.3s;
+				z-index: 99;
+			}
+
+			.nav-item:hover .dropdown {
+				opacity: 1;
+				visibility: visible;
+				transform: translateY(0);
+			}
+
+			.dropdown-item {
+				display: block;
+				padding: 12px 20px;
+				color: var(--text-color);
+				text-decoration: none;
+				transition: all 0.3s;
+			}
+
+			.dropdown-item:hover {
+				background-color: var(--hover-color);
+				color: var(--primary-color);
+			}
+
+			.back-to-top {
+				position: fixed;
+				bottom: 30px;
+				right: 30px;
+				width: 50px;
+				height: 50px;
+				background-color: var(--primary-color);
+				color: white;
+				border-radius: 50%;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				text-decoration: none;
+				box-shadow: var(--shadow);
+				opacity: 0;
+				visibility: hidden;
+				transition: all 0.3s;
+				z-index: 999;
+			}
+
+			.back-to-top.visible {
+				opacity: 1;
+				visibility: visible;
+			}
+
+			.back-to-top:hover {
+				background-color: var(--secondary-color);
+			}
+
+			.container {
+				max-width: 1200px;
+				margin: 0 auto;
+				background: white;
+				border-radius: 12px;
+				box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+				overflow: hidden;
+				margin-top: 70px;
+			}
+
+			header {
+				background: #4a6fa5;
+				color: white;
+				padding: 25px;
+				text-align: center;
+			}
+
+			h1 {
+				font-size: 2.2rem;
+				margin-bottom: 10px;
+			}
+
+			.search-container {
+				padding: 25px;
+				background: #f8f9fa;
+				border-bottom: 1px solid #eaecef;
+			}
+
+			.main-search-box {
+				display: flex;
+				max-width: 700px;
+				margin: 0 auto;
+				box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+				border-radius: 10px;
+				overflow: hidden;
+			}
+
+			#search-input {
+				flex: 1;
+				padding: 16px 20px;
+				font-size: 1.1rem;
+				border: none;
+				outline: none;
+				background: white;
+			}
+
+			#search-btn {
+				padding: 16px 25px;
+				background: #4a6fa5;
+				color: white;
+				border: none;
+				cursor: pointer;
+				font-size: 1.1rem;
+				font-weight: 600;
+				transition: background 0.3s;
+			}
+
+			#search-btn:hover {
+				background: #385d8a;
+			}
+
+			.search-info {
+				text-align: center;
+				margin-top: 15px;
+				font-size: 1rem;
+				color: #6c757d;
+			}
+
+			.table-container {
+				overflow-x: auto;
+				padding: 20px;
+			}
+
+			table {
+				width: 100%;
+				border-collapse: collapse;
+				margin: 20px auto;
+				font-size: 1rem;
+			}
+
+			th, td {
+				padding: 16px 20px;
+				text-align: left;
+				border-bottom: 1px solid #eaecef;
+			}
+
+			th {
+				background: #f8f9fa;
+				font-weight: 600;
+				color: #4a6fa5;
+				position: sticky;
+				top: 0;
+			}
+
+			tr:hover {
+				background: #f1f6fc;
+			}
+
+			.highlight {
+				background: #fff9c9;
+				padding: 2px 0;
+				border-radius: 3px;
+				font-weight: 600;
+			}
+
+			.no-results {
+				text-align: center;
+				padding: 40px;
+				color: #6c757d;
+				font-style: italic;
+				display: none;
+			}
+
+			footer {
+				text-align: center;
+				padding: 20px;
+				color: #6c757d;
+				font-size: 0.9rem;
+				border-top: 1px solid #eaecef;
+			}
+
+			@media screen and (max-width: 768px) {
+				.nav-menu {
+					position: fixed;
+					top: 70px;
+					left: -100%;
+					width: 100%;
+					height: calc(100vh - 70px);
+					background-color: var(--bg-color);
+					flex-direction: column;
+					transition: left 0.3s ease;
+					box-shadow: var(--shadow);
+					overflow-y: auto;
+					z-index: 999;
+				}
+
+				.nav-menu.active {
+					left: 0;
+				}
+
+				.nav-item {
+					width: 100%;
+				}
+
+				.nav-link {
+					line-height: 50px;
+					padding: 0 20px;
+					border-bottom: 1px solid #eee;
+					display: flex;
+					justify-content: space-between;
+					align-items: center;
+				}
+
+				.nav-link:hover::after {
+					display: none;
+				}
+
+				.dropdown {
+					position: static;
+					width: 100%;
+					opacity: 1;
+					visibility: visible;
+					transform: none;
+					box-shadow: none;
+					display: none;
+					background-color: #f9f9f9;
+					max-height: 0;
+					overflow: hidden;
+					transition: max-height 0.3s ease;
+				}
+
+				.dropdown.active {
+					display: block;
+					max-height: 500px;
+				}
+
+				.nav-item:hover .dropdown {
+					transform: none;
+				}
+
+				.hamburger {
+					display: block;
+				}
+
+				.nav-search-box {
+					display: none;
+				}
+
+				.nav-link.has-dropdown::after {
+					content: '\f078';
+					font-family: 'Font Awesome 5 Free';
+					font-weight: 900;
+					font-size: 12px;
+					transition: transform 0.3s;
+				}
+
+				.nav-link.has-dropdown.active::after {
+					transform: rotate(180deg);
+				}
+
+				th, td {
+					padding: 12px 15px;
+				}
+
+				#search-input {
+					padding: 14px;
+					font-size: 1rem;
+				}
+
+				#search-btn {
+					padding: 14px 20px;
+				}
+
+				.container {
+					margin-top: 20px;
+				}
+			}
+
+			@media (max-width: 480px) {
+				header {
+					padding: 15px;
+				}
+
+				h1 {
+					font-size: 1.8rem;
+				}
+
+				.main-search-box {
+					flex-direction: column;
+				}
+
+				#search-btn {
+					border-radius: 0 0 10px 10px;
+				}
+
+				.nav-container {
+					padding: 0 15px;
+				}
+
+				.logo span {
+					font-size: 1.2rem;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<div id="navbar-container"></div>
+
+		<!-- 页面内容 -->
+		<div class="container">
+		    <header>
+		        <h1>周报</h1>
+		        <p class="description">在下方搜索框中输入关键词，实时筛选多个表格内容。支持同时搜索多个表格的所有字段。</p>
+		    </header>
+		
+		    <div class="search-container">
+		        <div class="main-search-box">
+		            <input type="text" id="search-input" placeholder="输入关键词搜索...">
+		            <button id="search-btn">搜索</button>
+		        </div>
+		        <div class="search-info">
+		            找到 <span id="results-count">0</span> 条匹配记录
+		        </div>
+		    </div>
+		
+		    <div class="table-container">
+		    	<!-- 第一个表格 -->
+		    	<details>
+		    		<summary>已完成任务表格</summary>
+		    		<table id="completed-table">
+		    			<thead>
+		    				<tr>
+		    					<th style="width: 10%;">任务时间</th>
+		    					<th style="width: 10%;">任务名称</th>
+		    					<th style="width: 40%;">备注</th>
+		    					<th style="width: 10%;">所属</th>
+		    					<th style="width: 40%;">下一步动作</th>
+		    				</tr>
+		    			</thead>
+		    			<tbody>
+		    				<tr> <th colspan="5">2025/8/11-2025/8/17</th></tr>
+		    				<!--已经完成工作计划-->
+		    				<tr>
+		    					<td>8月11日-8月17日</td>
+		    					<td>MIC商机回复查看</td>
+		    					<td>MIC没有联系方式的限制，所有前几轮的沟通集中在联系方式的交换，不存在明显问题</td>
+		    					<td>平台分析</td>
+		    					<td>完成
+		    					</td>
+		    				</tr>
+		    				<tr>
+		    					<td>8月11日-8月17日</td>
+		    					<td>新站落地页搭建</td>
+		    					<td>
+		    						<p><a href="http://en-medituauma.tw.ldyjz.com/exhibition.html" target="_blank">网址：展会</a></p>
+		    						<p><a href="https://en-medituauma.tw.ldyjz.com/news.html" target="_blank">网址：Blog</a></p>
+		    						<p><a href="http://en-medituauma.tw.ldyjz.com/download.html" target="_blank">网址：下载</a></p>
+		    						<p><a href="https://en-medituauma.tw.ldyjz.com/contactus.html" target="_blank">网址：Coutact Us</a></p></td>
+		    					<td>创伤新站</td>
+		    					<td>完成</td>
+		    				</tr>
+		    				<tr>
+		    					<td>8月11日-8月17日</td>
+		    					<td>8月Blog发布</td>
+		    					<td>
+		    						<p>产品链接和配图完成</p></td>
+		    					<td>老站</td>
+		    					<td>完成</td>
+		    				</tr>
+		    				<tr>
+		    					<td>8月11日-8月17日</td>
+		    					<td>老站落地页优化</td>
+		    					<td>
+		    					<p><a href="https://www.czmeditech.com/" target="_blank">网址：首页6个流程和3个身份</a></p>
+		    					<p><a href="https://www.czmeditech.com/become-our-dealer.html" target="_blank">网址：Become our Dealer</a></p>
+		    					<p><a href="https://www.czmeditech.com/about-us.html" target="_blank">网址：About Us</a></p></td>
+		    					<td>老站</td>
+		    					<td>
+		    					<p>老站的页面优化英语站的修改和西语站是不同步的</p>
+		    					<ul>
+		    					<li>产品，文章，下载会同步</li>
+		    					<li>但是只在首次发布同步，后续更新不同步</li>
+		    					</ul>
+		    					<ol>
+		    					  <li>6个流程增加了View More的箭头，将对应内容放在About Us内，3个身份增加了Deatails链接，将详细内容放在Become our Dealer中</li>
+		    					  <li>Become our Dealer有专门的文字文案，后续内容要再调整，等宋总安排</li>
+		    					  <li>搭建6个流程的详细文案</li>
+		    					</ol></td>
+		    				</tr>
+		    				<tr>
+		    					<td>8月11日-8月17日</td>
+		    				<td>业务员询盘登记表</td>
+		    				<td></td>
+		    				<td>表格统计</td>
+		    				<td>完成</td>
+		    				</tr>
+		    				<tr>
+		    					<td>8月11日-8月17日</td>
+		    				<td>MIC发品4个</td>
+		    				<td>锁定板系列</td>
+		    				<td>MIC</td>
+		    				<td>锁定板系列发品持续</td>
+		    				</tr>
+		    				<tr>
+		    					<td>8月11日-8月17日</td>
+		    				<td>谷歌询盘统计</td>
+		    				<td>8月上半月份的询盘量下降，需关注讨论下一步动作</td>
+		    				<td>表格统计</td>
+		    				<td>完成</td>
+		    				</tr>
+		    				<tr>
+		    					<td>8月11日-8月17日</td>
+		    				<td>创伤板查漏补缺
+		    				</td>
+		    				<td>
+		    				<ol>
+		    				<ul>建立产品表格</ul>
+		    				<ul>通用模板文案</ul>
+		    				</ol>
+		    				</td>
+		    				<td>
+		    				全平台
+		    				</td>
+		    				<td>
+		    				<ol>
+		    				<li>3个平台的通用模板搭建，缺少对应配图</li>
+		    				<ul>
+		    				<li>老站筛查未发布产品并补齐</li>
+		    				<li>新站搭建产品链接</li>
+		    				<li>MIC建立详情页模板</li>
+		    				</ul>
+		    				<li>老站和新站产品发布：预计3周</li>
+		    				</ol>
+		    				</td>
+		    				</tr>
+		    				<tr> <th colspan="5">2025/8/18-2025/8/24</th></tr>
+		    				<tr>
+		    					<td>8月18日-8月24日</td>
+		    					<td>新站落地页搭建</td>
+		    					<td>
+		    						<p><a href="https://en-medituauma.tw.ldyjz.com/" target="_blank">目录导航</a></p>
+		    						<p><a href="https://en-medituauma.tw.ldyjz.com/products.html" target="_blank">网址：产品展示页</a></p>
+		    						<p>7个部位的分类落地页设计（本周完成设计和图片要求，下周搭建）</p>
+		    						<ul>
+		    						<li><a href="http://en-medituauma.tw.ldyjz.com/category-foot-bones.html" target="_blank">
+		    								  网址：新站足踝分类落地页</a></li>
+		    															<li><a href="http://en-medituauma.tw.ldyjz.com/category-lower-limb-bones.html" target="_blank">
+		    																  		  网址：下肢分类落地页</a></li>
+		    															<li><a href="http://en-medituauma.tw.ldyjz.com/category-palm-bones.html" target="_blank">
+		    																  		  网址：手掌分类落地页</a></li>
+		    															<li><a href="http://en-medituauma.tw.ldyjz.com/category-pediatric.html" target="_blank">
+		    																		网址：儿童分类落地页</a></li>
+		    															<li><a href="http://en-medituauma.tw.ldyjz.com/category-pelvic-bones.html" target="_blank">
+		    																		网址：盆骨分类落地页</a></li>
+		    															<li><a href="http://en-medituauma.tw.ldyjz.com/category-trunk-bones.html" target="_blank">
+		    																		网址：躯干分类落地页</a></li>
+		    															<li><a href="http://en-medituauma.tw.ldyjz.com/category-upper-limb-bones.html" target="_blank">
+		    																		网址：上肢分类落地页</a></li>	</ul>
+		    					</td>
+		    					<td>创伤新站</td>
+		    					<td>电动工具产品链接搭建</td>
+		    				</tr>
+		    				<tr>
+		    					<td>8月25日-9月7日</td>
+		    					<td>创伤板查漏补缺</td>
+		    					<td>
+		    				<ol>
+		    				<li>3个平台的通用模板搭建，缺少对应配图</li>
+		    				<ul>
+		    				<li>老站筛查未发布产品并补齐</li>
+		    				<li>新站搭建产品链接</li>
+		    				<li>MIC建立详情页模板</li>
+		    				</ul>
+		    				<li>老站和新站产品发布：预计3周</li>
+		    				</ol>
+		    				</td>
+		    					<td>全平台</td>
+		    					<td><p>剩余2周</p><p>新站总计预发品92个，目前进度（20/92）</p><p>老站总计预发品26个，目前进度（26/26）</p></td>
+		    				</tr>
+		    				<tr>
+		    					<td>8月18日-8月24日</td>
+		    				<td>MIC发品4个</td>
+		    				<td>锁定板系列</td>
+		    				<td>MIC</td>
+		    				<td>锁定板系列发品持续</td>
+		    				</tr>
+		    				<tr>
+		    					<td>8月18日-8月24日</td>
+		    					<td>老站落地页优化</td>
+		    					<td>
+		    					<p>Become our Dealer有专门的文字文案，后续内容要再调整，等宋总安排</p>
+		    					<p>About Us文案和图片细节调整</p>
+		    					<p><a href="https://www.czmeditech.com/about-us.html" target="_blank">关于我们网址</a></p></td>
+		    					<td>老站</td>
+		    					<td></td>
+		    				</tr>
+		    				<tr>
+		    					<td>8月18日-8月24日</td>
+		    				<td>业务员询盘登记表</td>
+		    				<td></td>
+		    				<td>表格统计</td>
+		    				<td></td>
+		    				</tr>				
+		    			</tbody>
+		    		</table>
+		    	</details>
+		    	<p>下周任务</p>
+		    	<!-- 第二个表格 -->
+		    	<table id="current-table">
+		    		<thead>
+		    			<tr>
+		    				<th style="width: 10%;">任务时间</th>
+		    				<th style="width: 10%;">任务名称</th>
+		    				<th style="width: 40%;">备注</th>
+		    				<th style="width: 10%;">所属</th>
+		    				<th style="width: 40%;">下一步动作</th>
+		    			</tr>
+		    		</thead>
+		    		<tbody>
+		    			<tr> <th colspan="5">2025/8/25-2025/8/31</th></tr>
+		    			<tr>
+		    				<td>8月25日-9月7日</td>
+		    				<td>创伤板查漏补缺</td>
+		    				<td>
+		    			<ol>
+		    			<li>3个平台的通用模板搭建，缺少对应配图</li>
+		    			<ul>
+		    			<li>老站筛查未发布产品并补齐</li>
+		    			<li>新站搭建产品链接</li>
+		    			<li>MIC建立详情页模板</li>
+		    			</ul>
+		    			<li>老站和新站产品发布：预计3周</li>
+		    			</ol>
+		    			</td>
+		    				<td>全平台</td>
+		    				<td><p>剩余2周</p><p>新站总计预发品92个，目前进度（20/92）</p><p>老站总计预发品26个，目前进度（26/26）</p></td>
+		    			</tr>						
+		    			<tr>
+		    				<td>8月25日-9月21日</td>
+		    				<td>电动工具查漏补缺</td>
+		    				<td>
+		    			<ol>
+		    			<li>3个平台的通用模板搭建，对应配图</li>
+		    			<ul>
+		    			<li>老站筛查未发布产品并补齐</li>
+		    			<li>新站搭建产品链接</li>
+		    			<li>MIC建立详情页模板</li>
+		    			</ul>
+		    			<li>老站和新站产品发布：预计4周</li>
+		    			</ol>
+		    			</td>
+		    				<td>全平台</td>
+		    				<td></td>
+		    			</tr>
+		    			<tr>
+		    				<td>8月25日-8月31日</td>
+		    				<td>电动工具通用模板</td>
+		    				<td>
+		    					<p><a href="https://en-medituauma.tw.ldyjz.com/Power-Tool-pd560488448.html"
+		    						target="_blank">网址：新站电动工具通用</a></p>
+								<p><a href="https://www.czmeditech.com/--pd510877448.html"
+									target="_blank">网址：老站电动工具通用</a></p>
+									
+		    				</td>
+		    				<td>全平台</td>
+		    				<td></td>
+		    			</tr>
+		    			<tr>
+		    				<td>8月25日-8月31日</td>
+		    				<td>MIC展示厅更新</td>
+		    				<td>因为新品的更新，所以MIC展示厅展示的产品和Banner也要同步更新
+		    				</td>
+		    				<td></td>
+		    				<td></td>
+		    			</tr>
+		    			<tr>
+		    				<td>8月25日-8月31日</td>
+		    			<td>业务员询盘登记表</td>
+		    			<td></td>
+		    			<td>表格统计</td>
+		    			<td></td>
+		    			</tr>
+		    			<tr>
+		    				<td>8月25日-8月31日</td>
+		    			<td>MIC发品4个</td>
+		    			<td>锁定板系列</td>
+		    			<td>MIC</td>
+		    			<td>锁定板系列发品持续</td>
+		    			</tr>
+		    		</tbody>
+		    	</table>
+		    	<!-- 第三个表格 -->
+		    	<details>
+		    		<summary>其他任务表格</summary>
+		    		<table id="other-table">
+		    			<thead>
+		    				<tr>
+		    					<th style="width: 10%;">任务时间</th>
+		    					<th style="width: 10%;">任务名称</th>
+		    					<th style="width: 40%;">备注</th>
+		    					<th style="width: 10%;">所属</th>
+		    					<th style="width: 40%;">下一步动作</th>
+		    				</tr>
+		    			</thead>
+		    			<tbody>
+		    				<tr>
+		    					<td>2025/8/11-2025/8/17</td>
+		    					<td>OEM/ODM</td>
+		    					<td>
+		    						<a href="https://www.czmeditech.com/oem-odm.html" target="_blank">网址：OEM/ODM</a>
+		    					</td>
+		    					<td>老站OEM/ODM优化</td>
+		    					<td>Rachel负责</td>
+		    				</tr>
+		    			</tbody>
+		    		</table>
+		    	</details>
+		    	<div class="no-results" id="no-results">
+		    		没有找到匹配的记录，请尝试其他搜索词。
+		    	</div>
+		    </div>
+
+			<footer>
+				<p>© 2025 Hugh的工作网站. 保留所有权利.</p>
+			</footer>
+		</div>
+
+		<a href="#" class="back-to-top">
+			<i class="fas fa-arrow-up"></i>
+		</a>
+
+		<script>
+			// 加载导航栏
+			function loadNavbar() {
+				const navbarContainer = document.getElementById('navbar-container');
+				const navbarHTML = `
+					<nav class="navbar">
+						<div class="nav-container">
+							<a href="#" class="logo">
+								<i class="fas fa-rocket"></i>
+								<span>Hugh的工作网站</span>
+							</a>
+
+							<ul class="nav-menu">
+								<li class="nav-item">
+									<a href="#" class="nav-link">首页</a>
+								</li>
+								<li class="nav-item">
+									<a href="#" class="nav-link has-dropdown">报表</a>
+									<div class="dropdown">
+										<a href="https://hugh2024-han.github.io/My-website/TonyTask.html" class="dropdown-item">Tony任务卡</a>
+										<a href="https://hugh2024-han.github.io/My-website/%E6%AF%8F%E5%91%A8%E5%91%A8%E6%8A%A5.html" class="dropdown-item">每周周报</a>
+									</div>
+								</li>
+								<li class="nav-item">
+									<a href="https://hugh2024-han.github.io/My-website/%E5%91%A8%E6%8A%A5.html" class="nav-link">周报</a>
+								</li>
+							</ul>
+
+							<div class="nav-search-box">
+								<input type="text" class="nav-search-input" placeholder="搜索...">
+								<button class="nav-search-btn">
+									<i class="fas fa-search"></i>
+								</button>
+							</div>
+
+							<button class="hamburger">
+								<i class="fas fa-bars"></i>
+							</button>
+						</div>
+					</nav>
+				`;
+				navbarContainer.innerHTML = navbarHTML;
+				initNavbar();
+			}
+
+			// 初始化导航菜单功能
+			function initNavbar() {
+				const hamburger = document.querySelector('.hamburger');
+				const navMenu = document.querySelector('.nav-menu');
+
+				if (hamburger && navMenu) {
+					hamburger.addEventListener('click', (e) => {
+						e.stopPropagation();
+						navMenu.classList.toggle('active');
+						hamburger.innerHTML = navMenu.classList.contains('active') ?
+							'<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+					});
+
+					// 移动端下拉菜单处理
+					document.querySelectorAll('.nav-link.has-dropdown').forEach(link => {
+						link.addEventListener('click', (e) => {
+							if (window.innerWidth <= 768) {
+								e.preventDefault();
+								e.stopPropagation();
+								link.classList.toggle('active');
+								link.nextElementSibling.classList.toggle('active');
+							}
+						});
+					});
+
+					// 点击其他地方关闭菜单
+					document.addEventListener('click', (e) => {
+						if (window.innerWidth <= 768) {
+							if (!e.target.closest('.nav-menu') && !e.target.closest('.hamburger')) {
+								navMenu.classList.remove('active');
+								hamburger.innerHTML = '<i class="fas fa-bars"></i>';
+
+								document.querySelectorAll('.dropdown').forEach(dropdown => {
+									dropdown.classList.remove('active');
+								});
+								document.querySelectorAll('.nav-link.has-dropdown').forEach(link => {
+									link.classList.remove('active');
+								});
+							}
+						}
+					});
+				}
+			}
+
+			// 返回顶部功能
+			function initBackToTop() {
+				const backToTopButton = document.querySelector('.back-to-top');
+
+				window.addEventListener('scroll', () => {
+					if (window.pageYOffset > 300) {
+						backToTopButton.classList.add('visible');
+					} else {
+						backToTopButton.classList.remove('visible');
+					}
+				});
+
+				backToTopButton.addEventListener('click', (e) => {
+					e.preventDefault();
+					window.scrollTo({
+						top: 0,
+						behavior: 'smooth'
+					});
+				});
+			}
+
+			// 防抖函数
+			function debounce(func, wait) {
+				let timeout;
+				return function() {
+					const context = this;
+					const args = arguments;
+					clearTimeout(timeout);
+					timeout = setTimeout(() => func.apply(context, args), wait);
+				};
+			}
+
+			// 搜索功能
+			function initSearch() {
+				const searchInput = document.getElementById('search-input');
+				const searchBtn = document.getElementById('search-btn');
+				const tables = document.querySelectorAll('table');
+				const resultsCount = document.getElementById('results-count');
+				const noResults = document.querySelector('.no-results');
+
+				if (!searchInput || !searchBtn || !tables.length) return;
+
+				function escapeRegExp(string) {
+					return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+				}
+
+				function performSearch() {
+					const searchText = searchInput.value.toLowerCase().trim();
+					let matchCount = 0;
+
+					tables.forEach(table => {
+						const tbody = table.getElementsByTagName('tbody')[0];
+						if (!tbody) return;
+						
+						const rows = tbody.getElementsByTagName('tr');
+
+						for (let i = 0; i < rows.length; i++) {
+							const cells = rows[i].getElementsByTagName('td');
+							let rowMatch = false;
+
+							if (rows[i].getElementsByTagName('th').length > 0) {
+								rows[i].style.display = '';
+								continue;
+							}
+
+							for (let j = 0; j < cells.length; j++) {
+								const cellText = cells[j].textContent.toLowerCase();
+
+								if (searchText === '' || cellText.includes(searchText)) {
+									rowMatch = true;
+
+									if (searchText !== '') {
+										const regex = new RegExp(`(${escapeRegExp(searchText)})`, 'gi');
+										cells[j].innerHTML = cells[j].textContent.replace(regex,
+											'<span class="highlight">$1</span>');
+									}
+								} else {
+									cells[j].innerHTML = cells[j].textContent;
+								}
+							}
+
+							if (rowMatch) {
+								rows[i].style.display = '';
+								matchCount++;
+							} else {
+								rows[i].style.display = 'none';
+							}
+						}
+					});
+
+					resultsCount.textContent = matchCount;
+
+					if (matchCount === 0 && searchText !== '') {
+						noResults.style.display = 'block';
+					} else {
+						noResults.style.display = 'none';
+					}
+				}
+
+				searchBtn.addEventListener('click', performSearch);
+				searchInput.addEventListener('keypress', function(e) {
+					if (e.key === 'Enter') {
+						performSearch();
+					}
+				});
+				searchInput.addEventListener('input', debounce(performSearch, 300));
+			}
+
+			// 页面加载完成后初始化
+			document.addEventListener('DOMContentLoaded', () => {
+				loadNavbar();
+				initBackToTop();
+				initSearch();
+			});
+		</script>
+	</body>
 </html>
