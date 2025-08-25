@@ -736,43 +736,52 @@ document.addEventListener('DOMContentLoaded', function() {
             const navbarContainer = document.getElementById('navbar-container');
 
             // 创建导航栏HTML
-            const navbarHTML = `
-                <nav class="navbar">
-                    <div class="nav-container">
-                        <a href="#" class="logo">
-                            <i class="fas fa-rocket"></i>
-                            <span>Hugh的工作网站</span>
-                        </a>
-
-                        <ul class="nav-menu">
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">首页</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="https://hugh2024-han.github.io/My-website/Hugh%E7%9A%84%E5%B7%A5%E4%BD%9C%E7%BD%91%E7%AB%99.html" class="nav-link">报表</a>
-                                <div class="dropdown">
-                                    <a href="https://hugh2024-han.github.io/My-website/TonyTask.html" class="dropdown-item">Tony任务卡</a>
-                                    <a href="https://hugh2024-han.github.io/My-website/%E6%AF%8F%E5%91%A8%E5%91%A8%E6%8A%A5.html" class="dropdown-item">每周周报</a>
+                        const navbarHTML = `
+                            <nav class="navbar">
+                                <div class="nav-container">
+                                    <a href="https://hugh2024-han.github.io/My-website/Hugh%E7%9A%84%E5%B7%A5%E4%BD%9C%E7%BD%91%E7%AB%99.html" class="logo">
+                                        <i class="fas fa-rocket"></i>
+                                        <span>Hugh的工作网站</span>
+                                    </a>
+            
+                                    <ul class="nav-menu">
+                                        <li class="nav-item">
+                                            <a href="https://hugh2024-han.github.io/My-website/Hugh%E7%9A%84%E5%B7%A5%E4%BD%9C%E7%BD%91%E7%AB%99.html" class="nav-link">首页</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="#" class="nav-link">报表</a>
+                                            <div class="dropdown">
+                                                <a href="https://hugh2024-han.github.io/My-website/TonyTask.html" class="dropdown-item">Tony任务卡</a>
+                                                <a href="https://hugh2024-han.github.io/My-website/%E6%AF%8F%E5%91%A8%E5%91%A8%E6%8A%A5.html" class="dropdown-item">每周周报</a>
+                                            </div>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="https://hugh2024-han.github.io/My-website/%E5%91%A8%E6%8A%A5.html" class="nav-link">周报</a>
+                                        </li>
+            							<li class="nav-item">
+                                            <a href="#" class="nav-link">学习</a>
+                                            <div class="dropdown">
+                                                <a href="#" class="dropdown-item">VBA</a>
+                                                <a href="#" class="dropdown-item">SQL</a>
+            									<a href="#" class="dropdown-item">HTML</a>
+            									<a href="#" class="dropdown-item">Reading</a>
+                                            </div>
+                                        </li>
+                                    </ul>
+            
+                                    <div class="nav-search-box">
+                                        <input type="text" class="nav-search-input" placeholder="搜索...">
+                                        <button class="nav-search-btn">
+                                            <i class="fas fa-search"></i>
+                                        </button>
+                                    </div>
+            
+                                    <button class="hamburger">
+                                        <i class="fas fa-bars"></i>
+                                    </button>
                                 </div>
-                            </li>
-                            <li class="nav-item">
-                                <a href="https://hugh2024-han.github.io/My-website/%E5%91%A8%E6%8A%A5.html" class="nav-link">周报</a>
-                            </li>
-                        </ul>
-
-                        <div class="nav-search-box">
-                            <input type="text" class="nav-search-input" placeholder="搜索...">
-                            <button class="nav-search-btn">
-                                <i class="fas fa-search"></i>
-                            </button>
-                        </div>
-
-                        <button class="hamburger">
-                            <i class="fas fa-bars"></i>
-                        </button>
-                    </div>
-                </nav>
-            `;
+                            </nav>
+                        `;
 
             navbarContainer.innerHTML = navbarHTML;
 
