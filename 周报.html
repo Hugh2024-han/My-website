@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hugh的工作网站</title>
+    <title>周报</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -453,318 +453,317 @@
 
     <!-- 页面内容 -->
     <div class="container">
-    	<header>
-    		<h1>周报</h1>
-    		<p class="description">在下方搜索框中输入关键词，实时筛选多个表格内容。支持同时搜索多个表格的所有字段。</p>
-    	</header>
-    
-    	<div class="search-container">
-    		<div class="search-box">
-    			<input type="text" id="search-input" placeholder="输入关键词搜索...">
-    			<button id="search-btn">搜索</button>
-    		</div>
-    		<div class="search-info">
-    			找到 <span id="results-count">0</span> 条匹配记录
-    		</div>
-    	</div>
-    
-    	<div class="table-container">
-    		<!-- 第一个表格 -->
-    		<details>
-    			<summary>已完成任务表格</summary>
-    			<table id="completed-table">
-    				<thead>
-    					<tr>
-    						<th style="width: 10%;">任务时间</th>
-    						<th style="width: 10%;">任务名称</th>
-    						<th style="width: 40%;">备注</th>
-    						<th style="width: 10%;">所属</th>
-    						<th style="width: 40%;">下一步动作</th>
-    					</tr>
-    				</thead>
-    				<tbody>
-    					<tr> <th colspan="5">2025/8/11-2025/8/17</th></tr>
-    					<!--已经完成工作计划-->
-    					<tr>
-    						<td>8月11日-8月17日</td>
-    						<td>MIC商机回复查看</td>
-    						<td>MIC没有联系方式的限制，所有前几轮的沟通集中在联系方式的交换，不存在明显问题</td>
-    						<td>平台分析</td>
-    						<td>完成
-    						</td>
-    					</tr>
-    					<tr>
-    						<td>8月11日-8月17日</td>
-    						<td>新站落地页搭建</td>
-    						<td>
-    							<p><a href="http://en-medituauma.tw.ldyjz.com/exhibition.html" target="_blank">网址：展会</a></p>
-    							<p><a href="https://en-medituauma.tw.ldyjz.com/news.html" target="_blank">网址：Blog</a></p>
-    							<p><a href="http://en-medituauma.tw.ldyjz.com/download.html" target="_blank">网址：下载</a></p>
-    							<p><a href="https://en-medituauma.tw.ldyjz.com/contactus.html" target="_blank">网址：Coutact Us</a></p></td>
-    						<td>创伤新站</td>
-    						<td>完成</td>
-    					</tr>
-    					<tr>
-    						<td>8月11日-8月17日</td>
-    						<td>8月Blog发布</td>
-    						<td>
-    							<p>产品链接和配图完成</p></td>
-    						<td>老站</td>
-    						<td>完成</td>
-    					</tr>
-    					<tr>
-    						<td>8月11日-8月17日</td>
-    						<td>老站落地页优化</td>
-    						<td>
-    						<p><a href="https://www.czmeditech.com/" target="_blank">网址：首页6个流程和3个身份</a></p>
-    						<p><a href="https://www.czmeditech.com/become-our-dealer.html" target="_blank">网址：Become our Dealer</a></p>
-    						<p><a href="https://www.czmeditech.com/about-us.html" target="_blank">网址：About Us</a></p></td>
-    						<td>老站</td>
-    						<td>
-    						<p>老站的页面优化英语站的修改和西语站是不同步的</p>
-    						<ul>
-    						<li>产品，文章，下载会同步</li>
-    						<li>但是只在首次发布同步，后续更新不同步</li>
-    						</ul>
-    						<ol>
-    						  <li>6个流程增加了View More的箭头，将对应内容放在About Us内，3个身份增加了Deatails链接，将详细内容放在Become our Dealer中</li>
-    						  <li>Become our Dealer有专门的文字文案，后续内容要再调整，等宋总安排</li>
-    						  <li>搭建6个流程的详细文案</li>
-    						</ol></td>
-    					</tr>
-    					<tr>
-    						<td>8月11日-8月17日</td>
-    					<td>业务员询盘登记表</td>
-    					<td></td>
-    					<td>表格统计</td>
-    					<td>完成</td>
-    					</tr>
-    					<tr>
-    						<td>8月11日-8月17日</td>
-    					<td>MIC发品4个</td>
-    					<td>锁定板系列</td>
-    					<td>MIC</td>
-    					<td>锁定板系列发品持续</td>
-    					</tr>
-    					<tr>
-    						<td>8月11日-8月17日</td>
-    					<td>谷歌询盘统计</td>
-    					<td>8月上半月份的询盘量下降，需关注讨论下一步动作</td>
-    					<td>表格统计</td>
-    					<td>完成</td>
-    					</tr>
-    					<tr>
-    						<td>8月11日-8月17日</td>
-    					<td>创伤板查漏补缺
-    					</td>
-    					<td>
-    					<ol>
-    					<ul>建立产品表格</ul>
-    					<ul>通用模板文案</ul>
-    					</ol>
-    					</td>
-    					<td>
-    					全平台
-    					</td>
-    					<td>
-    					<ol>
-    					<li>3个平台的通用模板搭建，缺少对应配图</li>
-    					<ul>
-    					<li>老站筛查未发布产品并补齐</li>
-    					<li>新站搭建产品链接</li>
-    					<li>MIC建立详情页模板</li>
-    					</ul>
-    					<li>老站和新站产品发布：预计3周</li>
-    					</ol>
-    					</td>
-    					</tr>
-    					<tr> <th colspan="5">2025/8/18-2025/8/24</th></tr>
-    					<tr>
-    						<td>8月18日-8月24日</td>
-    						<td>新站落地页搭建</td>
-    						<td>
-    							<p><a href="https://en-medituauma.tw.ldyjz.com/" target="_blank">目录导航</a></p>
-    							<p><a href="https://en-medituauma.tw.ldyjz.com/products.html" target="_blank">网址：产品展示页</a></p>
-    							<p>7个部位的分类落地页设计（本周完成设计和图片要求，下周搭建）</p>
-    							<ul>
-    							<li><a href="http://en-medituauma.tw.ldyjz.com/category-foot-bones.html" target="_blank">
-    									  网址：新站足踝分类落地页</a></li>
-    																<li><a href="http://en-medituauma.tw.ldyjz.com/category-lower-limb-bones.html" target="_blank">
-    																	  		  网址：下肢分类落地页</a></li>
-    																<li><a href="http://en-medituauma.tw.ldyjz.com/category-palm-bones.html" target="_blank">
-    																	  		  网址：手掌分类落地页</a></li>
-    																<li><a href="http://en-medituauma.tw.ldyjz.com/category-pediatric.html" target="_blank">
-    																			网址：儿童分类落地页</a></li>
-    																<li><a href="http://en-medituauma.tw.ldyjz.com/category-pelvic-bones.html" target="_blank">
-    																			网址：盆骨分类落地页</a></li>
-    																<li><a href="http://en-medituauma.tw.ldyjz.com/category-trunk-bones.html" target="_blank">
-    																			网址：躯干分类落地页</a></li>
-    																<li><a href="http://en-medituauma.tw.ldyjz.com/category-upper-limb-bones.html" target="_blank">
-    																			网址：上肢分类落地页</a></li>	</ul>
-    						</td>
-    						<td>创伤新站</td>
-    						<td>电动工具产品链接搭建</td>
-    					</tr>
-    					<tr>
-    						<td>8月25日-9月7日</td>
-    						<td>创伤板查漏补缺</td>
-    						<td>
-    					<ol>
-    					<li>3个平台的通用模板搭建，缺少对应配图</li>
-    					<ul>
-    					<li>老站筛查未发布产品并补齐</li>
-    					<li>新站搭建产品链接</li>
-    					<li>MIC建立详情页模板</li>
-    					</ul>
-    					<li>老站和新站产品发布：预计3周</li>
-    					</ol>
-    					</td>
-    						<td>全平台</td>
-    						<td><p>剩余2周</p><p>新站总计预发品92个，目前进度（20/92）</p><p>老站总计预发品26个，目前进度（26/26）</p></td>
-    					</tr>
-    					<tr>
-    						<td>8月18日-8月24日</td>
-    					<td>MIC发品4个</td>
-    					<td>锁定板系列</td>
-    					<td>MIC</td>
-    					<td>锁定板系列发品持续</td>
-    					</tr>
-    					<tr>
-    						<td>8月18日-8月24日</td>
-    						<td>老站落地页优化</td>
-    						<td>
-    						<p>Become our Dealer有专门的文字文案，后续内容要再调整，等宋总安排</p>
-    						<p>About Us文案和图片细节调整</p>
-    						<p><a href="https://www.czmeditech.com/about-us.html" target="_blank">关于我们网址</a></p></td>
-    						<td>老站</td>
-    						<td></td>
-    					</tr>
-    					<tr>
-    						<td>8月18日-8月24日</td>
-    					<td>业务员询盘登记表</td>
-    					<td></td>
-    					<td>表格统计</td>
-    					<td></td>
-    					</tr>				
-    				</tbody>
-    			</table>
-    		</details>
-    		<p>下周任务</p>
-    		<!-- 第二个表格 -->
-    		<table id="current-table">
-    			<thead>
-    				<tr>
-    					<th style="width: 10%;">任务时间</th>
-    					<th style="width: 10%;">任务名称</th>
-    					<th style="width: 40%;">备注</th>
-    					<th style="width: 10%;">所属</th>
-    					<th style="width: 40%;">下一步动作</th>
-    				</tr>
-    			</thead>
-    			<tbody>
-    				<tr> <th colspan="5">2025/8/25-2025/8/31</th></tr>
-    				<tr>
-    					<td>8月25日-9月7日</td>
-    					<td>创伤板查漏补缺</td>
-    					<td>
-    				<ol>
-    				<li>3个平台的通用模板搭建，缺少对应配图</li>
-    				<ul>
-    				<li>老站筛查未发布产品并补齐</li>
-    				<li>新站搭建产品链接</li>
-    				<li>MIC建立详情页模板</li>
-    				</ul>
-    				<li>老站和新站产品发布：预计3周</li>
-    				</ol>
-    				</td>
-    					<td>全平台</td>
-    					<td><p>剩余2周</p><p>新站总计预发品92个，目前进度（20/92）</p><p>老站总计预发品26个，目前进度（26/26）</p></td>
-    				</tr>						
-    				<tr>
-    					<td>8月25日-9月21日</td>
-    					<td>电动工具查漏补缺</td>
-    					<td>
-    				<ol>
-    				<li>3个平台的通用模板搭建，对应配图</li>
-    				<ul>
-    				<li>老站筛查未发布产品并补齐</li>
-    				<li>新站搭建产品链接</li>
-    				<li>MIC建立详情页模板</li>
-    				</ul>
-    				<li>老站和新站产品发布：预计4周</li>
-    				</ol>
-    				</td>
-    					<td>全平台</td>
-    					<td></td>
-    				</tr>
-    				<tr>
-    					<td>8月25日-8月31日</td>
-    					<td>电动工具通用模板</td>
-    					<td>
-    						<a href="https://en-medituauma.tw.ldyjz.com/Power-Tool-pd560488448.html"
-    							target="_blank">网址：电动工具通用</a>
-    					</td>
-    					<td>全平台</td>
-    					<td></td>
-    				</tr>
-    				<tr>
-    					<td>8月25日-8月31日</td>
-    					<td>MIC展示厅更新</td>
-    					<td>因为新品的更新，所以MIC展示厅展示的产品和Banner也要同步更新
-    					</td>
-    					<td></td>
-    					<td></td>
-    				</tr>
-    				<tr>
-    					<td>8月25日-8月31日</td>
-    				<td>业务员询盘登记表</td>
-    				<td></td>
-    				<td>表格统计</td>
-    				<td></td>
-    				</tr>
-    				<tr>
-    					<td>8月25日-8月31日</td>
-    				<td>MIC发品4个</td>
-    				<td>锁定板系列</td>
-    				<td>MIC</td>
-    				<td>锁定板系列发品持续</td>
-    				</tr>
-    			</tbody>
-    		</table>
-    		<!-- 第三个表格 -->
-    		<details>
-    			<summary>其他任务表格</summary>
-    			<table id="other-table">
-    				<thead>
-    					<tr>
-    						<th style="width: 10%;">任务时间</th>
-    						<th style="width: 10%;">任务名称</th>
-    						<th style="width: 40%;">备注</th>
-    						<th style="width: 10%;">所属</th>
-    						<th style="width: 40%;">下一步动作</th>
-    					</tr>
-    				</thead>
-    				<tbody>
-    					<tr>
-    						<td>2025/8/11-2025/8/17</td>
-    						<td>OEM/ODM</td>
-    						<td>
-    							<a href="https://www.czmeditech.com/oem-odm.html" target="_blank">网址：OEM/ODM</a>
-    						</td>
-    						<td>老站OEM/ODM优化</td>
-    						<td>Rachel负责</td>
-    					</tr>
-    				</tbody>
-    			</table>
-    		</details>
-    		<div class="no-results" id="no-results">
-    			没有找到匹配的记录，请尝试其他搜索词。
-    		</div>
-    	</div>
-    
-    	<footer>
-    		<p>多表格搜索筛选功能 &copy; 2025</p>
-    	</footer>
+        <header>
+            <h1>周报</h1>
+            <p class="description">在下方搜索框中输入关键词，实时筛选多个表格内容。支持同时搜索多个表格的所有字段。</p>
+        </header>
+
+        <div class="search-container">
+            <div class="main-search-box">
+                <input type="text" id="search-input" placeholder="输入关键词搜索...">
+                <button id="search-btn">搜索</button>
+            </div>
+            <div class="search-info">
+                找到 <span id="results-count">0</span> 条匹配记录
+            </div>
+        </div>
+
+        <div class="table-container">
+        	<!-- 第一个表格 -->
+        	<details>
+        		<summary>已完成任务表格</summary>
+        		<table id="completed-table">
+        			<thead>
+        				<tr>
+        					<th style="width: 10%;">任务时间</th>
+        					<th style="width: 10%;">任务名称</th>
+        					<th style="width: 40%;">备注</th>
+        					<th style="width: 10%;">所属</th>
+        					<th style="width: 40%;">下一步动作</th>
+        				</tr>
+        			</thead>
+        			<tbody>
+        				<tr> <th colspan="5">2025/8/11-2025/8/17</th></tr>
+        				<!--已经完成工作计划-->
+        				<tr>
+        					<td>8月11日-8月17日</td>
+        					<td>MIC商机回复查看</td>
+        					<td>MIC没有联系方式的限制，所有前几轮的沟通集中在联系方式的交换，不存在明显问题</td>
+        					<td>平台分析</td>
+        					<td>完成
+        					</td>
+        				</tr>
+        				<tr>
+        					<td>8月11日-8月17日</td>
+        					<td>新站落地页搭建</td>
+        					<td>
+        						<p><a href="http://en-medituauma.tw.ldyjz.com/exhibition.html" target="_blank">网址：展会</a></p>
+        						<p><a href="https://en-medituauma.tw.ldyjz.com/news.html" target="_blank">网址：Blog</a></p>
+        						<p><a href="http://en-medituauma.tw.ldyjz.com/download.html" target="_blank">网址：下载</a></p>
+        						<p><a href="https://en-medituauma.tw.ldyjz.com/contactus.html" target="_blank">网址：Coutact Us</a></p></td>
+        					<td>创伤新站</td>
+        					<td>完成</td>
+        				</tr>
+        				<tr>
+        					<td>8月11日-8月17日</td>
+        					<td>8月Blog发布</td>
+        					<td>
+        						<p>产品链接和配图完成</p></td>
+        					<td>老站</td>
+        					<td>完成</td>
+        				</tr>
+        				<tr>
+        					<td>8月11日-8月17日</td>
+        					<td>老站落地页优化</td>
+        					<td>
+        					<p><a href="https://www.czmeditech.com/" target="_blank">网址：首页6个流程和3个身份</a></p>
+        					<p><a href="https://www.czmeditech.com/become-our-dealer.html" target="_blank">网址：Become our Dealer</a></p>
+        					<p><a href="https://www.czmeditech.com/about-us.html" target="_blank">网址：About Us</a></p></td>
+        					<td>老站</td>
+        					<td>
+        					<p>老站的页面优化英语站的修改和西语站是不同步的</p>
+        					<ul>
+        					<li>产品，文章，下载会同步</li>
+        					<li>但是只在首次发布同步，后续更新不同步</li>
+        					</ul>
+        					<ol>
+        					  <li>6个流程增加了View More的箭头，将对应内容放在About Us内，3个身份增加了Deatails链接，将详细内容放在Become our Dealer中</li>
+        					  <li>Become our Dealer有专门的文字文案，后续内容要再调整，等宋总安排</li>
+        					  <li>搭建6个流程的详细文案</li>
+        					</ol></td>
+        				</tr>
+        				<tr>
+        					<td>8月11日-8月17日</td>
+        				<td>业务员询盘登记表</td>
+        				<td></td>
+        				<td>表格统计</td>
+        				<td>完成</td>
+        				</tr>
+        				<tr>
+        					<td>8月11日-8月17日</td>
+        				<td>MIC发品4个</td>
+        				<td>锁定板系列</td>
+        				<td>MIC</td>
+        				<td>锁定板系列发品持续</td>
+        				</tr>
+        				<tr>
+        					<td>8月11日-8月17日</td>
+        				<td>谷歌询盘统计</td>
+        				<td>8月上半月份的询盘量下降，需关注讨论下一步动作</td>
+        				<td>表格统计</td>
+        				<td>完成</td>
+        				</tr>
+        				<tr>
+        					<td>8月11日-8月17日</td>
+        				<td>创伤板查漏补缺
+        				</td>
+        				<td>
+        				<ol>
+        				<ul>建立产品表格</ul>
+        				<ul>通用模板文案</ul>
+        				</ol>
+        				</td>
+        				<td>
+        				全平台
+        				</td>
+        				<td>
+        				<ol>
+        				<li>3个平台的通用模板搭建，缺少对应配图</li>
+        				<ul>
+        				<li>老站筛查未发布产品并补齐</li>
+        				<li>新站搭建产品链接</li>
+        				<li>MIC建立详情页模板</li>
+        				</ul>
+        				<li>老站和新站产品发布：预计3周</li>
+        				</ol>
+        				</td>
+        				</tr>
+        				<tr> <th colspan="5">2025/8/18-2025/8/24</th></tr>
+        				<tr>
+        					<td>8月18日-8月24日</td>
+        					<td>新站落地页搭建</td>
+        					<td>
+        						<p><a href="https://en-medituauma.tw.ldyjz.com/" target="_blank">目录导航</a></p>
+        						<p><a href="https://en-medituauma.tw.ldyjz.com/products.html" target="_blank">网址：产品展示页</a></p>
+        						<p>7个部位的分类落地页设计（本周完成设计和图片要求，下周搭建）</p>
+        						<ul>
+        						<li><a href="http://en-medituauma.tw.ldyjz.com/category-foot-bones.html" target="_blank">
+        								  网址：新站足踝分类落地页</a></li>
+        															<li><a href="http://en-medituauma.tw.ldyjz.com/category-lower-limb-bones.html" target="_blank">
+        																  		  网址：下肢分类落地页</a></li>
+        															<li><a href="http://en-medituauma.tw.ldyjz.com/category-palm-bones.html" target="_blank">
+        																  		  网址：手掌分类落地页</a></li>
+        															<li><a href="http://en-medituauma.tw.ldyjz.com/category-pediatric.html" target="_blank">
+        																		网址：儿童分类落地页</a></li>
+        															<li><a href="http://en-medituauma.tw.ldyjz.com/category-pelvic-bones.html" target="_blank">
+        																		网址：盆骨分类落地页</a></li>
+        															<li><a href="http://en-medituauma.tw.ldyjz.com/category-trunk-bones.html" target="_blank">
+        																		网址：躯干分类落地页</a></li>
+        															<li><a href="http://en-medituauma.tw.ldyjz.com/category-upper-limb-bones.html" target="_blank">
+        																		网址：上肢分类落地页</a></li>	</ul>
+        					</td>
+        					<td>创伤新站</td>
+        					<td>电动工具产品链接搭建</td>
+        				</tr>
+        				<tr>
+        					<td>8月25日-9月7日</td>
+        					<td>创伤板查漏补缺</td>
+        					<td>
+        				<ol>
+        				<li>3个平台的通用模板搭建，缺少对应配图</li>
+        				<ul>
+        				<li>老站筛查未发布产品并补齐</li>
+        				<li>新站搭建产品链接</li>
+        				<li>MIC建立详情页模板</li>
+        				</ul>
+        				<li>老站和新站产品发布：预计3周</li>
+        				</ol>
+        				</td>
+        					<td>全平台</td>
+        					<td><p>剩余2周</p><p>新站总计预发品92个，目前进度（20/92）</p><p>老站总计预发品26个，目前进度（26/26）</p></td>
+        				</tr>
+        				<tr>
+        					<td>8月18日-8月24日</td>
+        				<td>MIC发品4个</td>
+        				<td>锁定板系列</td>
+        				<td>MIC</td>
+        				<td>锁定板系列发品持续</td>
+        				</tr>
+        				<tr>
+        					<td>8月18日-8月24日</td>
+        					<td>老站落地页优化</td>
+        					<td>
+        					<p>Become our Dealer有专门的文字文案，后续内容要再调整，等宋总安排</p>
+        					<p>About Us文案和图片细节调整</p>
+        					<p><a href="https://www.czmeditech.com/about-us.html" target="_blank">关于我们网址</a></p></td>
+        					<td>老站</td>
+        					<td></td>
+        				</tr>
+        				<tr>
+        					<td>8月18日-8月24日</td>
+        				<td>业务员询盘登记表</td>
+        				<td></td>
+        				<td>表格统计</td>
+        				<td></td>
+        				</tr>				
+        			</tbody>
+        		</table>
+        	</details>
+        	<p>下周任务</p>
+        	<!-- 第二个表格 -->
+        	<table id="current-table">
+        		<thead>
+        			<tr>
+        				<th style="width: 10%;">任务时间</th>
+        				<th style="width: 10%;">任务名称</th>
+        				<th style="width: 40%;">备注</th>
+        				<th style="width: 10%;">所属</th>
+        				<th style="width: 40%;">下一步动作</th>
+        			</tr>
+        		</thead>
+        		<tbody>
+        			<tr> <th colspan="5">2025/8/25-2025/8/31</th></tr>
+        			<tr>
+        				<td>8月25日-9月7日</td>
+        				<td>创伤板查漏补缺</td>
+        				<td>
+        			<ol>
+        			<li>3个平台的通用模板搭建，缺少对应配图</li>
+        			<ul>
+        			<li>老站筛查未发布产品并补齐</li>
+        			<li>新站搭建产品链接</li>
+        			<li>MIC建立详情页模板</li>
+        			</ul>
+        			<li>老站和新站产品发布：预计3周</li>
+        			</ol>
+        			</td>
+        				<td>全平台</td>
+        				<td><p>剩余2周</p><p>新站总计预发品92个，目前进度（20/92）</p><p>老站总计预发品26个，目前进度（26/26）</p></td>
+        			</tr>						
+        			<tr>
+        				<td>8月25日-9月21日</td>
+        				<td>电动工具查漏补缺</td>
+        				<td>
+        			<ol>
+        			<li>3个平台的通用模板搭建，对应配图</li>
+        			<ul>
+        			<li>老站筛查未发布产品并补齐</li>
+        			<li>新站搭建产品链接</li>
+        			<li>MIC建立详情页模板</li>
+        			</ul>
+        			<li>老站和新站产品发布：预计4周</li>
+        			</ol>
+        			</td>
+        				<td>全平台</td>
+        				<td></td>
+        			</tr>
+        			<tr>
+        				<td>8月25日-8月31日</td>
+        				<td>电动工具通用模板</td>
+        				<td>
+        					<a href="https://en-medituauma.tw.ldyjz.com/Power-Tool-pd560488448.html"
+        						target="_blank">网址：电动工具通用</a>
+        				</td>
+        				<td>全平台</td>
+        				<td></td>
+        			</tr>
+        			<tr>
+        				<td>8月25日-8月31日</td>
+        				<td>MIC展示厅更新</td>
+        				<td>因为新品的更新，所以MIC展示厅展示的产品和Banner也要同步更新
+        				</td>
+        				<td></td>
+        				<td></td>
+        			</tr>
+        			<tr>
+        				<td>8月25日-8月31日</td>
+        			<td>业务员询盘登记表</td>
+        			<td></td>
+        			<td>表格统计</td>
+        			<td></td>
+        			</tr>
+        			<tr>
+        				<td>8月25日-8月31日</td>
+        			<td>MIC发品4个</td>
+        			<td>锁定板系列</td>
+        			<td>MIC</td>
+        			<td>锁定板系列发品持续</td>
+        			</tr>
+        		</tbody>
+        	</table>
+        	<!-- 第三个表格 -->
+        	<details>
+        		<summary>其他任务表格</summary>
+        		<table id="other-table">
+        			<thead>
+        				<tr>
+        					<th style="width: 10%;">任务时间</th>
+        					<th style="width: 10%;">任务名称</th>
+        					<th style="width: 40%;">备注</th>
+        					<th style="width: 10%;">所属</th>
+        					<th style="width: 40%;">下一步动作</th>
+        				</tr>
+        			</thead>
+        			<tbody>
+        				<tr>
+        					<td>2025/8/11-2025/8/17</td>
+        					<td>OEM/ODM</td>
+        					<td>
+        						<a href="https://www.czmeditech.com/oem-odm.html" target="_blank">网址：OEM/ODM</a>
+        					</td>
+        					<td>老站OEM/ODM优化</td>
+        					<td>Rachel负责</td>
+        				</tr>
+        			</tbody>
+        		</table>
+        	</details>
+        	<div class="no-results" id="no-results">
+        		没有找到匹配的记录，请尝试其他搜索词。
+        	</div>
+        </div>
+        <footer>
+            <p>多表格搜索筛选功能 &copy; 2025</p>
+        </footer>
     </div>
 
     <!-- 返回顶部按钮 -->
