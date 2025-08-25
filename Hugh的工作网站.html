@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hugh的工作网站</title>
+    <title>通用页面模板</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -452,7 +452,29 @@
     <div id="navbar-container"></div>
 
     <!-- 页面内容 -->
-    <p>我是首页</p>
+    <div class="container">
+        <header>
+            <h1>页面通用模板</h1>
+            <p class="description">在下方搜索框中输入关键词，实时筛选多个表格内容。支持同时搜索多个表格的所有字段。</p>
+        </header>
+
+        <div class="search-container">
+            <div class="main-search-box">
+                <input type="text" id="search-input" placeholder="输入关键词搜索...">
+                <button id="search-btn">搜索</button>
+            </div>
+            <div class="search-info">
+                找到 <span id="results-count">0</span> 条匹配记录
+            </div>
+        </div>
+
+        <div class="table-container">
+        	<!-- 第一个表格 -->
+        	<p>网页内容</p>
+        <footer>
+            <p>多表格搜索筛选功能 &copy; 2025</p>
+        </footer>
+    </div>
 
     <!-- 返回顶部按钮 -->
     <a href="#" class="back-to-top">
@@ -475,7 +497,7 @@
 
                         <ul class="nav-menu">
                             <li class="nav-item">
-                                <a href="https://hugh2024-han.github.io/My-website/Hugh%E7%9A%84%E5%B7%A5%E4%BD%9C%E7%BD%91%E7%AB%99.html" class="nav-link">首页</a>
+                                <a href="#" class="nav-link">首页</a>
                             </li>
                             <li class="nav-item">
                                 <a href="#" class="nav-link">报表</a>
