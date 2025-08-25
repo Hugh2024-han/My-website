@@ -24,9 +24,10 @@
 
 			body {
 				padding-top: 70px;
-				background-color: #f5f7fa;
-				min-height: 200vh;
-				/* 为了演示滚动效果 */
+				background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+				color: #333;
+				line-height: 1.6;
+				min-height: 100vh;
 			}
 
 			.navbar {
@@ -96,7 +97,6 @@
 				background-color: var(--primary-color);
 			}
 
-			/* 导航栏搜索框样式 */
 			.nav-search-box {
 				position: relative;
 				width: 250px;
@@ -171,7 +171,6 @@
 				color: var(--primary-color);
 			}
 
-			/* 返回顶部按钮 */
 			.back-to-top {
 				position: fixed;
 				bottom: 30px;
@@ -201,11 +200,128 @@
 				background-color: var(--secondary-color);
 			}
 
-			@media screen and (max-width: 768px) {
-				body {
-					padding-top: 70px;
-				}
+			.container {
+				max-width: 1200px;
+				margin: 0 auto;
+				background: white;
+				border-radius: 12px;
+				box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+				overflow: hidden;
+				margin-top: 70px;
+			}
 
+			header {
+				background: #4a6fa5;
+				color: white;
+				padding: 25px;
+				text-align: center;
+			}
+
+			h1 {
+				font-size: 2.2rem;
+				margin-bottom: 10px;
+			}
+
+			.search-container {
+				padding: 25px;
+				background: #f8f9fa;
+				border-bottom: 1px solid #eaecef;
+			}
+
+			.main-search-box {
+				display: flex;
+				max-width: 700px;
+				margin: 0 auto;
+				box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+				border-radius: 10px;
+				overflow: hidden;
+			}
+
+			#search-input {
+				flex: 1;
+				padding: 16px 20px;
+				font-size: 1.1rem;
+				border: none;
+				outline: none;
+				background: white;
+			}
+
+			#search-btn {
+				padding: 16px 25px;
+				background: #4a6fa5;
+				color: white;
+				border: none;
+				cursor: pointer;
+				font-size: 1.1rem;
+				font-weight: 600;
+				transition: background 0.3s;
+			}
+
+			#search-btn:hover {
+				background: #385d8a;
+			}
+
+			.search-info {
+				text-align: center;
+				margin-top: 15px;
+				font-size: 1rem;
+				color: #6c757d;
+			}
+
+			.table-container {
+				overflow-x: auto;
+				padding: 20px;
+			}
+
+			table {
+				width: 100%;
+				border-collapse: collapse;
+				margin: 20px auto;
+				font-size: 1rem;
+			}
+
+			th, td {
+				padding: 16px 20px;
+				text-align: left;
+				border-bottom: 1px solid #eaecef;
+			}
+
+			th {
+				background: #f8f9fa;
+				font-weight: 600;
+				color: #4a6fa5;
+				position: sticky;
+				top: 0;
+			}
+
+			tr:hover {
+				background: #f1f6fc;
+			}
+
+			.highlight {
+				background: #fff9c9;
+				padding: 2px 0;
+				border-radius: 3px;
+				font-weight: 600;
+			}
+
+			.no-results {
+				text-align: center;
+				padding: 40px;
+				color: #6c757d;
+				font-style: italic;
+				display: none;
+			}
+
+			footer {
+				text-align: center;
+				padding: 20px;
+				color: #6c757d;
+				font-size: 0.9rem;
+				border-top: 1px solid #eaecef;
+			}
+
+			@media screen and (max-width: 768px) {
 				.nav-menu {
 					position: fixed;
 					top: 70px;
@@ -272,7 +388,6 @@
 					display: none;
 				}
 
-				/* 添加下拉箭头 */
 				.nav-link.has-dropdown::after {
 					content: '\f078';
 					font-family: 'Font Awesome 5 Free';
@@ -284,167 +399,8 @@
 				.nav-link.has-dropdown.active::after {
 					transform: rotate(180deg);
 				}
-			}
 
-			/* 页面内容样式 */
-			.content {
-				max-width: 1200px;
-				margin: 0 auto;
-				padding: 20px;
-				margin-top: 70px;
-				padding-top: 70px;
-			}
-
-			.section {
-				background: white;
-				border-radius: 8px;
-				padding: 20px;
-				margin-bottom: 20px;
-				box-shadow: var(--shadow);
-			}
-
-			body {
-				background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-				color: #333;
-				line-height: 1.6;
-				padding: 20px;
-				min-height: 100vh;
-			}
-
-			.container {
-				max-width: 1200px;
-				margin: 0 auto;
-				background: white;
-				border-radius: 12px;
-				box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-				overflow: hidden;
-				margin-top: 70px;
-			}
-
-			header {
-				background: #4a6fa5;
-				color: white;
-				padding: 25px;
-				text-align: center;
-			}
-
-			h1 {
-				font-size: 2.2rem;
-				margin-bottom: 10px;
-			}
-
-			.description {
-				font-size: 1.1rem;
-				opacity: 0.9;
-				max-width: 800px;
-				margin: 0 auto;
-			}
-
-			.search-container {
-				padding: 25px;
-				background: #f8f9fa;
-				border-bottom: 1px solid #eaecef;
-			}
-
-			/* 主内容搜索框样式 */
-			.main-search-box {
-				display: flex;
-				max-width: 700px;
-				margin: 0 auto;
-				box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-				border-radius: 10px;
-				overflow: hidden;
-			}
-
-			#search-input {
-				flex: 1;
-				padding: 16px 20px;
-				font-size: 1.1rem;
-				border: none;
-				outline: none;
-				background: white;
-			}
-
-			#search-btn {
-				padding: 16px 25px;
-				background: #4a6fa5;
-				color: white;
-				border: none;
-				cursor: pointer;
-				font-size: 1.1rem;
-				font-weight: 600;
-				transition: background 0.3s;
-			}
-
-			#search-btn:hover {
-				background: #385d8a;
-			}
-
-			.search-info {
-				text-align: center;
-				margin-top: 15px;
-				font-size: 1rem;
-				color: #6c757d;
-			}
-
-			.table-container {
-				overflow-x: auto;
-				padding: 20px;
-			}
-
-			table {
-				width: 100%;
-				border-collapse: collapse;
-				margin: 20px auto;
-				font-size: 1rem;
-			}
-
-			th,
-			td {
-				padding: 16px 20px;
-				text-align: left;
-				border-bottom: 1px solid #eaecef;
-			}
-
-			th {
-				background: #f8f9fa;
-				font-weight: 600;
-				color: #4a6fa5;
-				position: sticky;
-				top: 0;
-			}
-
-			tr:hover {
-				background: #f1f6fc;
-			}
-
-			.highlight {
-				background: #fff9c9;
-				padding: 2px 0;
-				border-radius: 3px;
-				font-weight: 600;
-			}
-
-			.no-results {
-				text-align: center;
-				padding: 40px;
-				color: #6c757d;
-				font-style: italic;
-				display: none;
-			}
-
-			footer {
-				text-align: center;
-				padding: 20px;
-				color: #6c757d;
-				font-size: 0.9rem;
-				border-top: 1px solid #eaecef;
-			}
-
-			@media (max-width: 768px) {
-
-				th,
-				td {
+				th, td {
 					padding: 12px 15px;
 				}
 
@@ -490,22 +446,73 @@
 		</style>
 	</head>
 	<body>
-		<!-- 导航栏将在这里由JavaScript加载 -->
 		<div id="navbar-container"></div>
 
-		<!-- 页面内容 -->
 		<div class="container">
 			<header>
 				<h1>Hugh的工作网站</h1>
+				<p class="description">高效工作，快乐生活</p>
 			</header>
 
+			<div class="search-container">
+				<div class="main-search-box">
+					<input type="text" id="search-input" placeholder="输入关键词搜索...">
+					<button id="search-btn">搜索</button>
+				</div>
+				<p class="search-info">找到 <span id="results-count">0</span> 条结果</p>
+				<p class="no-results">没有找到匹配的结果</p>
+			</div>
 
 			<div class="table-container">
-				<p>网页内容</p>
+				<table>
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>标题</th>
+							<th>内容</th>
+							<th>日期</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>1</td>
+							<td>项目计划</td>
+							<td>完成网站首页设计</td>
+							<td>2025-08-20</td>
+						</tr>
+						<tr>
+							<td>2</td>
+							<td>会议记录</td>
+							<td>讨论项目进度和问题</td>
+							<td>2025-08-18</td>
+						</tr>
+						<tr>
+							<td>3</td>
+							<td>任务分配</td>
+							<td>前端开发任务分配</td>
+							<td>2025-08-15</td>
+						</tr>
+						<tr>
+							<td>4</td>
+							<td>周报</td>
+							<td>本周工作总结和下周计划</td>
+							<td>2025-08-14</td>
+						</tr>
+						<tr>
+							<td>5</td>
+							<td>技术分享</td>
+							<td>JavaScript优化技巧</td>
+							<td>2025-08-10</td>
+						</tr>
+					</tbody>
+				</table>
 			</div>
+
+			<footer>
+				<p>© 2025 Hugh的工作网站. 保留所有权利.</p>
+			</footer>
 		</div>
 
-		<!-- 返回顶部按钮 -->
 		<a href="#" class="back-to-top">
 			<i class="fas fa-arrow-up"></i>
 		</a>
@@ -514,58 +521,53 @@
 			// 加载导航栏
 			function loadNavbar() {
 				const navbarContainer = document.getElementById('navbar-container');
-
-				// 创建导航栏HTML
 				const navbarHTML = `
-                <nav class="navbar">
-                    <div class="nav-container">
-                        <a href="https://hugh2024-han.github.io/My-website/Hugh%E7%9A%84%E5%B7%A5%E4%BD%9C%E7%BD%91%E7%AB%99.html" class="logo">
-                            <i class="fas fa-rocket"></i>
-                            <span>Hugh的工作网站</span>
-                        </a>
+					<nav class="navbar">
+						<div class="nav-container">
+							<a href="https://hugh2024-han.github.io/My-website/Hugh%E7%9A%84%E5%B7%A5%E4%BD%9C%E7%BD%91%E7%AB%99.html" class="logo">
+								<i class="fas fa-rocket"></i>
+								<span>Hugh的工作网站</span>
+							</a>
 
-                        <ul class="nav-menu">
-                            <li class="nav-item">
-                                <a href="https://hugh2024-han.github.io/My-website/Hugh%E7%9A%84%E5%B7%A5%E4%BD%9C%E7%BD%91%E7%AB%99.html" class="nav-link">首页</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link has-dropdown">报表</a>
-                                <div class="dropdown">
-                                    <a href="https://hugh2024-han.github.io/My-website/TonyTask.html" class="dropdown-item">Tony任务卡</a>
-                                    <a href="https://hugh2024-han.github.io/My-website/%E6%AF%8F%E5%91%A8%E5%91%A8%E6%8A%A5.html" class="dropdown-item">每周周报</a>
-                                </div>
-                            </li>
-                            <li class="nav-item">
-                                <a href="https://hugh2024-han.github.io/My-website/%E5%91%A8%E6%8A%A5.html" class="nav-link">周报</a>
-                            </li>
-							<li class="nav-item">
-                                <a href="#" class="nav-link has-dropdown">学习</a>
-                                <div class="dropdown">
-                                    <a href="#" class="dropdown-item">VBA</a>
-                                    <a href="#" class="dropdown-item">SQL</a>
-									<a href="https://hugh2024-han.github.io/My-website/HTML%E4%BB%A3%E7%A0%81%E6%A8%A1%E5%9D%97.html" class="dropdown-item">HTML</a>
-									<a href="#" class="dropdown-item">Reading</a>
-                                </div>
-                            </li>
-                        </ul>
+							<ul class="nav-menu">
+								<li class="nav-item">
+									<a href="https://hugh2024-han.github.io/My-website/Hugh%E7%9A%84%E5%B7%A5%E4%BD%9C%E7%BD%91%E7%AB%99.html" class="nav-link">首页</a>
+								</li>
+								<li class="nav-item">
+									<a href="#" class="nav-link has-dropdown">报表</a>
+									<div class="dropdown">
+										<a href="https://hugh2024-han.github.io/My-website/TonyTask.html" class="dropdown-item">Tony任务卡</a>
+										<a href="https://hugh2024-han.github.io/My-website/%E6%AF%8F%E5%91%A8%E5%91%A8%E6%8A%A5.html" class="dropdown-item">每周周报</a>
+									</div>
+								</li>
+								<li class="nav-item">
+									<a href="https://hugh2024-han.github.io/My-website/%E5%91%A8%E6%8A%A5.html" class="nav-link">周报</a>
+								</li>
+								<li class="nav-item">
+									<a href="#" class="nav-link has-dropdown">学习</a>
+									<div class="dropdown">
+										<a href="#" class="dropdown-item">VBA</a>
+										<a href="#" class="dropdown-item">SQL</a>
+										<a href="https://hugh2024-han.github.io/My-website/HTML%E4%BB%A3%E7%A0%81%E6%A8%A1%E5%9D%97.html" class="dropdown-item">HTML</a>
+										<a href="#" class="dropdown-item">Reading</a>
+									</div>
+								</li>
+							</ul>
 
-                        <div class="nav-search-box">
-                            <input type="text" class="nav-search-input" placeholder="搜索...">
-                            <button class="nav-search-btn">
-                                <i class="fas fa-search"></i>
-                            </button>
-                        </div>
+							<div class="nav-search-box">
+								<input type="text" class="nav-search-input" placeholder="搜索...">
+								<button class="nav-search-btn">
+									<i class="fas fa-search"></i>
+								</button>
+							</div>
 
-                        <button class="hamburger">
-                            <i class="fas fa-bars"></i>
-                        </button>
-                    </div>
-                </nav>
-            `;
-
+							<button class="hamburger">
+								<i class="fas fa-bars"></i>
+							</button>
+						</div>
+					</nav>
+				`;
 				navbarContainer.innerHTML = navbarHTML;
-
-				// 初始化导航菜单功能
 				initNavbar();
 			}
 
@@ -597,12 +599,10 @@
 					// 点击其他地方关闭菜单
 					document.addEventListener('click', (e) => {
 						if (window.innerWidth <= 768) {
-							if (!e.target.closest('.nav-menu') &&
-								!e.target.closest('.hamburger')) {
+							if (!e.target.closest('.nav-menu') && !e.target.closest('.hamburger')) {
 								navMenu.classList.remove('active');
 								hamburger.innerHTML = '<i class="fas fa-bars"></i>';
 
-								// 关闭所有下拉菜单
 								document.querySelectorAll('.dropdown').forEach(dropdown => {
 									dropdown.classList.remove('active');
 								});
@@ -636,94 +636,99 @@
 				});
 			}
 
+			// 防抖函数
+			function debounce(func, wait) {
+				let timeout;
+				return function() {
+					const context = this;
+					const args = arguments;
+					clearTimeout(timeout);
+					timeout = setTimeout(() => func.apply(context, args), wait);
+				};
+			}
+
+			// 搜索功能
+			function initSearch() {
+				const searchInput = document.getElementById('search-input');
+				const searchBtn = document.getElementById('search-btn');
+				const tables = document.querySelectorAll('table');
+				const resultsCount = document.getElementById('results-count');
+				const noResults = document.querySelector('.no-results');
+
+				if (!searchInput || !searchBtn || !tables.length) return;
+
+				function escapeRegExp(string) {
+					return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+				}
+
+				function performSearch() {
+					const searchText = searchInput.value.toLowerCase().trim();
+					let matchCount = 0;
+
+					tables.forEach(table => {
+						const tbody = table.getElementsByTagName('tbody')[0];
+						if (!tbody) return;
+						
+						const rows = tbody.getElementsByTagName('tr');
+
+						for (let i = 0; i < rows.length; i++) {
+							const cells = rows[i].getElementsByTagName('td');
+							let rowMatch = false;
+
+							if (rows[i].getElementsByTagName('th').length > 0) {
+								rows[i].style.display = '';
+								continue;
+							}
+
+							for (let j = 0; j < cells.length; j++) {
+								const cellText = cells[j].textContent.toLowerCase();
+
+								if (searchText === '' || cellText.includes(searchText)) {
+									rowMatch = true;
+
+									if (searchText !== '') {
+										const regex = new RegExp(`(${escapeRegExp(searchText)})`, 'gi');
+										cells[j].innerHTML = cells[j].textContent.replace(regex,
+											'<span class="highlight">$1</span>');
+									}
+								} else {
+									cells[j].innerHTML = cells[j].textContent;
+								}
+							}
+
+							if (rowMatch) {
+								rows[i].style.display = '';
+								matchCount++;
+							} else {
+								rows[i].style.display = 'none';
+							}
+						}
+					});
+
+					resultsCount.textContent = matchCount;
+
+					if (matchCount === 0 && searchText !== '') {
+						noResults.style.display = 'block';
+					} else {
+						noResults.style.display = 'none';
+					}
+				}
+
+				searchBtn.addEventListener('click', performSearch);
+				searchInput.addEventListener('keypress', function(e) {
+					if (e.key === 'Enter') {
+						performSearch();
+					}
+				});
+				searchInput.addEventListener('input', debounce(performSearch, 300));
+			}
+
 			// 页面加载完成后初始化
 			document.addEventListener('DOMContentLoaded', () => {
 				loadNavbar();
 				initBackToTop();
-
-				// 搜索功能初始化
-				const searchInput = document.getElementById('search-input');
-				const searchBtn = document.getElementById('search-btn');
-
-				if (searchInput && searchBtn) {
-					searchBtn.addEventListener('click', performSearch);
-
-					if (searchInput) {
-						searchInput.addEventListener('keypress', function(e) {
-							if (e.key === 'Enter') {
-								performSearch();
-							}
-						});
-					}
-				}
+				initSearch();
 			});
-
-			// 搜索功能
-			function performSearch() {
-			    const searchText = searchInput.value.toLowerCase().trim();
-			    let matchCount = 0;
-			
-			    // 遍历所有表格
-			    tables.forEach(table => {
-			        const tbody = table.getElementsByTagName('tbody')[0];
-			        if (!tbody) return;
-			        
-			        const rows = tbody.getElementsByTagName('tr');
-			
-			        // 遍历当前表格的所有行
-			        for (let i = 0; i < rows.length; i++) {
-			            const cells = rows[i].getElementsByTagName('td');
-			            let rowMatch = false;
-			
-			            // 跳过表头行（如果表头行有th标签）
-			            if (rows[i].getElementsByTagName('th').length > 0) {
-			                // 如果是表头行，根据需求决定是否参与搜索
-			                // 这里我们让表头行始终显示
-			                rows[i].style.display = '';
-			                continue;
-			            }
-			
-			            // 遍历行中的每个单元格
-			            for (let j = 0; j < cells.length; j++) {
-			                const cellText = cells[j].textContent.toLowerCase();
-			
-			                // 如果搜索关键词为空，或者单元格内容包含关键词
-			                if (searchText === '' || cellText.includes(searchText)) {
-			                    rowMatch = true;
-			
-			                    // 高亮显示匹配的文本
-			                    if (searchText !== '') {
-			                        const regex = new RegExp(`(${escapeRegExp(searchText)})`, 'gi');
-			                        cells[j].innerHTML = cells[j].textContent.replace(regex,
-			                            '<span class="highlight">$1</span>');
-			                    }
-			                } else {
-			                    // 移除之前的高亮
-			                    cells[j].innerHTML = cells[j].textContent;
-			                }
-			            }
-			
-			            // 显示或隐藏行
-			            if (rowMatch) {
-			                rows[i].style.display = '';
-			                matchCount++;
-			            } else {
-			                rows[i].style.display = 'none';
-			            }
-			        }
-			    });
-			
-			    // 更新结果计数
-			    resultsCount.textContent = matchCount;
-			
-			    // 显示或隐藏"无结果"消息
-			    if (matchCount === 0 && searchText !== '') {
-			        noResults.style.display = 'block';
-			    } else {
-			        noResults.style.display = 'none';
-			    }
-			}
-			
 		</script>
 	</body>
 </html>
