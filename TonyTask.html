@@ -1,1356 +1,1397 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TonyTask</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --primary-color: #3498db;
-            --secondary-color: #2980b9;
-            --text-color: #333;
-            --bg-color: #fff;
-            --hover-color: #f8f9fa;
-            --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>TonyTask</title>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+		<style>
+			:root {
+				--primary-color: #3498db;
+				--secondary-color: #2980b9;
+				--text-color: #333;
+				--bg-color: #fff;
+				--hover-color: #f8f9fa;
+				--shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+			}
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+			* {
+				margin: 0;
+				padding: 0;
+				box-sizing: border-box;
+				font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+			}
 
-        body {
-            padding-top: 70px;
-            background-color: #f5f7fa;
-            min-height: 200vh;
-            /* 为了演示滚动效果 */
-        }
+			body {
+				padding-top: 70px;
+				background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+				color: #333;
+				line-height: 1.6;
+				min-height: 100vh;
+			}
 
-        .navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background-color: var(--bg-color);
-            box-shadow: var(--shadow);
-            z-index: 1000;
-            padding: 0 20px;
-        }
+			.navbar {
+				position: fixed;
+				top: 0;
+				left: 0;
+				width: 100%;
+				background-color: var(--bg-color);
+				box-shadow: var(--shadow);
+				z-index: 1000;
+				padding: 0 20px;
+			}
 
-        .nav-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 1200px;
-            margin: 0 auto;
-            height: 70px;
-        }
+			.nav-container {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				max-width: 1200px;
+				margin: 0 auto;
+				height: 70px;
+			}
 
-        .logo {
-            display: flex;
-            align-items: center;
-            text-decoration: none;
-            color: var(--primary-color);
-            font-weight: 700;
-            font-size: 1.5rem;
-        }
+			.logo {
+				display: flex;
+				align-items: center;
+				text-decoration: none;
+				color: var(--primary-color);
+				font-weight: 700;
+				font-size: 1.5rem;
+			}
 
-        .logo i {
-            margin-right: 10px;
-            font-size: 1.8rem;
-        }
+			.logo i {
+				margin-right: 10px;
+				font-size: 1.8rem;
+			}
 
-        .nav-menu {
-            display: flex;
-            list-style: none;
-        }
+			.nav-menu {
+				display: flex;
+				list-style: none;
+			}
 
-        .nav-item {
-            position: relative;
-        }
+			.nav-item {
+				position: relative;
+			}
 
-        .nav-link {
-            display: block;
-            padding: 0 15px;
-            line-height: 70px;
-            color: var(--text-color);
-            text-decoration: none;
-            transition: color 0.3s;
-            font-weight: 500;
-        }
+			.nav-link {
+				display: block;
+				padding: 0 15px;
+				line-height: 70px;
+				color: var(--text-color);
+				text-decoration: none;
+				transition: color 0.3s;
+				font-weight: 500;
+			}
 
-        .nav-link:hover {
-            color: var(--primary-color);
-        }
+			.nav-link:hover {
+				color: var(--primary-color);
+			}
 
-        .nav-link:hover::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 15px;
-            width: calc(100% - 30px);
-            height: 3px;
-            background-color: var(--primary-color);
-        }
+			.nav-link:hover::after {
+				content: '';
+				position: absolute;
+				bottom: 0;
+				left: 15px;
+				width: calc(100% - 30px);
+				height: 3px;
+				background-color: var(--primary-color);
+			}
 
-        /* 导航栏搜索框样式 */
-        .nav-search-box {
-            position: relative;
-            width: 250px;
-        }
+			.nav-search-box {
+				position: relative;
+				width: 250px;
+			}
 
-        .nav-search-input {
-            width: 100%;
-            padding: 10px 15px;
-            padding-right: 40px;
-            border: 1px solid #ddd;
-            border-radius: 20px;
-            outline: none;
-            transition: border-color 0.3s;
-        }
+			.nav-search-input {
+				width: 100%;
+				padding: 10px 15px;
+				padding-right: 40px;
+				border: 1px solid #ddd;
+				border-radius: 20px;
+				outline: none;
+				transition: border-color 0.3s;
+			}
 
-        .nav-search-input:focus {
-            border-color: var(--primary-color);
-        }
+			.nav-search-input:focus {
+				border-color: var(--primary-color);
+			}
 
-        .nav-search-btn {
-            position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: none;
-            border: none;
-            color: #777;
-            cursor: pointer;
-        }
+			.nav-search-btn {
+				position: absolute;
+				right: 10px;
+				top: 50%;
+				transform: translateY(-50%);
+				background: none;
+				border: none;
+				color: #777;
+				cursor: pointer;
+			}
 
-        .hamburger {
-            display: none;
-            cursor: pointer;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            color: var(--text-color);
-        }
+			.hamburger {
+				display: none;
+				cursor: pointer;
+				background: none;
+				border: none;
+				font-size: 1.5rem;
+				color: var(--text-color);
+				z-index: 1001;
+			}
 
-        .dropdown {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            width: 200px;
-            background-color: var(--bg-color);
-            box-shadow: var(--shadow);
-            border-radius: 5px;
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(10px);
-            transition: all 0.3s;
-            z-index: 99;
-        }
+			.dropdown {
+				position: absolute;
+				top: 100%;
+				left: 0;
+				width: 200px;
+				background-color: var(--bg-color);
+				box-shadow: var(--shadow);
+				border-radius: 5px;
+				opacity: 0;
+				visibility: hidden;
+				transform: translateY(10px);
+				transition: all 0.3s;
+				z-index: 99;
+			}
 
-        .nav-item:hover .dropdown {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-        }
+			.nav-item:hover .dropdown {
+				opacity: 1;
+				visibility: visible;
+				transform: translateY(0);
+			}
 
-        .dropdown-item {
-            display: block;
-            padding: 12px 20px;
-            color: var(--text-color);
-            text-decoration: none;
-            transition: all 0.3s;
-        }
+			.dropdown-item {
+				display: block;
+				padding: 12px 20px;
+				color: var(--text-color);
+				text-decoration: none;
+				transition: all 0.3s;
+			}
 
-        .dropdown-item:hover {
-            background-color: var(--hover-color);
-            color: var(--primary-color);
-        }
+			.dropdown-item:hover {
+				background-color: var(--hover-color);
+				color: var(--primary-color);
+			}
 
-        /* 返回顶部按钮 */
-        .back-to-top {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 50px;
-            height: 50px;
-            background-color: var(--primary-color);
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-decoration: none;
-            box-shadow: var(--shadow);
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s;
-            z-index: 999;
-        }
+			.back-to-top {
+				position: fixed;
+				bottom: 30px;
+				right: 30px;
+				width: 50px;
+				height: 50px;
+				background-color: var(--primary-color);
+				color: white;
+				border-radius: 50%;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				text-decoration: none;
+				box-shadow: var(--shadow);
+				opacity: 0;
+				visibility: hidden;
+				transition: all 0.3s;
+				z-index: 999;
+			}
 
-        .back-to-top.visible {
-            opacity: 1;
-            visibility: visible;
-        }
+			.back-to-top.visible {
+				opacity: 1;
+				visibility: visible;
+			}
 
-        .back-to-top:hover {
-            background-color: var(--secondary-color);
-        }
+			.back-to-top:hover {
+				background-color: var(--secondary-color);
+			}
 
-        @media screen and (max-width: 768px) {
-            .nav-menu {
-                position: fixed;
-                top: 70px;
-                left: -100%;
-                width: 100%;
-                height: calc(100vh - 70px);
-                background-color: var(--bg-color);
-                flex-direction: column;
-                transition: left 0.3s;
-                box-shadow: var(--shadow);
-            }
+			.container {
+				max-width: 1200px;
+				margin: 0 auto;
+				background: white;
+				border-radius: 12px;
+				box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+				overflow: hidden;
+				margin-top: 70px;
+			}
 
-            .nav-menu.active {
-                left: 0;
-            }
+			header {
+				background: #4a6fa5;
+				color: white;
+				padding: 25px;
+				text-align: center;
+			}
 
-            .nav-item {
-                width: 100%;
-            }
+			h1 {
+				font-size: 2.2rem;
+				margin-bottom: 10px;
+			}
 
-            .nav-link {
-                line-height: 50px;
-                padding: 0 20px;
-                border-bottom: 1px solid #eee;
-            }
+			.search-container {
+				padding: 25px;
+				background: #f8f9fa;
+				border-bottom: 1px solid #eaecef;
+			}
 
-            .nav-link:hover::after {
-                display: none;
-            }
+			.main-search-box {
+				display: flex;
+				max-width: 700px;
+				margin: 0 auto;
+				box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+				border-radius: 10px;
+				overflow: hidden;
+			}
 
-            .dropdown {
-                position: static;
-                width: 100%;
-                opacity: 1;
-                visibility: visible;
-                transform: none;
-                box-shadow: none;
-                display: none;
-                background-color: #f9f9f9;
-            }
+			#search-input {
+				flex: 1;
+				padding: 16px 20px;
+				font-size: 1.1rem;
+				border: none;
+				outline: none;
+				background: white;
+			}
 
-            .dropdown.active {
-                display: block;
-            }
+			#search-btn {
+				padding: 16px 25px;
+				background: #4a6fa5;
+				color: white;
+				border: none;
+				cursor: pointer;
+				font-size: 1.1rem;
+				font-weight: 600;
+				transition: background 0.3s;
+			}
 
-            .nav-item:hover .dropdown {
-                transform: none;
-            }
+			#search-btn:hover {
+				background: #385d8a;
+			}
 
-            .hamburger {
-                display: block;
-            }
+			.search-info {
+				text-align: center;
+				margin-top: 15px;
+				font-size: 1rem;
+				color: #6c757d;
+			}
 
-            .nav-search-box {
-                width: 150px;
-            }
-        }
+			.table-container {
+				overflow-x: auto;
+				padding: 20px;
+			}
 
-        /* 页面内容样式 */
-        .content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-			margin-top: 70px;
-			padding-top: 70px;
-        }
+			table {
+				width: 100%;
+				border-collapse: collapse;
+				margin: 20px auto;
+				font-size: 1rem;
+			}
 
-        .section {
-            background: white;
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: var(--shadow);
-        }
-        
-        body {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            color: #333;
-            line-height: 1.6;
-            padding: 20px;
-            min-height: 100vh;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-			margin-top: 70px;
-        }
-        
-        header {
-            background: #4a6fa5;
-            color: white;
-            padding: 25px;
-            text-align: center;
-        }
-        
-        h1 {
-            font-size: 2.2rem;
-            margin-bottom: 10px;
-        }
-        
-        .description {
-            font-size: 1.1rem;
-            opacity: 0.9;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        
-        .search-container {
-            padding: 25px;
-            background: #f8f9fa;
-            border-bottom: 1px solid #eaecef;
-        }
-        
-        /* 主内容搜索框样式 */
-        .main-search-box {
-            display: flex;
-            max-width: 700px;
-            margin: 0 auto;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-            border-radius: 10px;
-            overflow: hidden;
-        }
-        
-        #search-input {
-            flex: 1;
-            padding: 16px 20px;
-            font-size: 1.1rem;
-            border: none;
-            outline: none;
-            background: white;
-        }
-        
-        #search-btn {
-            padding: 16px 25px;
-            background: #4a6fa5;
-            color: white;
-            border: none;
-            cursor: pointer;
-            font-size: 1.1rem;
-            font-weight: 600;
-            transition: background 0.3s;
-        }
-        
-        #search-btn:hover {
-            background: #385d8a;
-        }
-        
-        .search-info {
-            text-align: center;
-            margin-top: 15px;
-            font-size: 1rem;
-            color: #6c757d;
-        }
-        
-        .table-container {
-            overflow-x: auto;
-            padding: 20px;
-        }
-        
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px auto;
-            font-size: 1rem;
-        }
-        
-        th, td {
-            padding: 16px 20px;
-            text-align: left;
-            border-bottom: 1px solid #eaecef;
-        }
-        
-        th {
-            background: #f8f9fa;
-            font-weight: 600;
-            color: #4a6fa5;
-            position: sticky;
-            top: 0;
-        }
-        
-        tr:hover {
-            background: #f1f6fc;
-        }
-        
-        .highlight {
-            background: #fff9c9;
-            padding: 2px 0;
-            border-radius: 3px;
-            font-weight: 600;
-        }
-        
-        .no-results {
-            text-align: center;
-            padding: 40px;
-            color: #6c757d;
-            font-style: italic;
-            display: none;
-        }
-        
-        footer {
-            text-align: center;
-            padding: 20px;
-            color: #6c757d;
-            font-size: 0.9rem;
-            border-top: 1px solid #eaecef;
-        }
-        
-        @media (max-width: 768px) {
-            th, td {
-                padding: 12px 15px;
-            }
-        
-            #search-input {
-                padding: 14px;
-                font-size: 1rem;
-            }
-        
-            #search-btn {
-                padding: 14px 20px;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            header {
-                padding: 15px;
-            }
-        
-            h1 {
-                font-size: 1.8rem;
-            }
-        
-            .main-search-box {
-                flex-direction: column;
-            }
-        
-            #search-btn {
-                border-radius: 0 0 10px 10px;
-            }
-        }
-    </style>
-</head>
-<body>
-    <!-- 导航栏将在这里由JavaScript加载 -->
-    <div id="navbar-container"></div>
+			th, td {
+				padding: 16px 20px;
+				text-align: left;
+				border-bottom: 1px solid #eaecef;
+			}
 
-    <!-- 页面内容 -->
-    <div class="container">
-        <header>
-            <h1>Tony任务卡</h1>
-            <p class="description">在下方搜索框中输入关键词，实时筛选多个表格内容。支持同时搜索多个表格的所有字段。</p>
-        </header>
+			th {
+				background: #f8f9fa;
+				font-weight: 600;
+				color: #4a6fa5;
+				position: sticky;
+				top: 0;
+			}
 
-        <div class="search-container">
-            <div class="main-search-box">
-                <input type="text" id="search-input" placeholder="输入关键词搜索...">
-                <button id="search-btn">搜索</button>
-            </div>
-            <div class="search-info">
-                找到 <span id="results-count">0</span> 条匹配记录
-            </div>
-        </div>
+			tr:hover {
+				background: #f1f6fc;
+			}
 
-        <div class="table-container">
-            <!-- 第一个表格 -->
-            <details>
-                <summary>已完成任务表格</summary>
-                <table id="completed-table">
-                    <thead>
-                        <tr>
-                            <th>任务周期</th>
-                            <th>任务名称</th>
-                            <th>资料路径</th>
-                            <th>任务目的</th>
-                            <th>保存路径</th>
-                            <th>数量要求</th>
-                            <th>任务要求</th>
-                            <th>备注</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                        	<td>2025/8/4-2025/8/10</td>
-                            <td>好评卡片</td>
-                            <td>
-                              <p>
-                                \\192.168.110.249\美工\全平台素材\谷歌\落地页优化\首页落地页优化\好评</p>
-                        	  <p><a href="https://www.czmeditech.com/" target="_blank">
-                        	    网址：首页好评
-                        	  </a></p>
-                            </td>
-                        	<td>老站首页优化：好评模块——首页好评栏目替换真实评价</td>
-                        	<td>
-                        	    \\192.168.110.249\美工\全平台素材\谷歌\落地页优化\首页落地页优化\好评\好评卡片
-                        	</td>
-                        	<td>17张</td>
-                        	<td>1.圆圈内放国家图片<br/>2.用户名称替换成国家英文名<br/>3.大小参照参考图片大小</td>
-                        	<td>完成</td>
-                          </tr>
-                          <tr>
-                        	<td>2025/8/4-2025/8/10</td>
-                            <td>一站式服务配图</td>
-                            <td>
-                              <a href="https://www.czmeditech.com/one-stop-service-copy-test.html" target="_blank">
-                                网址：一站式服务配图
-                              </a><br/>
-                            </td>
-                          	<td>老站One stop service</td>
-                          	<td>
-                          	    \\192.168.110.249\美工\全平台素材\谷歌\落地页优化\One-stop Service
-                          	</td>
-                          	<td>13张</td>
-                          	<td>
-                        	<p>1120*770</p>
-                        	<p>1.每个分页配一张图（图册的叠加图）或者三折页的效果图</p>
-                        	<p>2.新品合集做一个Banner</p>
-                        	<p>3.证书图（重新排版）</p>
-                        	<p>4.仓库图</p>
-                        	<p>5.样品室图片</p>
-                        	<p>数字+图标图</p>
-                        	<p>1.大小参照参考图片大小</p>
-                        	<p>2.数字1，2，3，三张</p>
-                        	<p>3.5个优势图标</p>
-                        	</td>
-                        	<td>完成</td>
-                        	<tr>
-                        		<td>2025/8/4-2025/8/10</td>
-                        	  <td>锁定板图片</td>
-                        	  <td>
-                        	    <p>
-                        	      \\192.168.110.249\美工\新站素材-不能动\创伤\2-落地页\产品分类落地页\锁定板</p>
-                        		<p><a href="http://en-medituauma.tw.ldyjz.com/locking-plate.html" target="_blank">
-                        		  网址：锁定板落地页
-                        		</a></p>
-                        	  </td>
-                        		<td>新站锁定板落地页</td>
-                        		<td>
-                        		    \\192.168.110.249\美工\新站素材-不能动\创伤\2-落地页\产品分类落地页\锁定板\成果图
-                        		</td>
-                        		<td>22张</td>
-                        		<td>1.6个800*800透明图<br/>2.6个锁定板新品的蓝色涂鸦背景图（560*480）<br/>3.10个透明图（260*170）</td>
-                        		<td>完成</td>
-                        	</tr>
-                        	<tr>
-                        	  <td>2025/8/4-2025/8/10</td>
-                        	  <td>创伤板图片</td>
-                        	  <td>
-                        	    <p>
-                        	      \\192.168.110.249\美工\新站素材-不能动\创伤\2-落地页\产品分类落地页\创伤板</p>
-                        		<p><a href="http://en-medituauma.tw.ldyjz.com/trauma-plate.html" target="_blank">
-                        		  网址：创伤板落地页
-                        		</a></p>
-                        	  </td>
-                        		<td>新站创伤板落地页</td>
-                        		<td>
-                        		    \\192.168.110.249\美工\新站素材-不能动\创伤\2-落地页\产品分类落地页\创伤板\成果图
-                        
-                        		</td>
-                        		<td>17张</td>
-                        		<td>1.6个800*800透明图<br/>2.合集的蓝色涂鸦背景图（560*480）<br/>3.10个透明图（260*170）</td>
-                        		<td>完成</td>
-                        	</tr>
-                        	<tr>
-                        	  <td>2025/8/4-2025/8/10</td>
-                        	  <td>电动工具图片</td>
-                        	  <td>
-                        	    <p>
-                        	      \\192.168.110.249\美工\新站素材-不能动\创伤\2-落地页\产品分类落地页\电动工具</p>
-                        		<p><a href="http://en-medituauma.tw.ldyjz.com/power-tool.html" target="_blank">
-                        		  网址：电动工具落地页
-                        		</a></p>
-                        	  </td>
-                        		<td>新站电动工具落地页</td>
-                        		<td>
-                        		    \\192.168.110.249\美工\新站素材-不能动\创伤\2-落地页\产品分类落地页\电动工具\成果图
-                        		</td>
-                        		<td>17张</td>
-                        		<td>1.6个800*800透明图<br/>2.合集的蓝色涂鸦背景图（560*480）<br/>3.10个透明图（260*170）</td>
-                        		<td>完成</td>
-                        	</tr>
-                        	<tr> <th colspan="8">2025/8/11-2025/8/17</th></tr>
-                        	<tr>
-                        		<td>2025/8/11-2025/8/17</td>
-                        		<td>新站Blog</td>
-                        		<td>
-                        		  <a href="https://www.czmeditech.com/home-copy-3-identities1.html" target="_blank">
-                        		    网址：Blog落地页
-                        		  </a>
-                        		</td>
-                        				<td>新站Blog落地页</td>
-                        				<td>
-                        				    \\192.168.110.249\美工\新站素材-不能动\创伤\2-落地页\Blog
-                        				</td>
-                        				<td>0张</td>
-                        				<td></td>
-                        				<td>完成</td>
-                        	</tr>
-                        	<tr>
-                        		<td>2025/8/11-2025/8/17</td>
-                        		<td>首页6个流程重设计</td>
-                        		<td>
-                        		  <a href="https://www.czmeditech.com.html" target="_blank">
-                        		    网址：首页
-                        		  </a>
-                        		</td>
-                        				<td><p>老站首页优化：6个流程</p></td>
-                        				<td>
-                        				    \\192.168.110.249\美工\全平台素材\谷歌\落地页优化\首页落地页优化\6个流程
-                        				</td>
-                        				<td>0张</td>
-                        				<td></td>
-                        				<td>完成</td>
-                        	</tr>
-                        	<tr>
-                        		<td>2025/8/11-2025/8/17</td>
-                        		<td>About Us</td>
-                        		<td>
-                        		  <a href="https://www.czmeditech.com/about-us.html" target="_blank">
-                        		    网址：About us
-                        		  </a>
-                        		</td>
-                        				<td><p>老站About US优化</p></td>
-                        				<td>
-                        				    \\192.168.110.249\美工\全平台素材\谷歌\落地页优化\关于我们\About US配图
-                        				</td>
-                        				<td>4张</td>
-                        				<td>4张图大小调整一致</td>
-                        				<td></td>
-                        	</tr>
-                        	<tr>
-                        		<td>2025/8/11-2025/8/17</td>
-                        		<td>MIC锁定板通用详情页配图</td>
-                        		<td>
-                        			\\192.168.110.249\美工\全平台素材\mic\发品\锁定板通用
-                        		</td>
-                        				<td><p>MIC日常任务发品</p></td>
-                        				<td>
-                        				    \\192.168.110.249\美工\全平台素材\mic\发品\锁定板通用\成果图
-                        				</td>
-                        				<td>7张</td>
-                        				<td>
-                        					<ol>
-                        						<li>320*200(3张)</li>
-                        						<li>480*200(4张)</li>
-                        					</ol>
-                        				</td>
-                        				<td></td>
-                        	</tr>
-                        	<tr>
-                        	  <td>2025/8/4-2025/8/17</td>
-                        	  <td>3个身份</td>
-                        	  <td>
-                        	    <a href="https://www.czmeditech.com/become-our-dealer.html" target="_blank">
-                        	      网址：版本1-3个身份
-                        	    </a><br/>
-                        		  <a href="http://en-medituauma.tw.ldyjz.com/contactus.html" target="_blank">
-                        		    网址：版本2-3个身份
-                        		  </a>
-                        	  </td>
-                        		<td><p>老站Become our Dealer优化：身份模块</p><p>新站Count us</p></td>
-                        		<td>
-                        		    \\192.168.110.249\美工\全平台素材\谷歌\落地页优化\首页落地页优化\3个身份
-                        		</td>
-                        		<td>30张</td>
-                        		<td>1.每个小标题的图标<br/>2.正方形<br/>3.大小参照参考图片大小</td>
-                        		<td><p>完成</p></td>
-                        	</tr>
-                        	<tr>
-                        		<td>2025/8/11-2025/9/11</td>
-                        		<td>创伤板图册图</td>
-                        		<td>
-                        		</td>
-                        				<td><p>老站查漏补缺</p><p>新站产品链接搭建</p></td>
-                        				<td>
-                        				    \\192.168.110.249\美工\全平台素材\谷歌\查漏补缺\创伤板查漏补缺
-                        				</td>
-                        				<td>92张</td>
-                        				<td>由于产品链接比较多，筛查，详情页等一系列的操作，所以产品系列补齐的周期较长<ol><li>统计网站现有产品</li><li>核查缺少产品</li><li>系列产品详情页搭建</li><li>产品发布</li></ol></td>
-                        				<td>完成</td>
-                        	</tr>
-                        	<tr>
-                        		<td>2025/8/11-2025/8/17</td>
-                        		<td>新站下载页</td>
-                        		<td>
-                        		  <a href="http://en-medituauma.tw.ldyjz.com/download.html" target="_blank">
-                        		    网址：下载落地页
-                        		  </a>
-                        		</td>
-                        				<td>新站下载页落地页</td>
-                        				<td>
-                        				    \\192.168.110.249\美工\新站素材-不能动\创伤\2-落地页\下载页
-                        				</td>
-                        				<td>5张</td>
-                        				<td>
-                        					<p>设计成立体书的感觉</p>
-                        					<ol>
-                        						<li>髓内钉</li>
-                        						<li>锁定板</li>
-                        						<li>电动工具</li>
-                        						<li>创伤板</li>
-                        						<li>基础器械</li>
-                        					</ol>
-                        				</td>
-                        				<td>完成</td>
-                        	</tr>
-                        	<tr>
-                        		<td>2025/8/11-2025/8/17</td>
-                        		<td>新站展会</td>
-                        		<td>
-                        		  <a href="http://en-medituauma.tw.ldyjz.com/exhibition.html" target="_blank">
-                        		    网址：展会落地页
-                        		  </a>
-                        		</td>
-                        				<td>新站展会落地页</td>
-                        				<td>
-                        				    \\192.168.110.249\美工\新站素材-不能动\创伤\2-落地页\展会
-                        				</td>
-                        				<td>25张</td>
-                        				<td>
-                        					<ol>
-                        						<li>9张展会的邀请函：528*347</li>
-                        						<li>7张2025年展会的logo图：4500*3000</li>
-                        						<li>5张展会照片：328*634（2张）、655*312、323*312（2张）</li>
-                        						<li>4张评价的国家图，正方形</li>
-                        					</ol>
-                        				</td>
-                        				<td>完成</td>
-                        	</tr>
-                        	<tr>
-                        		<td>2025/8/11-2025/8/17</td>
-                        		<td>8月Blog配图</td>
-                        		<td>
-                        		  <p><a href="https://mp.weixin.qq.com/s/nAblndIlt-k6A808LBhbOA" target="_blank">
-                        		    参考公众号
-                        		  </a></p>
-                        		  <p>
-                        		  <a href="https://www.czmeditech.com/Locking-Plate-Series-Distal-Tibial-Compression-Locking-Bone-Plate-id49104596.html" target="_blank">
-                        		    网址：Blog
-                        		  </a></p>
-                        		</td>
-                        				<td><p>Blog配图</p></td>
-                        				<td>
-                        				    \\192.168.110.249\美工\全平台素材\谷歌\Blog\锁定板系列——胫骨远端加压锁定骨板
-                        				</td>
-                        				<td>张</td>
-                        				<td></td>
-                        				<td>文稿已经准备好，需要进行配图和产品链接的插入
-                        				<ol>
-                        					<li>锁定板的Banner一张（做封面和产品介绍）</li>
-                        					<li>公众号的图片扒下来</li>
-                        				</ol></td>
-                        	</tr>
-                        	<tr> <th colspan="8">2025/8/18-2025/8/24</th></tr>
-                        	<tr>
-                        	  <td>2025/8/18-2025/8/24</td>
-                        	  <td>MIC发品图片通用图片第二版</td>
-                        	  <td><a href="https://www.czmeditech.com/one-stop-service.html" target="_blank">
-                        		    网址：一站式服务
-                        		  </a></td>
-                        		<td>MIC发品图片通用图片第二版</td>
-                        		<td>
-                        		    \\192.168.110.249\美工\全平台素材\mic\发品\通用主图\第二版
-                        		</td>
-                        		<td>5张</td>
-                        		<td>
-                        			<p>首屏的五张图做成800*800正方图的图片</p>
-                        		</td>
-                        		<td>完成</td>
-                        	</tr>
+			.highlight {
+				background: #fff9c9;
+				padding: 2px 0;
+				border-radius: 3px;
+				font-weight: 600;
+			}
+
+			.no-results {
+				text-align: center;
+				padding: 40px;
+				color: #6c757d;
+				font-style: italic;
+				display: none;
+			}
+
+			footer {
+				text-align: center;
+				padding: 20px;
+				color: #6c757d;
+				font-size: 0.9rem;
+				border-top: 1px solid #eaecef;
+			}
+
+			@media screen and (max-width: 768px) {
+				.nav-menu {
+					position: fixed;
+					top: 70px;
+					left: -100%;
+					width: 100%;
+					height: calc(100vh - 70px);
+					background-color: var(--bg-color);
+					flex-direction: column;
+					transition: left 0.3s ease;
+					box-shadow: var(--shadow);
+					overflow-y: auto;
+					z-index: 999;
+				}
+
+				.nav-menu.active {
+					left: 0;
+				}
+
+				.nav-item {
+					width: 100%;
+				}
+
+				.nav-link {
+					line-height: 50px;
+					padding: 0 20px;
+					border-bottom: 1px solid #eee;
+					display: flex;
+					justify-content: space-between;
+					align-items: center;
+				}
+
+				.nav-link:hover::after {
+					display: none;
+				}
+
+				.dropdown {
+					position: static;
+					width: 100%;
+					opacity: 1;
+					visibility: visible;
+					transform: none;
+					box-shadow: none;
+					display: none;
+					background-color: #f9f9f9;
+					max-height: 0;
+					overflow: hidden;
+					transition: max-height 0.3s ease;
+				}
+
+				.dropdown.active {
+					display: block;
+					max-height: 500px;
+				}
+
+				.nav-item:hover .dropdown {
+					transform: none;
+				}
+
+				.hamburger {
+					display: block;
+				}
+
+				.nav-search-box {
+					display: none;
+				}
+
+				.nav-link.has-dropdown::after {
+					content: '\f078';
+					font-family: 'Font Awesome 5 Free';
+					font-weight: 900;
+					font-size: 12px;
+					transition: transform 0.3s;
+				}
+
+				.nav-link.has-dropdown.active::after {
+					transform: rotate(180deg);
+				}
+
+				th, td {
+					padding: 12px 15px;
+				}
+
+				#search-input {
+					padding: 14px;
+					font-size: 1rem;
+				}
+
+				#search-btn {
+					padding: 14px 20px;
+				}
+
+				.container {
+					margin-top: 20px;
+				}
+			}
+
+			@media (max-width: 480px) {
+				header {
+					padding: 15px;
+				}
+
+				h1 {
+					font-size: 1.8rem;
+				}
+
+				.main-search-box {
+					flex-direction: column;
+				}
+
+				#search-btn {
+					border-radius: 0 0 10px 10px;
+				}
+
+				.nav-container {
+					padding: 0 15px;
+				}
+
+				.logo span {
+					font-size: 1.2rem;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<div id="navbar-container"></div>
+
+		<!-- 页面内容 -->
+		<div class="container">
+		    <header>
+		        <h1>TonyTask</h1>
+		        <p class="description">在下方搜索框中输入关键词，实时筛选多个表格内容。支持同时搜索多个表格的所有字段。</p>
+		    </header>
+		
+		    <div class="search-container">
+		        <div class="main-search-box">
+		            <input type="text" id="search-input" placeholder="输入关键词搜索...">
+		            <button id="search-btn">搜索</button>
+		        </div>
+		        <div class="search-info">
+		            找到 <span id="results-count">0</span> 条匹配记录
+		        </div>
+		    </div>
+		
+		    <div class="table-container">
+		    	<!-- 第一个表格 -->
+		    	<details>
+		    		<summary>已完成任务表格</summary>
+		    		<table id="completed-table">
+		    			<thead>
+		    				<tr>
+		    					<th>任务周期</th>
+		    					<th>任务名称</th>
+		    					<th>资料路径</th>
+		    					<th>任务目的</th>
+		    					<th>保存路径</th>
+		    					<th>数量要求</th>
+		    					<th>任务要求</th>
+		    					<th>备注</th>
+		    				</tr>
+		    			</thead>
+		    			<tbody>
+		    				<tr>
+		    					<td>2025/8/4-2025/8/10</td>
+		    					<td>好评卡片</td>
+		    					<td>
+		    						<p>
+		    							\\192.168.110.249\美工\全平台素材\谷歌\落地页优化\首页落地页优化\好评</p>
+		    						<p><a href="https://www.czmeditech.com/" target="_blank">
+		    								网址：首页好评
+		    							</a></p>
+		    					</td>
+		    					<td>老站首页优化：好评模块——首页好评栏目替换真实评价</td>
+		    					<td>
+		    						\\192.168.110.249\美工\全平台素材\谷歌\落地页优化\首页落地页优化\好评\好评卡片
+		    					</td>
+		    					<td>17张</td>
+		    					<td>1.圆圈内放国家图片<br />2.用户名称替换成国家英文名<br />3.大小参照参考图片大小</td>
+		    					<td>完成</td>
+		    				</tr>
+		    				<tr>
+		    					<td>2025/8/4-2025/8/10</td>
+		    					<td>一站式服务配图</td>
+		    					<td>
+		    						<a href="https://www.czmeditech.com/one-stop-service-copy-test.html"
+		    							target="_blank">
+		    							网址：一站式服务配图
+		    						</a><br />
+		    					</td>
+		    					<td>老站One stop service</td>
+		    					<td>
+		    						\\192.168.110.249\美工\全平台素材\谷歌\落地页优化\One-stop Service
+		    					</td>
+		    					<td>13张</td>
+		    					<td>
+		    						<p>1120*770</p>
+		    						<p>1.每个分页配一张图（图册的叠加图）或者三折页的效果图</p>
+		    						<p>2.新品合集做一个Banner</p>
+		    						<p>3.证书图（重新排版）</p>
+		    						<p>4.仓库图</p>
+		    						<p>5.样品室图片</p>
+		    						<p>数字+图标图</p>
+		    						<p>1.大小参照参考图片大小</p>
+		    						<p>2.数字1，2，3，三张</p>
+		    						<p>3.5个优势图标</p>
+		    					</td>
+		    					<td>完成</td>
+		    				<tr>
+		    					<td>2025/8/4-2025/8/10</td>
+		    					<td>锁定板图片</td>
+		    					<td>
+		    						<p>
+		    							\\192.168.110.249\美工\新站素材-不能动\创伤\2-落地页\产品分类落地页\锁定板</p>
+		    						<p><a href="http://en-medituauma.tw.ldyjz.com/locking-plate.html" target="_blank">
+		    								网址：锁定板落地页
+		    							</a></p>
+		    					</td>
+		    					<td>新站锁定板落地页</td>
+		    					<td>
+		    						\\192.168.110.249\美工\新站素材-不能动\创伤\2-落地页\产品分类落地页\锁定板\成果图
+		    					</td>
+		    					<td>22张</td>
+		    					<td>1.6个800*800透明图<br />2.6个锁定板新品的蓝色涂鸦背景图（560*480）<br />3.10个透明图（260*170）</td>
+		    					<td>完成</td>
+		    				</tr>
+		    				<tr>
+		    					<td>2025/8/4-2025/8/10</td>
+		    					<td>创伤板图片</td>
+		    					<td>
+		    						<p>
+		    							\\192.168.110.249\美工\新站素材-不能动\创伤\2-落地页\产品分类落地页\创伤板</p>
+		    						<p><a href="http://en-medituauma.tw.ldyjz.com/trauma-plate.html" target="_blank">
+		    								网址：创伤板落地页
+		    							</a></p>
+		    					</td>
+		    					<td>新站创伤板落地页</td>
+		    					<td>
+		    						\\192.168.110.249\美工\新站素材-不能动\创伤\2-落地页\产品分类落地页\创伤板\成果图
+		    				
+		    					</td>
+		    					<td>17张</td>
+		    					<td>1.6个800*800透明图<br />2.合集的蓝色涂鸦背景图（560*480）<br />3.10个透明图（260*170）</td>
+		    					<td>完成</td>
+		    				</tr>
+		    				<tr>
+		    					<td>2025/8/4-2025/8/10</td>
+		    					<td>电动工具图片</td>
+		    					<td>
+		    						<p>
+		    							\\192.168.110.249\美工\新站素材-不能动\创伤\2-落地页\产品分类落地页\电动工具</p>
+		    						<p><a href="http://en-medituauma.tw.ldyjz.com/power-tool.html" target="_blank">
+		    								网址：电动工具落地页
+		    							</a></p>
+		    					</td>
+		    					<td>新站电动工具落地页</td>
+		    					<td>
+		    						\\192.168.110.249\美工\新站素材-不能动\创伤\2-落地页\产品分类落地页\电动工具\成果图
+		    					</td>
+		    					<td>17张</td>
+		    					<td>1.6个800*800透明图<br />2.合集的蓝色涂鸦背景图（560*480）<br />3.10个透明图（260*170）</td>
+		    					<td>完成</td>
+		    				</tr>
+		    				<tr>
+		    					<th colspan="8">2025/8/11-2025/8/17</th>
+		    				</tr>
+		    				<tr>
+		    					<td>2025/8/11-2025/8/17</td>
+		    					<td>新站Blog</td>
+		    					<td>
+		    						<a href="https://www.czmeditech.com/home-copy-3-identities1.html" target="_blank">
+		    							网址：Blog落地页
+		    						</a>
+		    					</td>
+		    					<td>新站Blog落地页</td>
+		    					<td>
+		    						\\192.168.110.249\美工\新站素材-不能动\创伤\2-落地页\Blog
+		    					</td>
+		    					<td>0张</td>
+		    					<td></td>
+		    					<td>完成</td>
+		    				</tr>
+		    				<tr>
+		    					<td>2025/8/11-2025/8/17</td>
+		    					<td>首页6个流程重设计</td>
+		    					<td>
+		    						<a href="https://www.czmeditech.com.html" target="_blank">
+		    							网址：首页
+		    						</a>
+		    					</td>
+		    					<td>
+		    						<p>老站首页优化：6个流程</p>
+		    					</td>
+		    					<td>
+		    						\\192.168.110.249\美工\全平台素材\谷歌\落地页优化\首页落地页优化\6个流程
+		    					</td>
+		    					<td>0张</td>
+		    					<td></td>
+		    					<td>完成</td>
+		    				</tr>
+		    				<tr>
+		    					<td>2025/8/11-2025/8/17</td>
+		    					<td>About Us</td>
+		    					<td>
+		    						<a href="https://www.czmeditech.com/about-us.html" target="_blank">
+		    							网址：About us
+		    						</a>
+		    					</td>
+		    					<td>
+		    						<p>老站About US优化</p>
+		    					</td>
+		    					<td>
+		    						\\192.168.110.249\美工\全平台素材\谷歌\落地页优化\关于我们\About US配图
+		    					</td>
+		    					<td>4张</td>
+		    					<td>4张图大小调整一致</td>
+		    					<td></td>
+		    				</tr>
+		    				<tr>
+		    					<td>2025/8/11-2025/8/17</td>
+		    					<td>MIC锁定板通用详情页配图</td>
+		    					<td>
+		    						\\192.168.110.249\美工\全平台素材\mic\发品\锁定板通用
+		    					</td>
+		    					<td>
+		    						<p>MIC日常任务发品</p>
+		    					</td>
+		    					<td>
+		    						\\192.168.110.249\美工\全平台素材\mic\发品\锁定板通用\成果图
+		    					</td>
+		    					<td>7张</td>
+		    					<td>
+		    						<ol>
+		    							<li>320*200(3张)</li>
+		    							<li>480*200(4张)</li>
+		    						</ol>
+		    					</td>
+		    					<td></td>
+		    				</tr>
+		    				<tr>
+		    					<td>2025/8/4-2025/8/17</td>
+		    					<td>3个身份</td>
+		    					<td>
+		    						<a href="https://www.czmeditech.com/become-our-dealer.html" target="_blank">
+		    							网址：版本1-3个身份
+		    						</a><br />
+		    						<a href="http://en-medituauma.tw.ldyjz.com/contactus.html" target="_blank">
+		    							网址：版本2-3个身份
+		    						</a>
+		    					</td>
+		    					<td>
+		    						<p>老站Become our Dealer优化：身份模块</p>
+		    						<p>新站Count us</p>
+		    					</td>
+		    					<td>
+		    						\\192.168.110.249\美工\全平台素材\谷歌\落地页优化\首页落地页优化\3个身份
+		    					</td>
+		    					<td>30张</td>
+		    					<td>1.每个小标题的图标<br />2.正方形<br />3.大小参照参考图片大小</td>
+		    					<td>
+		    						<p>完成</p>
+		    					</td>
+		    				</tr>
+		    				<tr>
+		    					<td>2025/8/11-2025/9/11</td>
+		    					<td>创伤板图册图</td>
+		    					<td>
+		    					</td>
+		    					<td>
+		    						<p>老站查漏补缺</p>
+		    						<p>新站产品链接搭建</p>
+		    					</td>
+		    					<td>
+		    						\\192.168.110.249\美工\全平台素材\谷歌\查漏补缺\创伤板查漏补缺
+		    					</td>
+		    					<td>92张</td>
+		    					<td>由于产品链接比较多，筛查，详情页等一系列的操作，所以产品系列补齐的周期较长<ol>
+		    							<li>统计网站现有产品</li>
+		    							<li>核查缺少产品</li>
+		    							<li>系列产品详情页搭建</li>
+		    							<li>产品发布</li>
+		    						</ol>
+		    					</td>
+		    					<td>完成</td>
+		    				</tr>
+		    				<tr>
+		    					<td>2025/8/11-2025/8/17</td>
+		    					<td>新站下载页</td>
+		    					<td>
+		    						<a href="http://en-medituauma.tw.ldyjz.com/download.html" target="_blank">
+		    							网址：下载落地页
+		    						</a>
+		    					</td>
+		    					<td>新站下载页落地页</td>
+		    					<td>
+		    						\\192.168.110.249\美工\新站素材-不能动\创伤\2-落地页\下载页
+		    					</td>
+		    					<td>5张</td>
+		    					<td>
+		    						<p>设计成立体书的感觉</p>
+		    						<ol>
+		    							<li>髓内钉</li>
+		    							<li>锁定板</li>
+		    							<li>电动工具</li>
+		    							<li>创伤板</li>
+		    							<li>基础器械</li>
+		    						</ol>
+		    					</td>
+		    					<td>完成</td>
+		    				</tr>
+		    				<tr>
+		    					<td>2025/8/11-2025/8/17</td>
+		    					<td>新站展会</td>
+		    					<td>
+		    						<a href="http://en-medituauma.tw.ldyjz.com/exhibition.html" target="_blank">
+		    							网址：展会落地页
+		    						</a>
+		    					</td>
+		    					<td>新站展会落地页</td>
+		    					<td>
+		    						\\192.168.110.249\美工\新站素材-不能动\创伤\2-落地页\展会
+		    					</td>
+		    					<td>25张</td>
+		    					<td>
+		    						<ol>
+		    							<li>9张展会的邀请函：528*347</li>
+		    							<li>7张2025年展会的logo图：4500*3000</li>
+		    							<li>5张展会照片：328*634（2张）、655*312、323*312（2张）</li>
+		    							<li>4张评价的国家图，正方形</li>
+		    						</ol>
+		    					</td>
+		    					<td>完成</td>
+		    				</tr>
+		    				<tr>
+		    					<td>2025/8/11-2025/8/17</td>
+		    					<td>8月Blog配图</td>
+		    					<td>
+		    						<p><a href="https://mp.weixin.qq.com/s/nAblndIlt-k6A808LBhbOA" target="_blank">
+		    								参考公众号
+		    							</a></p>
+		    						<p>
+		    							<a href="https://www.czmeditech.com/Locking-Plate-Series-Distal-Tibial-Compression-Locking-Bone-Plate-id49104596.html"
+		    								target="_blank">
+		    								网址：Blog
+		    							</a>
+		    						</p>
+		    					</td>
+		    					<td>
+		    						<p>Blog配图</p>
+		    					</td>
+		    					<td>
+		    						\\192.168.110.249\美工\全平台素材\谷歌\Blog\锁定板系列——胫骨远端加压锁定骨板
+		    					</td>
+		    					<td>张</td>
+		    					<td></td>
+		    					<td>文稿已经准备好，需要进行配图和产品链接的插入
+		    						<ol>
+		    							<li>锁定板的Banner一张（做封面和产品介绍）</li>
+		    							<li>公众号的图片扒下来</li>
+		    						</ol>
+		    					</td>
+		    				</tr>
+		    				<tr>
+		    					<th colspan="8">2025/8/18-2025/8/24</th>
+		    				</tr>
+		    				<tr>
+		    					<td>2025/8/18-2025/8/24</td>
+		    					<td>MIC发品图片通用图片第二版</td>
+		    					<td><a href="https://www.czmeditech.com/one-stop-service.html" target="_blank">
+		    							网址：一站式服务
+		    						</a></td>
+		    					<td>MIC发品图片通用图片第二版</td>
+		    					<td>
+		    						\\192.168.110.249\美工\全平台素材\mic\发品\通用主图\第二版
+		    					</td>
+		    					<td>5张</td>
+		    					<td>
+		    						<p>首屏的五张图做成800*800正方图的图片</p>
+		    					</td>
+		    					<td>完成</td>
+		    				</tr>
+		    				<tr>
+		    					<td>2025/8/18-2025/8/24</td>
+		    					<td>新站部位落地页图片</td>
+		    					<td>
+		    						<p><a href="https://intrauma.com/en/products/" target="_blank">
+		    								网址：身体部位上色图</a></p>
+		    						<p><a href="http://en-medituauma.tw.ldyjz.com/category-foot-bones.html"
+		    								target="_blank">
+		    								网址：新站足踝分类落地页</a></p>
+		    						<p><a href="http://en-medituauma.tw.ldyjz.com/category-lower-limb-bones.html"
+		    								target="_blank">
+		    								网址：下肢分类落地页</a></p>
+		    						<p><a href="http://en-medituauma.tw.ldyjz.com/category-palm-bones.html"
+		    								target="_blank">
+		    								网址：手掌分类落地页</a></p>
+		    						<p><a href="http://en-medituauma.tw.ldyjz.com/category-pediatric.html"
+		    								target="_blank">
+		    								网址：儿童分类落地页</a></p>
+		    						<p><a href="http://en-medituauma.tw.ldyjz.com/category-pelvic-bones.html"
+		    								target="_blank">
+		    								网址：盆骨分类落地页</a></p>
+		    						<p><a href="http://en-medituauma.tw.ldyjz.com/category-trunk-bones.html"
+		    								target="_blank">
+		    								网址：躯干分类落地页</a></p>
+		    						<p><a href="http://en-medituauma.tw.ldyjz.com/category-upper-limb-bones.html"
+		    								target="_blank">
+		    								网址：上肢分类落地页</a></p>
+		    					</td>
+		    					<td>首屏Banner</td>
+		    					<td>
+		    						<p>第一版</p>
+		    						<p>\\192.168.110.249\美工\新站素材-不能动\创伤\新站首页图\新建文件夹 (2)\骨骼部位</p>
+		    						<p>第二版</p>
+		    						<p>\\192.168.110.249\美工\新站素材-不能动\创伤\新站首页图\新建文件夹 (2)\骨骼部位\背景图</p>
+		    					</td>
+		    					<td>61张</td>
+		    					<td>
+		    						<ol>
+		    							<li>按照目录的分类，每个分类的颜色上色图(7张)，长方形，长宽比：2：1</li>
+		    							<li>对应带骨头的产品图（正方形）
+		    								<ul>
+		    									<li>髓内钉</li>
+		    									<li>锁定板</li>
+		    									<li>创伤板</li>
+		    								</ul>
+		    							</li>
+		    							<li>电动工具三个一起的那种（正方形）</li>
+		    							<li>背景图</li>
+		    							<li>对应带骨头的产品图透明图（正方形）
+		    								<ul>
+		    									<li>髓内钉</li>
+		    									<li>锁定板</li>
+		    									<li>创伤板</li>
+		    								</ul>
+		    							</li>
+		    							<li>电动工具三个一起的那种（正方形）</li>
+		    						</ol>
+		    						<p>第二版</p>
+		    						<ol>
+		    							<li>配图</li>
+		    							<li>4个身份</li>
+		    						</ol>
+		    					</td>
+		    					<td></td>
+		    				</tr>
+		    				<tr>
+		    					<td>2025/8/18-2025/8/24</td>
+		    					<td>新站目录导航</td>
+		    					<td><a href="https://en-medituauma.tw.ldyjz.com/" target="_blank">
+		    							网址：首页</a>
+		    					</td>
+		    					<td>产品导航</td>
+		    					<td>\\192.168.110.249\美工\新站素材-不能动\创伤\新站首页图\分类图
+		    					</td>
+		    					<td>21张</td>
+		    					<td>
+		    						<ol>
+		    							<li>6个部位的图+箱子+器械包+电动工具（风格统一，如果是剪影图就全部剪影，如果是真实图就全部真实）</li>
+		    							<li>分支骨头图</li>
+		    						</ol>
+		    					</td>
+		    					<td></td>
+		    				</tr>
+		    				<tr>
+		    					<td>2025/8/18-2025/8/24</td>
+		    					<td>电动工具图册图</td>
+		    					<td>
+		    					</td>
+		    					<td>
+		    						<p>老站查漏补缺</p>
+		    						<p>新站产品链接搭建</p>
+		    					</td>
+		    					<td>
+		    						\\192.168.110.249\美工\全平台素材\谷歌\查漏补缺\电动工具查漏补缺
+		    					</td>
+		    					<td>168张</td>
+		    					<td></td>
+		    					<td>因为新站的建站DDL是8月31日，所以美工这个的图片要前置化，提前一周给到，有时间布局。</td>
+		    				</tr>
+		    				<tr>
+		    					<td>2025/8/18-2025/8/24</td>
+		    					<td>老站About Us细节修改</td>
+		    					<td><a href="https://www.czmeditech.com/about-us.html" target="_blank">网址：About Us</a>
+		    					</td>
+		    					<td>老站</td>
+		    					<td>
+		    						\\192.168.110.249\美工\全平台素材\谷歌\落地页优化\关于我们\About US配图
+		    					</td>
+		    					<td>1张</td>
+		    					<td>图片去掉左上角文字</td>
+		    					<td>完成</td>
+		    				</tr>
+		    				<tr>
+		    					<td>2025/8/18-2025/8/24</td>
+		    					<td>创伤板产品详情页通用模板</td>
+		    					<td>
+		    						<p><a href="https://en-medituauma.tw.ldyjz.com/Trauma-Plate-pd561711548.html"
+		    								target="_blank">
+		    								网址：新站创伤板通用
+		    							</a></p>
+		    						<p><a href="https://www.czmeditech.com/--pd504877448.html" target="_blank">
+		    								网址：老站创伤板通用
+		    							</a></p>
+		    					</td>
+		    					<td>全平台</td>
+		    					<td>
+		    						<p>\\192.168.110.249\美工\全平台素材\谷歌\查漏补缺\创伤板查漏补缺\新站创伤板</p>
+		    						<p>\\192.168.110.249\美工\全平台素材\谷歌\查漏补缺\创伤板查漏补缺\老站创伤板</p>
+		    					</td>
+		    					<td>14张</td>
+		    					<td>
+		    						<ol>
+		    							<li>5个分部位的创伤板的图</Li>
+		    							<li>2个分部位的创伤板的图：只有第三个和第四个的图需要替换</li>
+		    							<ul>
+		    								<li>第三个：找一个板的不锈钢和钛的图片，并标注材料</li>
+		    								<li>第四个：找一个节省时间的图片</li>
+		    							</ul>
+		    						</ol>
+		    					</td>
+		    					<td></td>
+		    				</tr>
+		    				<tr>
+		    					<td>2025/8/18-2025/8/24</td>
+		    					<td>MIC发品图片批量改造</td>
+		    					<td>\\192.168.110.249\美工\全平台素材\谷歌\查漏补缺\髓内钉图片-无子文件夹版
+		    					</td>
+		    					<td>MIC发品图片：5版（髓内钉测试）</td>
+		    					<td>
+		    						\\192.168.110.249\美工\全平台素材\mic\发品\MIC发品图片批量改造
+		    					</td>
+		    					<td>张</td>
+		    					<td>
+		    						<p>里面一共有5个文件夹，存放5种图片改造</p>
+		    						<ol>
+		    							<ul>需求</ul>
+		    							<ul>箭头</ul>
+		    							<ul>Hot</ul>
+		    							<ul>涂鸦底纹</ul>
+		    							<ul>波点底纹</ul>
+		    						</ol>
+		    					</td>
+		    					<td>完成</td>
+		    				</tr>
+		    				<tr>
+		    					<th colspan="8">2025/8/25-2025/8/31</th>
+		    				</tr>
+		    				<tr>
+		    					<td>2025/8/25-2025/8/31</td>
+		    					<td>电动工具通用模板</td>
+		    					<td>
+		    						<p><a href="https://en-medituauma.tw.ldyjz.com/Power-Tool-pd560488448.html"
+		    								target="_blank">网址：新站电动工具通用</a></p>
+		    						<p><a href="https://www.czmeditech.com/--pd510877448.html"
+		    								target="_blank">网址：老站电动工具通用</a></p>
+		    					</td>
+		    					<td>全平台</td>
+		    					<td>
+		    						<p>\\192.168.110.249\美工\全平台素材\谷歌\查漏补缺\电动工具查漏补缺\新站电动工具</p>
+		    						<p>\\192.168.110.249\美工\全平台素材\谷歌\查漏补缺\电动工具查漏补缺\老站电动工具</p>
+		    					</td>
+		    					<td>24张</td>
+		    					<td></td>
+		    					<td></td>
+		    				</tr>
+		    				<tr>
+		    					<td>2025/8/18-2025/8/24</td>
+		    					<td>MIC展示厅更新</td>
+		    					<td><a href="https://czmeditech.en.made-in-china.com/" target="_blank">网址：MIC展示厅</a>
+		    					</td>
+		    					<td>
+		    						<p>MIC平台</p>
+		    					</td>
+		    					<td>\\192.168.110.249\美工\全平台素材\mic\展示厅\展示厅更新20250825
+		    					</td>
+		    					<td>16张</td>
+		    					<td>
+		    						<ul>
+		    							<li>Banner素材更换：（4张）
+		    								<ol>
+		    									<li>脊柱新品</li>
+		    									<li>髓内钉新品</li>
+		    									<li>锁定板新品</li>
+		    									<li>颌面最新的素材</li>
+		    								</ol>
+		    							</li>
+		    							<li>以上脊柱，髓内钉,锁定板和颌面的合集做分类图（4张）</li>
+		    							<li>以上脊柱，髓内钉,锁定板和颌面的合集做主图（4张）</li>
+		    							<li>4个分类的小Banner重新换素材:（4张）
+		    								<ol>
+		    									<li>脊柱</li>
+		    									<li>髓内钉</li>
+		    									<li>锁定板</li>
+		    									<li>颌面</li>
+		    								</ol>
+		    							</li>
+		    						</ul>
+		    					</td>
+		    					<td></td>
+		    				</tr>
+		    				<tr>
+		    					<td>2025/8/18-2025/8/24</td>
+		    					<td>关节图册图</td>
+		    					<td>
+		    					</td>
+		    					<td>
+		    						<p>MIC发品</p>
+		    					</td>
+		    					<td>
+		    						\\192.168.110.249\美工\全平台素材\谷歌\查漏补缺\关节图片-图册版
+		    					</td>
+		    					<td>41张</td>
+		    					<td></td>
+		    					<td></td>
+		    				</tr>
+		    			</tbody>
+		    		</table>
+		    	</details>
+		    	<p>下周任务</p>
+		    	<!-- 第二个表格 -->
+		    	<table id="current-table">
+		    		<thead>
+		    			<tr>
+		    				<th>任务周期</th>
+		    				<th>任务名称</th>
+		    				<th>资料路径</th>
+		    				<th>任务目的</th>
+		    				<th>保存路径</th>
+		    				<th>数量要求</th>
+		    				<th>任务要求</th>
+		    				<th>备注</th>
+		    			</tr>
+		    		</thead>
+		    		<tbody>
+		    			<tr>
+		    				<td>2025/8/18-2025/8/24</td>
+		    				<td></td>
+		    				<td>
+		    				</td>
+		    				<td></td>
+		    				<td>
+		    				</td>
+		    				<td>张</td>
+		    				<td></td>
+		    				<td></td>
+		    			</tr>										
+		    		</tbody>
+		    	</table>
+		    	<!-- 第三个表格 -->
+		    	<details>
+		    		<summary>其他任务表格</summary>
+		    		<table id="other-table">
+		    			<thead>
+		    				<tr>
+		    					<th>任务周期</th>
+		    					<th>任务名称</th>
+		    					<th>资料路径</th>
+		    					<th>任务目的</th>
+		    					<th>保存路径</th>
+		    					<th>数量要求</th>
+		    					<th>任务要求</th>
+		    					<th>备注</th>
+		    				</tr>
+		    			</thead>
+		    			<tbody>
+		    				<tr>
+		    					<td>2025/8/11-2025/8/17</td>
+		    					<td>OEM/ODM</td>
+		    					<td>
+		    						<a href="https://www.czmeditech.com/oem-odm.html" target="_blank">网址：OEM/ODM</a>
+		    					</td>
+		    					<td>老站OEM/ODM优化</td>
+		    					<td>\\192.168.110.249\美工\全平台素材\谷歌\落地页优化\OEMODM</td>
+		    					<td>张</td>
+		    					<td></td>
+		    					<td>Rachel负责</td>
+		    				</tr>
+		    			</tbody>
+		    		</table>
+		    	</details>
+				<!--第四个表格-->
+				<details>
+					<summary>其他任务表格</summary>
+					<table id="other-table">
+						<thead>
 							<tr>
-							  <td>2025/8/18-2025/8/24</td>
-							  <td>新站部位落地页图片</td>
-							  <td><p><a href="https://intrauma.com/en/products/" target="_blank">
-								  网址：身体部位上色图</a></p>
-								  <p><a href="http://en-medituauma.tw.ldyjz.com/category-foot-bones.html" target="_blank">
-								  		  网址：新站足踝分类落地页</a></p>
-									<p><a href="http://en-medituauma.tw.ldyjz.com/category-lower-limb-bones.html" target="_blank">
-										  		  网址：下肢分类落地页</a></p>
-									<p><a href="http://en-medituauma.tw.ldyjz.com/category-palm-bones.html" target="_blank">
-										  		  网址：手掌分类落地页</a></p>
-									<p><a href="http://en-medituauma.tw.ldyjz.com/category-pediatric.html" target="_blank">
-												网址：儿童分类落地页</a></p>
-									<p><a href="http://en-medituauma.tw.ldyjz.com/category-pelvic-bones.html" target="_blank">
-												网址：盆骨分类落地页</a></p>
-									<p><a href="http://en-medituauma.tw.ldyjz.com/category-trunk-bones.html" target="_blank">
-												网址：躯干分类落地页</a></p>
-									<p><a href="http://en-medituauma.tw.ldyjz.com/category-upper-limb-bones.html" target="_blank">
-												网址：上肢分类落地页</a></p>			
-							  </td>
-								<td>首屏Banner</td>
-								<td>
-									<p>第一版</p>
-									<p>\\192.168.110.249\美工\新站素材-不能动\创伤\新站首页图\新建文件夹 (2)\骨骼部位</p>
-									<p>第二版</p>
-									<p>\\192.168.110.249\美工\新站素材-不能动\创伤\新站首页图\新建文件夹 (2)\骨骼部位\背景图</p>
-								</td>
-								<td>61张</td>
-								<td>
-									<ol>
-										<li>按照目录的分类，每个分类的颜色上色图(7张)，长方形，长宽比：2：1</li>
-										<li>对应带骨头的产品图（正方形）
-										<ul>
-											<li>髓内钉</li>
-											<li>锁定板</li>
-											<li>创伤板</li>
-										</ul></li>
-										<li>电动工具三个一起的那种（正方形）</li>
-										<li>背景图</li>
-										<li>对应带骨头的产品图透明图（正方形）
-										<ul>
-											<li>髓内钉</li>
-											<li>锁定板</li>
-											<li>创伤板</li>
-										</ul></li>
-										<li>电动工具三个一起的那种（正方形）</li>
-									</ol>
-									<p>第二版</p>
-									<ol>
-										<li>配图</li>
-										<li>4个身份</li>
-									</ol>
-								</td>
-								<td></td>
+								<th>任务周期</th>
+								<th>任务名称</th>
+								<th>资料路径</th>
+								<th>任务目的</th>
+								<th>保存路径</th>
+								<th>数量要求</th>
+								<th>任务要求</th>
+								<th>备注</th>
 							</tr>
+						</thead>
+						<tbody>
 							<tr>
-							  <td>2025/8/18-2025/8/24</td>
-							  <td>新站目录导航</td>
-							  <td><a href="https://en-medituauma.tw.ldyjz.com/" target="_blank">
-								  网址：首页</a>
-							  </td>
-								<td>产品导航</td>
-								<td>\\192.168.110.249\美工\新站素材-不能动\创伤\新站首页图\分类图
-								</td>
-								<td>21张</td>
-								<td>
-									<ol>
-										<li>6个部位的图+箱子+器械包+电动工具（风格统一，如果是剪影图就全部剪影，如果是真实图就全部真实）</li>
-										<li>分支骨头图</li>
-									</ol>
-								</td>
-								<td></td>
-							</tr>
-							<tr>
-								<td>2025/8/18-2025/8/24</td>
-								<td>电动工具图册图</td>
+								<td>2025/9/1-2025/9/7</td>
+								<td>脊柱图册图</td>
 								<td>
 								</td>
-										<td><p>老站查漏补缺</p><p>新站产品链接搭建</p></td>
-										<td>
-										    \\192.168.110.249\美工\全平台素材\谷歌\查漏补缺\电动工具查漏补缺
-										</td>
-										<td>168张</td>
-										<td></td>
-										<td>因为新站的建站DDL是8月31日，所以美工这个的图片要前置化，提前一周给到，有时间布局。</td>
-							</tr>
-							<tr>
-								<td>2025/8/18-2025/8/24</td>
-								<td>老站About Us细节修改</td>
-								<td><a href="https://www.czmeditech.com/about-us.html" target="_blank">网址：About Us</a>
-								</td>
-										<td>老站</td>
-										<td>
-										    \\192.168.110.249\美工\全平台素材\谷歌\落地页优化\关于我们\About US配图
-										</td>
-										<td>1张</td>
-										<td>图片去掉左上角文字</td>
-										<td>完成</td>
-							</tr>
-							<tr>
-								<td>2025/8/18-2025/8/24</td>
-								<td>创伤板产品详情页通用模板</td>
-								<td><p><a href="https://en-medituauma.tw.ldyjz.com/Trauma-Plate-pd561711548.html" target="_blank">
-								    网址：新站创伤板通用
-								  </a></p>
-								  <p><a href="https://www.czmeditech.com/--pd504877448.html" target="_blank">
-								      网址：老站创伤板通用
-								    </a></p>
-								</td>
-										<td>全平台</td>
-										<td><p>\\192.168.110.249\美工\全平台素材\谷歌\查漏补缺\创伤板查漏补缺\新站创伤板</p>
-										<p>\\192.168.110.249\美工\全平台素材\谷歌\查漏补缺\创伤板查漏补缺\老站创伤板</p>
-										</td>
-										<td>14张</td>
-										<td>
-											<ol>
-												<li>5个分部位的创伤板的图</Li>
-												<li>2个分部位的创伤板的图：只有第三个和第四个的图需要替换</li>
-												<ul>
-													<li>第三个：找一个板的不锈钢和钛的图片，并标注材料</li>
-													<li>第四个：找一个节省时间的图片</li>
-												</ul>
-											</ol>
-										</td>
-										<td></td>
-							</tr>
-							<tr>
-							  <td>2025/8/18-2025/8/24</td>
-							  <td>MIC发品图片批量改造</td>
-							  <td>\\192.168.110.249\美工\全平台素材\谷歌\查漏补缺\髓内钉图片-无子文件夹版
-							  </td>
-								<td>MIC发品图片：5版（髓内钉测试）</td>
 								<td>
-								    \\192.168.110.249\美工\全平台素材\mic\发品\MIC发品图片批量改造
+									<p>MIC发品</p>
+								</td>
+								<td>\\192.168.110.249\美工\全平台素材\谷歌\查漏补缺\脊柱图片-图册版
 								</td>
 								<td>张</td>
+								<td></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td>2025/9/18-2025/9/7</td>
+								<td>锁定板图册图-更新版20250828</td>
 								<td>
-									<p>里面一共有5个文件夹，存放5种图片改造</p>
-									<ol>
-										<ul>需求</ul>
-										<ul>箭头</ul>
-										<ul>Hot</ul>
-										<ul>涂鸦底纹</ul>
-										<ul>波点底纹</ul>
-									</ol>
 								</td>
-								<td>完成</td>
-							</tr>
-							<tr> <th colspan="8">2025/8/25-2025/8/31</th></tr>
-							<tr>
-							    <td>2025/8/25-2025/8/31</td>
-							    <td>电动工具通用模板</td>
-							    <td>
-							        <p><a href="https://en-medituauma.tw.ldyjz.com/Power-Tool-pd560488448.html" target="_blank">网址：新站电动工具通用</a></p>
-							        <p><a href="https://www.czmeditech.com/--pd510877448.html" target="_blank">网址：老站电动工具通用</a></p>
-							    </td>
-							    <td>全平台</td>
-							    <td><p>\\192.168.110.249\美工\全平台素材\谷歌\查漏补缺\电动工具查漏补缺\新站电动工具</p>
-							    <p>\\192.168.110.249\美工\全平台素材\谷歌\查漏补缺\电动工具查漏补缺\老站电动工具</p>
-							    </td>
-							    <td>24张</td>
-							    <td></td>
-							    <td></td>
+								<td>
+									<p>老站查漏补缺</p>
+									<p>新站产品链接搭建</p>
+								</td>
+								<td>
+									\\192.168.110.249\美工\全平台素材\谷歌\查漏补缺\锁定板图片-图册版\图册更新图20250828
+								</td>
+								<td>21张</td>
+								<td></td>
+								<td>在进行新站产品排序的时候对应图册发现锁定板有更新的板</td>
 							</tr>
 							<tr>
-							    <td>2025/8/18-2025/8/24</td>
-							    <td>MIC展示厅更新</td>
-							    <td><a href="https://czmeditech.en.made-in-china.com/" target="_blank">网址：MIC展示厅</a>
-							    </td>
-							            <td><p>MIC平台</p></td>
-							            <td>\\192.168.110.249\美工\全平台素材\mic\展示厅\展示厅更新20250825
-							            </td>
-							            <td>16张</td>
-							            <td><ul>
-															   <li>Banner素材更换：（4张）
-																	<ol>
-																	   <li>脊柱新品</li>
-																	   <li>髓内钉新品</li>
-																	   <li>锁定板新品</li>
-																	   <li>颌面最新的素材</li>
-																   </ol>
-															   </li>
-															   <li>以上脊柱，髓内钉,锁定板和颌面的合集做分类图（4张）</li>
-															   <li>以上脊柱，髓内钉,锁定板和颌面的合集做主图（4张）</li>
-															   <li>4个分类的小Banner重新换素材:（4张）
-																<ol>
-																	<li>脊柱</li>
-																	<li>髓内钉</li>
-																	<li>锁定板</li>
-																	<li>颌面</li>
-																</ol>
-															   </li>
-															   </ul>							
-															   </td>
-							            <td></td>
+								<td>2025/9/18-2025/9/7</td>
+								<td>创伤板落地页优化</td>
+								<td>
+								</td>
+								<td>落地页优化</td>
+								<td>
+								</td>
+								<td>张</td>
+								<td></td>
+								<td></td>
 							</tr>
 							<tr>
-							    <td>2025/8/18-2025/8/24</td>
-							    <td>关节图册图</td>
-							    <td>
-							    </td>
-							            <td><p>MIC发品</p></td>
-							            <td>
-							                \\192.168.110.249\美工\全平台素材\谷歌\查漏补缺\关节图片-图册版
-							            </td>
-							            <td>41张</td>
-							            <td></td>
-							            <td></td>
-							</tr>							
-                    </tbody>
-                </table>
-            </details>
-            <p>本周任务</p>
-            <!-- 第二个表格 -->
-                <table id="current-table">
-                    <thead>
-                        <tr>
-                            <th>任务周期</th>
-                            <th>任务名称</th>
-                            <th>资料路径</th>
-                            <th>任务目的</th>
-                            <th>保存路径</th>
-                            <th>数量要求</th>
-                            <th>任务要求</th>
-                            <th>备注</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                       <tr>
-                           <td>2025/8/18-2025/8/24</td>
-                           <td></td>
-                           <td>
-                           </td>
-                                   <td></td>
-                                   <td>
-                                   </td>
-                                   <td>张</td>
-                                   <td></td>
-                                   <td></td>
-                       </tr>                       					
-                    </tbody>
-                </table>
+								<td>2025/9/18-2025/9/7</td>
+								<td>关节通用模板</td>
+								<td>
+								</td>
+								<td>MIC详情页</td>
+								<td>
+								</td>
+								<td>张</td>
+								<td></td>
+								<td></td>
+							</tr>
+						</tbody>
+					</table>
+				</details>
+		    	<div class="no-results" id="no-results">
+		    		没有找到匹配的记录，请尝试其他搜索词。
+		    	</div>
+		    </div>
 
-            <!-- 第三个表格 -->
-            <details>
-                <summary>其他任务表格</summary>
-                <table id="other-table">
-                    <thead>
-                        <tr>
-                            <th>任务周期</th>
-                            <th>任务名称</th>
-                            <th>资料路径</th>
-                            <th>任务目的</th>
-                            <th>保存路径</th>
-                            <th>数量要求</th>
-                            <th>任务要求</th>
-                            <th>备注</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>2025/8/11-2025/8/17</td>
-                            <td>OEM/ODM</td>
-                            <td>
-                                <a href="https://www.czmeditech.com/oem-odm.html" target="_blank">网址：OEM/ODM</a>
-                            </td>
-                            <td>老站OEM/ODM优化</td>
-                            <td>\\192.168.110.249\美工\全平台素材\谷歌\落地页优化\OEMODM</td>
-                            <td>张</td>
-                            <td></td>
-                            <td>Rachel负责</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </details>
-            <!-- 第四个表格 -->
-            <details>
-                <summary>下周任务表格</summary>
-                <table id="other-table">
-                    <thead>
-                        <tr>
-                            <th>任务周期</th>
-                            <th>任务名称</th>
-                            <th>资料路径</th>
-                            <th>任务目的</th>
-                            <th>保存路径</th>
-                            <th>数量要求</th>
-                            <th>任务要求</th>
-                            <th>备注</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>2025/9/1-2025/9/7</td>
-                            <td>脊柱图册图</td>
-                            <td>                                
-                            </td>
-                            <td><p>MIC发品</p></td>
-                            <td>\\192.168.110.249\美工\全平台素材\谷歌\查漏补缺\脊柱图片-图册版
-                            </td>
-                            <td>张</td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                        	<td>2025/9/18-2025/9/7</td>
-                        	<td>锁定板图册图-更新版20250828</td>
-                        	<td>
-                        	</td>
-                        			<td><p>老站查漏补缺</p><p>新站产品链接搭建</p></td>
-                        			<td>
-                        			    \\192.168.110.249\美工\全平台素材\谷歌\查漏补缺\锁定板图片-图册版\图册更新图20250828
-                        			</td>
-                        			<td>21张</td>
-                        			<td></td>
-                        			<td>在进行新站产品排序的时候对应图册发现锁定板有更新的板</td>
-                        </tr>
-						<tr>
-							<td>2025/9/18-2025/9/7</td>
-							<td>创伤板落地页优化</td>
-							<td>
-							</td>
-									<td>落地页优化</td>
-									<td>
-									</td>
-									<td>张</td>
-									<td></td>
-									<td></td>
-						</tr>
-						<tr>
-							<td>2025/9/18-2025/9/7</td>
-							<td>关节通用模板</td>
-							<td>
-							</td>
-									<td>MIC详情页</td>
-									<td>
-									</td>
-									<td>张</td>
-									<td></td>
-									<td></td>
-						</tr>
-                    </tbody>
-                </table>
-            </details>
+			<footer>
+				<p>© 2025 Hugh的工作网站. 保留所有权利.</p>
+			</footer>
+		</div>
 
-            <div class="no-results" id="no-results">
-                没有找到匹配的记录，请尝试其他搜索词。
-            </div>
-        </div>
+		<a href="#" class="back-to-top">
+			<i class="fas fa-arrow-up"></i>
+		</a>
 
-        <footer>
-            <p>多表格搜索筛选功能 &copy; 2025</p>
-        </footer>
-    </div>
+		<script>
+			// 加载导航栏
+			function loadNavbar() {
+				const navbarContainer = document.getElementById('navbar-container');
+				const navbarHTML = `
+					<nav class="navbar">
+						<div class="nav-container">
+							<a href="#" class="logo">
+								<i class="fas fa-rocket"></i>
+								<span>Hugh的工作网站</span>
+							</a>
 
-    <!-- 返回顶部按钮 -->
-    <a href="#" class="back-to-top">
-        <i class="fas fa-arrow-up"></i>
-    </a>
+							<ul class="nav-menu">
+								<li class="nav-item">
+									<a href="#" class="nav-link">首页</a>
+								</li>
+								<li class="nav-item">
+									<a href="#" class="nav-link has-dropdown">报表</a>
+									<div class="dropdown">
+										<a href="https://hugh2024-han.github.io/My-website/TonyTask.html" class="dropdown-item">Tony任务卡</a>
+										<a href="https://hugh2024-han.github.io/My-website/%E6%AF%8F%E5%91%A8%E5%91%A8%E6%8A%A5.html" class="dropdown-item">每周周报</a>
+									</div>
+								</li>
+								<li class="nav-item">
+									<a href="https://hugh2024-han.github.io/My-website/%E5%91%A8%E6%8A%A5.html" class="nav-link">周报</a>
+								</li>
+							</ul>
 
-    <script>
-        // 加载导航栏
-        function loadNavbar() {
-            const navbarContainer = document.getElementById('navbar-container');
+							<div class="nav-search-box">
+								<input type="text" class="nav-search-input" placeholder="搜索...">
+								<button class="nav-search-btn">
+									<i class="fas fa-search"></i>
+								</button>
+							</div>
 
-            // 创建导航栏HTML
-            const navbarHTML = `
-                <nav class="navbar">
-                    <div class="nav-container">
-                        <a href="#" class="logo">
-                            <i class="fas fa-rocket"></i>
-                            <span>Hugh的工作网站</span>
-                        </a>
+							<button class="hamburger">
+								<i class="fas fa-bars"></i>
+							</button>
+						</div>
+					</nav>
+				`;
+				navbarContainer.innerHTML = navbarHTML;
+				initNavbar();
+			}
 
-                        <ul class="nav-menu">
-                            <li class="nav-item">
-                                <a href="https://hugh2024-han.github.io/My-website/Hugh%E7%9A%84%E5%B7%A5%E4%BD%9C%E7%BD%91%E7%AB%99.html" class="nav-link">首页</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">报表</a>
-                                <div class="dropdown">
-                                    <a href="https://hugh2024-han.github.io/My-website/TonyTask.html" class="dropdown-item">Tony任务卡</a>
-                                    <a href="https://hugh2024-han.github.io/My-website/%E6%AF%8F%E5%91%A8%E5%91%A8%E6%8A%A5.html" class="dropdown-item">每周周报</a>
-                                </div>
-                            </li>
-                            <li class="nav-item">
-                                <a href="https://hugh2024-han.github.io/My-website/%E5%91%A8%E6%8A%A5.html" class="nav-link">周报</a>
-                            </li>
-                        </ul>
+			// 初始化导航菜单功能
+			function initNavbar() {
+				const hamburger = document.querySelector('.hamburger');
+				const navMenu = document.querySelector('.nav-menu');
 
-                        <div class="nav-search-box">
-                            <input type="text" class="nav-search-input" placeholder="搜索...">
-                            <button class="nav-search-btn">
-                                <i class="fas fa-search"></i>
-                            </button>
-                        </div>
+				if (hamburger && navMenu) {
+					hamburger.addEventListener('click', (e) => {
+						e.stopPropagation();
+						navMenu.classList.toggle('active');
+						hamburger.innerHTML = navMenu.classList.contains('active') ?
+							'<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+					});
 
-                        <button class="hamburger">
-                            <i class="fas fa-bars"></i>
-                        </button>
-                    </div>
-                </nav>
-            `;
+					// 移动端下拉菜单处理
+					document.querySelectorAll('.nav-link.has-dropdown').forEach(link => {
+						link.addEventListener('click', (e) => {
+							if (window.innerWidth <= 768) {
+								e.preventDefault();
+								e.stopPropagation();
+								link.classList.toggle('active');
+								link.nextElementSibling.classList.toggle('active');
+							}
+						});
+					});
 
-            navbarContainer.innerHTML = navbarHTML;
+					// 点击其他地方关闭菜单
+					document.addEventListener('click', (e) => {
+						if (window.innerWidth <= 768) {
+							if (!e.target.closest('.nav-menu') && !e.target.closest('.hamburger')) {
+								navMenu.classList.remove('active');
+								hamburger.innerHTML = '<i class="fas fa-bars"></i>';
 
-            // 初始化导航菜单功能
-            initNavbar();
-        }
+								document.querySelectorAll('.dropdown').forEach(dropdown => {
+									dropdown.classList.remove('active');
+								});
+								document.querySelectorAll('.nav-link.has-dropdown').forEach(link => {
+									link.classList.remove('active');
+								});
+							}
+						}
+					});
+				}
+			}
 
-        // 初始化导航菜单功能
-        function initNavbar() {
-            const hamburger = document.querySelector('.hamburger');
-            const navMenu = document.querySelector('.nav-menu');
+			// 返回顶部功能
+			function initBackToTop() {
+				const backToTopButton = document.querySelector('.back-to-top');
 
-            if (hamburger && navMenu) {
-                hamburger.addEventListener('click', () => {
-                    navMenu.classList.toggle('active');
-                    hamburger.innerHTML = navMenu.classList.contains('active') ?
-                        '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
-                });
+				window.addEventListener('scroll', () => {
+					if (window.pageYOffset > 300) {
+						backToTopButton.classList.add('visible');
+					} else {
+						backToTopButton.classList.remove('visible');
+					}
+				});
 
-                // 移动端下拉菜单处理
-                document.querySelectorAll('.nav-link').forEach(link => {
-                    if (link.nextElementSibling && link.nextElementSibling.classList.contains('dropdown')) {
-                        link.addEventListener('click', (e) => {
-                            if (window.innerWidth <= 768) {
-                                e.preventDefault();
-                                link.nextElementSibling.classList.toggle('active');
-                            }
-                        });
-                    }
-                });
+				backToTopButton.addEventListener('click', (e) => {
+					e.preventDefault();
+					window.scrollTo({
+						top: 0,
+						behavior: 'smooth'
+					});
+				});
+			}
 
-                // 点击其他地方关闭菜单
-                document.addEventListener('click', (e) => {
-                    if (window.innerWidth <= 768 &&
-                        !e.target.closest('.nav-menu') &&
-                        !e.target.closest('.hamburger')) {
-                        navMenu.classList.remove('active');
-                        if (hamburger) {
-                            hamburger.innerHTML = '<i class="fas fa-bars"></i>';
-                        }
+			// 防抖函数
+			function debounce(func, wait) {
+				let timeout;
+				return function() {
+					const context = this;
+					const args = arguments;
+					clearTimeout(timeout);
+					timeout = setTimeout(() => func.apply(context, args), wait);
+				};
+			}
 
-                        document.querySelectorAll('.dropdown').forEach(dropdown => {
-                            dropdown.classList.remove('active');
-                        });
-                    }
-                });
-            }
-        }
+			// 搜索功能
+			function initSearch() {
+				const searchInput = document.getElementById('search-input');
+				const searchBtn = document.getElementById('search-btn');
+				const tables = document.querySelectorAll('table');
+				const resultsCount = document.getElementById('results-count');
+				const noResults = document.querySelector('.no-results');
 
-        // 返回顶部功能
-        function initBackToTop() {
-            const backToTopButton = document.querySelector('.back-to-top');
+				if (!searchInput || !searchBtn || !tables.length) return;
 
-            window.addEventListener('scroll', () => {
-                if (window.pageYOffset > 300) {
-                    backToTopButton.classList.add('visible');
-                } else {
-                    backToTopButton.classList.remove('visible');
-                }
-            });
+				function escapeRegExp(string) {
+					return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+				}
 
-            backToTopButton.addEventListener('click', (e) => {
-                e.preventDefault();
-                window.scrollTo({
-                    top: 0,
-                    behavior: 'smooth'
-                });
-            });
-        }
+				function performSearch() {
+					const searchText = searchInput.value.toLowerCase().trim();
+					let matchCount = 0;
 
-        // 页面加载完成后初始化
-        document.addEventListener('DOMContentLoaded', () => {
-            loadNavbar();
-            initBackToTop();
-        });
-        document.addEventListener('DOMContentLoaded', function() {
-            const searchInput = document.getElementById('search-input');
-            const searchBtn = document.getElementById('search-btn');
-            const tables = document.querySelectorAll('table'); // 获取所有表格
-            const resultsCount = document.getElementById('results-count');
-            const noResults = document.getElementById('no-results');
+					tables.forEach(table => {
+						const tbody = table.getElementsByTagName('tbody')[0];
+						if (!tbody) return;
+						
+						const rows = tbody.getElementsByTagName('tr');
 
-            // 初始显示所有行并计算总数
-            let totalRows = 0;
-            tables.forEach(table => {
-                const tbody = table.getElementsByTagName('tbody')[0];
-                if (tbody) {
-                    totalRows += tbody.getElementsByTagName('tr').length;
-                }
-            });
-            resultsCount.textContent = totalRows;
+						for (let i = 0; i < rows.length; i++) {
+							const cells = rows[i].getElementsByTagName('td');
+							let rowMatch = false;
 
-            // 搜索功能
-            function performSearch() {
-                const searchText = searchInput.value.toLowerCase().trim();
-                let matchCount = 0;
+							if (rows[i].getElementsByTagName('th').length > 0) {
+								rows[i].style.display = '';
+								continue;
+							}
 
-                // 遍历所有表格
-                tables.forEach(table => {
-                    const tbody = table.getElementsByTagName('tbody')[0];
-                    if (!tbody) return;
-                    
-                    const rows = tbody.getElementsByTagName('tr');
+							for (let j = 0; j < cells.length; j++) {
+								const cellText = cells[j].textContent.toLowerCase();
 
-                    // 遍历当前表格的所有行
-                    for (let i = 0; i < rows.length; i++) {
-                        const cells = rows[i].getElementsByTagName('td');
-                        let rowMatch = false;
+								if (searchText === '' || cellText.includes(searchText)) {
+									rowMatch = true;
 
-                        // 跳过表头行（如果表头行有th标签）
-                        if (rows[i].getElementsByTagName('th').length > 0) {
-                            // 如果是表头行，根据需求决定是否参与搜索
-                            // 这里我们让表头行始终显示
-                            rows[i].style.display = '';
-                            continue;
-                        }
+									if (searchText !== '') {
+										const regex = new RegExp(`(${escapeRegExp(searchText)})`, 'gi');
+										cells[j].innerHTML = cells[j].textContent.replace(regex,
+											'<span class="highlight">$1</span>');
+									}
+								} else {
+									cells[j].innerHTML = cells[j].textContent;
+								}
+							}
 
-                        // 遍历行中的每个单元格
-                        for (let j = 0; j < cells.length; j++) {
-                            const cellText = cells[j].textContent.toLowerCase();
+							if (rowMatch) {
+								rows[i].style.display = '';
+								matchCount++;
+							} else {
+								rows[i].style.display = 'none';
+							}
+						}
+					});
 
-                            // 如果搜索关键词为空，或者单元格内容包含关键词
-                            if (searchText === '' || cellText.includes(searchText)) {
-                                rowMatch = true;
+					resultsCount.textContent = matchCount;
 
-                                // 高亮显示匹配的文本
-                                if (searchText !== '') {
-                                    const regex = new RegExp(`(${escapeRegExp(searchText)})`, 'gi');
-                                    cells[j].innerHTML = cells[j].textContent.replace(regex,
-                                        '<span class="highlight">$1</span>');
-                                }
-                            } else {
-                                // 移除之前的高亮
-                                cells[j].innerHTML = cells[j].textContent;
-                            }
-                        }
+					if (matchCount === 0 && searchText !== '') {
+						noResults.style.display = 'block';
+					} else {
+						noResults.style.display = 'none';
+					}
+				}
 
-                        // 显示或隐藏行
-                        if (rowMatch) {
-                            rows[i].style.display = '';
-                            matchCount++;
-                        } else {
-                            rows[i].style.display = 'none';
-                        }
-                    }
-                });
+				searchBtn.addEventListener('click', performSearch);
+				searchInput.addEventListener('keypress', function(e) {
+					if (e.key === 'Enter') {
+						performSearch();
+					}
+				});
+				searchInput.addEventListener('input', debounce(performSearch, 300));
+			}
 
-                // 更新结果计数
-                resultsCount.textContent = matchCount;
-
-                // 显示或隐藏"无结果"消息
-                if (matchCount === 0 && searchText !== '') {
-                    noResults.style.display = 'block';
-                } else {
-                    noResults.style.display = 'none';
-                }
-            }
-
-            // 辅助函数：转义正则表达式特殊字符
-            function escapeRegExp(string) {
-                return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-            }
-
-            // 添加事件监听器
-            searchInput.addEventListener('input', performSearch);
-            searchBtn.addEventListener('click', performSearch);
-
-            // 支持按回车键搜索
-            searchInput.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    performSearch();
-                }
-            });
-        });
-    </script>
-</body>
+			// 页面加载完成后初始化
+			document.addEventListener('DOMContentLoaded', () => {
+				loadNavbar();
+				initBackToTop();
+				initSearch();
+			});
+		</script>
+	</body>
 </html>
