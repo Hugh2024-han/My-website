@@ -1,0 +1,23 @@
+Sub 多列文本转数值()
+    Dim colLetters As Variant
+    Dim i As Integer
+    
+    ' 指定要处理的列字母数组
+    colLetters = Array("C", "E", "G", "H", "K") ' 修改为您需要的列
+    
+    For i = LBound(colLetters) To UBound(colLetters)
+        Columns(colLetters(i)).TextToColumns _
+            Destination:=Range(colLetters(i) & "1"), _
+            DataType:=xlDelimited, _
+            TextQualifier:=xlDoubleQuote, _
+            ConsecutiveDelimiter:=False, _
+            Tab:=True, _
+            Semicolon:=False, _
+            Comma:=False, _
+            Space:=False, _
+            Other:=False, _
+            FieldInfo:=Array(1, 1), _
+            TrailingMinusNumbers:=True
+    Next i
+End Sub
+
