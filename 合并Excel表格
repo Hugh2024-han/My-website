@@ -1,0 +1,246 @@
+Sub CombineWorkbooks()
+    Dim wbTarget As Workbook
+    Dim wsTarget As Worksheet
+    Dim wbSource As Workbook
+    Dim wsSource As Worksheet
+    Dim folderPath As String
+    Dim fileName As String
+    Dim baseName As String
+    Dim lastRowTarget As Long
+    Dim lastRowSource As Long
+    Dim lastColSource As Long
+    Dim colIndex As Long
+    Dim dictHeaders As Object
+    Dim header As Variant
+    Dim cellValue As Variant
+    Dim i As Long
+    Dim targetCol As Long
+    Dim fileTypes As Variant
+    Dim j As Integer
+    Dim fldrPicker As FileDialog
+    Dim processedFiles As Collection
+    Dim headerRow As Long
+    
+    ' 创建文件夹选择对话框
+    Set fldrPicker = Application.FileDialog(msoFileDialogFolderPicker)
+    fldrPicker.Title = "请选择包含Excel文件的文件夹"
+    
+    ' 如果用户取消选择则退出
+    If fldrPicker.Show <> -1 Then
+        MsgBox "用户取消了操作", vbInformation
+        Exit Sub
+    End If
+    
+    ' 获取用户选择的路径
+    folderPath = fldrPicker.SelectedItems(1)
+    If Right(folderPath, 1) <> "\" Then folderPath = folderPath & "\"
+    
+    ' 创建新工作簿
+    Set wbTarget = Workbooks.Add
+    Set wsTarget = wbTarget.Sheets(1)
+    wsTarget.Name = "CombinedData"
+    wsTarget.Cells(1, 1).Value = "FileName"    ' 第一列：文件名
+    wsTarget.Cells(1, 2).Value = "SheetName"   ' 第二列：工作表名
+    
+    ' 初始化字典和已处理文件集合
+    Set dictHeaders = CreateObject("Scripting.Dictionary")
+    Set processedFiles = New Collection
+    targetCol = 3  ' 从第3列开始放数据列
+    
+    ' 定义要处理的文件类型
+    fileTypes = Array("*.xlsx", "*.xls")
+    
+    Application.ScreenUpdating = False
+    Application.DisplayAlerts = False
+    
+    ' 第一次遍历：收集表头（从每个文件的第一个可见工作表）
+    For j = LBound(fileTypes) To UBound(fileTypes)
+        fileName = Dir(folderPath & fileTypes(j))
+        Do While fileName <> ""
+            ' 跳过已处理文件和临时文件
+            If Not CollectionContains(processedFiles, fileName) And Left(fileName, 2) <> "~$" Then
+                processedFiles.Add fileName, fileName
+                
+                On Error Resume Next
+                Set wbSource = Workbooks.Open(folderPath & fileName, ReadOnly:=True, UpdateLinks:=0)
+                If Err.Number <> 0 Then
+                    Debug.Print "无法打开文件: " & fileName
+                    Err.Clear
+                    GoTo NextFile
+                End If
+                On Error GoTo 0
+                
+                ' 查找第一个可见工作表
+                Set wsSource = Nothing
+                For Each ws In wbSource.Worksheets
+                    If ws.Visible = xlSheetVisible Then
+                        Set wsSource = ws
+                        Exit For
+                    End If
+                Next ws
+                
+                ' 如果找到可见工作表，则处理
+                If Not wsSource Is Nothing Then
+                    ' 自动检测表头行（查找第一个非空行）
+                    headerRow = FindHeaderRow(wsSource)
+                    
+                    ' 获取源表头
+                    lastColSource = wsSource.Cells(headerRow, wsSource.Columns.Count).End(xlToLeft).Column
+                    For colIndex = 1 To lastColSource
+                        header = Trim(wsSource.Cells(headerRow, colIndex).Value)
+                        If header <> "" And Not dictHeaders.exists(header) And header <> "FileName" And header <> "SheetName" Then
+                            dictHeaders.Add header, targetCol
+                            wsTarget.Cells(1, targetCol).Value = header
+                            targetCol = targetCol + 1
+                        End If
+                    Next colIndex
+                End If
+                
+                wbSource.Close False
+            End If
+NextFile:
+            fileName = Dir
+        Loop
+    Next j
+    
+    ' 清除已处理文件集合，为第二次遍历做准备
+    Set processedFiles = New Collection
+    
+    ' 第二次遍历：合并数据（从每个文件的第一个可见工作表）
+    For j = LBound(fileTypes) To UBound(fileTypes)
+        fileName = Dir(folderPath & fileTypes(j))
+        Do While fileName <> ""
+            ' 跳过已处理文件和临时文件
+            If Not CollectionContains(processedFiles, fileName) And Left(fileName, 2) <> "~$" Then
+                processedFiles.Add fileName, fileName
+                
+                On Error Resume Next
+                Set wbSource = Workbooks.Open(folderPath & fileName, ReadOnly:=True, UpdateLinks:=0)
+                If Err.Number <> 0 Then
+                    Debug.Print "无法打开文件: " & fileName
+                    Err.Clear
+                    GoTo NextFile2
+                End If
+                On Error GoTo 0
+                
+                ' 查找第一个可见工作表
+                Set wsSource = Nothing
+                For Each ws In wbSource.Worksheets
+                    If ws.Visible = xlSheetVisible Then
+                        Set wsSource = ws
+                        Exit For
+                    End If
+                Next ws
+                
+                ' 如果找到可见工作表，则处理
+                If Not wsSource Is Nothing Then
+                    ' 自动检测表头行
+                    headerRow = FindHeaderRow(wsSource)
+                    
+                    ' 获取文件名（去扩展名）
+                    If Right(fileName, 5) = ".xlsx" Then
+                        baseName = Left(fileName, Len(fileName) - 5)
+                    ElseIf Right(fileName, 4) = ".xls" Then
+                        baseName = Left(fileName, Len(fileName) - 4)
+                    Else
+                        baseName = fileName
+                    End If
+                    
+                    ' 获取目标表当前最后一行
+                    lastRowTarget = wsTarget.Cells(wsTarget.Rows.Count, 1).End(xlUp).Row + 1
+                    
+                    ' 获取当前工作表数据范围
+                    lastRowSource = wsSource.Cells(wsSource.Rows.Count, 1).End(xlUp).Row
+                    lastColSource = wsSource.Cells(headerRow, wsSource.Columns.Count).End(xlToLeft).Column
+                    
+                    ' 处理所有数据行（从表头行+1开始）
+                    For i = headerRow + 1 To lastRowSource
+                        ' 检查整行是否为空，如果为空则跳过
+                        If Not IsEmptyRow(wsSource, i) Then
+                            ' 写入文件名和工作表名
+                            wsTarget.Cells(lastRowTarget, 1).Value = baseName
+                            wsTarget.Cells(lastRowTarget, 2).Value = wsSource.Name
+                            
+                            ' 写入数据
+                            For colIndex = 1 To lastColSource
+                                header = Trim(wsSource.Cells(headerRow, colIndex).Value)
+                                cellValue = wsSource.Cells(i, colIndex).Value
+                                
+                                If header <> "" And header <> "FileName" And header <> "SheetName" And dictHeaders.exists(header) Then
+                                    wsTarget.Cells(lastRowTarget, dictHeaders(header)).Value = cellValue
+                                End If
+                            Next colIndex
+                            
+                            lastRowTarget = lastRowTarget + 1
+                        End If
+                    Next i
+                End If
+                
+                wbSource.Close False
+            End If
+NextFile2:
+            fileName = Dir
+        Loop
+    Next j
+    
+    
+    Application.ScreenUpdating = True
+    Application.DisplayAlerts = True
+    
+    MsgBox "合并完成！" & vbCrLf & _
+           "共合并 " & (wsTarget.Cells(wsTarget.Rows.Count, 1).End(xlUp).Row - 1) & " 行数据" & vbCrLf & _
+           "来自 " & processedFiles.Count & " 个文件的第一个可见工作表", _
+           vbInformation, "操作完成"
+End Sub
+
+' 辅助函数：检查集合是否包含某个值
+Function CollectionContains(col As Collection, key As String) As Boolean
+    Dim item As Variant
+    On Error Resume Next
+    CollectionContains = False
+    For Each item In col
+        If item = key Then
+            CollectionContains = True
+            Exit Function
+        End If
+    Next item
+End Function
+
+' 辅助函数：自动检测表头行
+Function FindHeaderRow(ws As Worksheet) As Long
+    Dim i As Long, j As Long, cellCount As Long
+    Dim maxCellCount As Long, headerRow As Long
+    
+    ' 检查前10行，找到包含最多非空单元格的行作为表头行
+    maxCellCount = 0
+    headerRow = 1 ' 默认第一行
+    
+    For i = 1 To 2
+        cellCount = 0
+        For j = 1 To ws.Cells(i, ws.Columns.Count).End(xlToLeft).Column
+            If ws.Cells(i, j).Value <> "" Then
+                cellCount = cellCount + 1
+            End If
+        Next j
+        
+        If cellCount > maxCellCount Then
+            maxCellCount = cellCount
+            headerRow = i
+        End If
+    Next i
+    
+    FindHeaderRow = headerRow
+End Function
+
+' 辅助函数：检查整行是否为空
+Function IsEmptyRow(ws As Worksheet, rowNum As Long) As Boolean
+    Dim colIndex As Long
+    IsEmptyRow = True
+    
+    For colIndex = 1 To ws.Cells(rowNum, ws.Columns.Count).End(xlToLeft).Column
+        If ws.Cells(rowNum, colIndex).Value <> "" Then
+            IsEmptyRow = False
+            Exit Function
+        End If
+    Next colIndex
+End Function
