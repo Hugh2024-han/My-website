@@ -4,20 +4,200 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>周报</title>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 		<style>
+			:root {
+				--primary-color: #3498db;
+				--secondary-color: #2980b9;
+				--text-color: #333;
+				--bg-color: #fff;
+				--hover-color: #f8f9fa;
+				--shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+			}
+
 			* {
-				box-sizing: border-box;
 				margin: 0;
 				padding: 0;
+				box-sizing: border-box;
 				font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 			}
 
 			body {
+				padding-top: 70px;
 				background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
 				color: #333;
 				line-height: 1.6;
-				padding: 20px;
 				min-height: 100vh;
+			}
+
+			.navbar {
+				position: fixed;
+				top: 0;
+				left: 0;
+				width: 100%;
+				background-color: var(--bg-color);
+				box-shadow: var(--shadow);
+				z-index: 1000;
+				padding: 0 20px;
+			}
+
+			.nav-container {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				max-width: 1200px;
+				margin: 0 auto;
+				height: 70px;
+			}
+
+			.logo {
+				display: flex;
+				align-items: center;
+				text-decoration: none;
+				color: var(--primary-color);
+				font-weight: 700;
+				font-size: 1.5rem;
+			}
+
+			.logo i {
+				margin-right: 10px;
+				font-size: 1.8rem;
+			}
+
+			.nav-menu {
+				display: flex;
+				list-style: none;
+			}
+
+			.nav-item {
+				position: relative;
+			}
+
+			.nav-link {
+				display: block;
+				padding: 0 15px;
+				line-height: 70px;
+				color: var(--text-color);
+				text-decoration: none;
+				transition: color 0.3s;
+				font-weight: 500;
+			}
+
+			.nav-link:hover {
+				color: var(--primary-color);
+			}
+
+			.nav-link:hover::after {
+				content: '';
+				position: absolute;
+				bottom: 0;
+				left: 15px;
+				width: calc(100% - 30px);
+				height: 3px;
+				background-color: var(--primary-color);
+			}
+
+			.nav-search-box {
+				position: relative;
+				width: 250px;
+			}
+
+			.nav-search-input {
+				width: 100%;
+				padding: 10px 15px;
+				padding-right: 40px;
+				border: 1px solid #ddd;
+				border-radius: 20px;
+				outline: none;
+				transition: border-color 0.3s;
+			}
+
+			.nav-search-input:focus {
+				border-color: var(--primary-color);
+			}
+
+			.nav-search-btn {
+				position: absolute;
+				right: 10px;
+				top: 50%;
+				transform: translateY(-50%);
+				background: none;
+				border: none;
+				color: #777;
+				cursor: pointer;
+			}
+
+			.hamburger {
+				display: none;
+				cursor: pointer;
+				background: none;
+				border: none;
+				font-size: 1.5rem;
+				color: var(--text-color);
+				z-index: 1001;
+			}
+
+			.dropdown {
+				position: absolute;
+				top: 100%;
+				left: 0;
+				width: 200px;
+				background-color: var(--bg-color);
+				box-shadow: var(--shadow);
+				border-radius: 5px;
+				opacity: 0;
+				visibility: hidden;
+				transform: translateY(10px);
+				transition: all 0.3s;
+				z-index: 99;
+			}
+
+			.nav-item:hover .dropdown {
+				opacity: 1;
+				visibility: visible;
+				transform: translateY(0);
+			}
+
+			.dropdown-item {
+				display: block;
+				padding: 12px 20px;
+				color: var(--text-color);
+				text-decoration: none;
+				transition: all 0.3s;
+			}
+
+			.dropdown-item:hover {
+				background-color: var(--hover-color);
+				color: var(--primary-color);
+			}
+
+			.back-to-top {
+				position: fixed;
+				bottom: 30px;
+				right: 30px;
+				width: 50px;
+				height: 50px;
+				background-color: var(--primary-color);
+				color: white;
+				border-radius: 50%;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				text-decoration: none;
+				box-shadow: var(--shadow);
+				opacity: 0;
+				visibility: hidden;
+				transition: all 0.3s;
+				z-index: 999;
+			}
+
+			.back-to-top.visible {
+				opacity: 1;
+				visibility: visible;
+			}
+
+			.back-to-top:hover {
+				background-color: var(--secondary-color);
 			}
 
 			.container {
@@ -27,6 +207,7 @@
 				border-radius: 12px;
 				box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 				overflow: hidden;
+				margin-top: 70px;
 			}
 
 			header {
@@ -41,20 +222,13 @@
 				margin-bottom: 10px;
 			}
 
-			.description {
-				font-size: 1.1rem;
-				opacity: 0.9;
-				max-width: 800px;
-				margin: 0 auto;
-			}
-
 			.search-container {
 				padding: 25px;
 				background: #f8f9fa;
 				border-bottom: 1px solid #eaecef;
 			}
 
-			.search-box {
+			.main-search-box {
 				display: flex;
 				max-width: 700px;
 				margin: 0 auto;
@@ -106,8 +280,7 @@
 				font-size: 1rem;
 			}
 
-			th,
-			td {
+			th, td {
 				padding: 16px 20px;
 				text-align: left;
 				border-bottom: 1px solid #eaecef;
@@ -148,10 +321,86 @@
 				border-top: 1px solid #eaecef;
 			}
 
-			@media (max-width: 768px) {
+			@media screen and (max-width: 768px) {
+				.nav-menu {
+					position: fixed;
+					top: 70px;
+					left: -100%;
+					width: 100%;
+					height: calc(100vh - 70px);
+					background-color: var(--bg-color);
+					flex-direction: column;
+					transition: left 0.3s ease;
+					box-shadow: var(--shadow);
+					overflow-y: auto;
+					z-index: 999;
+				}
 
-				th,
-				td {
+				.nav-menu.active {
+					left: 0;
+				}
+
+				.nav-item {
+					width: 100%;
+				}
+
+				.nav-link {
+					line-height: 50px;
+					padding: 0 20px;
+					border-bottom: 1px solid #eee;
+					display: flex;
+					justify-content: space-between;
+					align-items: center;
+				}
+
+				.nav-link:hover::after {
+					display: none;
+				}
+
+				.dropdown {
+					position: static;
+					width: 100%;
+					opacity: 1;
+					visibility: visible;
+					transform: none;
+					box-shadow: none;
+					display: none;
+					background-color: #f9f9f9;
+					max-height: 0;
+					overflow: hidden;
+					transition: max-height 0.3s ease;
+				}
+
+				.dropdown.active {
+					display: block;
+					max-height: 500px;
+				}
+
+				.nav-item:hover .dropdown {
+					transform: none;
+				}
+
+				.hamburger {
+					display: block;
+				}
+
+				.nav-search-box {
+					display: none;
+				}
+
+				.nav-link.has-dropdown::after {
+					content: '\f078';
+					font-family: 'Font Awesome 5 Free';
+					font-weight: 900;
+					font-size: 12px;
+					transition: transform 0.3s;
+				}
+
+				.nav-link.has-dropdown.active::after {
+					transform: rotate(180deg);
+				}
+
+				th, td {
 					padding: 12px 15px;
 				}
 
@@ -162,6 +411,10 @@
 
 				#search-btn {
 					padding: 14px 20px;
+				}
+
+				.container {
+					margin-top: 20px;
 				}
 			}
 
@@ -174,132 +427,227 @@
 					font-size: 1.8rem;
 				}
 
-				.search-box {
+				.main-search-box {
 					flex-direction: column;
 				}
 
 				#search-btn {
 					border-radius: 0 0 10px 10px;
 				}
+
+				.nav-container {
+					padding: 0 15px;
+				}
+
+				.logo span {
+					font-size: 1.2rem;
+				}
 			}
 		</style>
 	</head>
 	<body>
+		<div id="navbar-container"></div>
+
+		<!-- 页面内容 -->
 		<div class="container">
-			<header>
-				<h1>周报</h1>
-				<p class="description">在下方搜索框中输入关键词，实时筛选多个表格内容。支持同时搜索多个表格的所有字段。</p>
-			</header>
-
-			<div class="search-container">
-				<div class="search-box">
-					<input type="text" id="search-input" placeholder="输入关键词搜索...">
-					<button id="search-btn">搜索</button>
-				</div>
-				<div class="search-info">
-					找到 <span id="results-count">0</span> 条匹配记录
-				</div>
-			</div>
-
-			<div class="table-container">
-				<!-- 第一个表格 -->
-				<details>
-					<summary>已完成任务表格</summary>
-					<table id="completed-table">
-						<thead>
+		    <header>
+		        <h1>周报</h1>
+		        <p class="description">在下方搜索框中输入关键词，实时筛选多个表格内容。支持同时搜索多个表格的所有字段。</p>
+		    </header>
+		
+		    <div class="search-container">
+		        <div class="main-search-box">
+		            <input type="text" id="search-input" placeholder="输入关键词搜索...">
+		            <button id="search-btn">搜索</button>
+		        </div>
+		        <div class="search-info">
+		            找到 <span id="results-count">0</span> 条匹配记录
+		        </div>
+		    </div>
+		
+		    <div class="table-container">
+		    	<!-- 第一个表格 -->
+		    	<details>
+		    		<summary>已完成任务表格</summary>
+		    		<table id="completed-table">
+		    			<thead>
+		    				<tr>
+		    					<th style="width: 10%;">任务时间</th>
+		    					<th style="width: 10%;">任务名称</th>
+		    					<th style="width: 40%;">备注</th>
+		    					<th style="width: 10%;">所属</th>
+		    					<th style="width: 40%;">下一步动作</th>
+		    				</tr>
+		    			</thead>
+		    			<tbody>
+		    				<tr> <th colspan="5">2025/8/11-2025/8/17</th></tr>
+		    				<!--已经完成工作计划-->
+		    				<tr>
+		    					<td>8月11日-8月17日</td>
+		    					<td>MIC商机回复查看</td>
+		    					<td>MIC没有联系方式的限制，所有前几轮的沟通集中在联系方式的交换，不存在明显问题</td>
+		    					<td>平台分析</td>
+		    					<td>完成
+		    					</td>
+		    				</tr>
+		    				<tr>
+		    					<td>8月11日-8月17日</td>
+		    					<td>新站落地页搭建</td>
+		    					<td>
+		    						<p><a href="https://www.grandermed.com/exhibition.html" target="_blank">网址：展会</a></p>
+		    						<p><a href="https://www.grandermed.com/news.html" target="_blank">网址：Blog</a></p>
+		    						<p><a href="https://www.grandermed.com/download.html" target="_blank">网址：下载</a></p>
+		    						<p><a href="https://www.grandermed.com/contactus.html" target="_blank">网址：Coutact Us</a></p></td>
+		    					<td>创伤新站</td>
+		    					<td>完成</td>
+		    				</tr>
+		    				<tr>
+		    					<td>8月11日-8月17日</td>
+		    					<td>8月Blog发布</td>
+		    					<td>
+		    						<p>产品链接和配图完成</p></td>
+		    					<td>老站</td>
+		    					<td>完成</td>
+		    				</tr>
+		    				<tr>
+		    					<td>8月11日-8月17日</td>
+		    					<td>老站落地页优化</td>
+		    					<td>
+		    					<p><a href="https://www.czmeditech.com/" target="_blank">网址：首页6个流程和3个身份</a></p>
+		    					<p><a href="https://www.czmeditech.com/become-our-dealer.html" target="_blank">网址：Become our Dealer</a></p>
+		    					<p><a href="https://www.czmeditech.com/about-us.html" target="_blank">网址：About Us</a></p></td>
+		    					<td>老站</td>
+		    					<td>
+		    					<p>老站的页面优化英语站的修改和西语站是不同步的</p>
+		    					<ul>
+		    					<li>产品，文章，下载会同步</li>
+		    					<li>但是只在首次发布同步，后续更新不同步</li>
+		    					</ul>
+		    					<ol>
+		    					  <li>6个流程增加了View More的箭头，将对应内容放在About Us内，3个身份增加了Deatails链接，将详细内容放在Become our Dealer中</li>
+		    					  <li>Become our Dealer有专门的文字文案，后续内容要再调整，等宋总安排</li>
+		    					  <li>搭建6个流程的详细文案</li>
+		    					</ol></td>
+		    				</tr>
+		    				<tr>
+		    					<td>8月11日-8月17日</td>
+		    				<td>业务员询盘登记表</td>
+		    				<td></td>
+		    				<td>表格统计</td>
+		    				<td>完成</td>
+		    				</tr>
+		    				<tr>
+		    					<td>8月11日-8月17日</td>
+		    				<td>MIC发品4个</td>
+		    				<td>锁定板系列</td>
+		    				<td>MIC</td>
+		    				<td>锁定板系列发品持续</td>
+		    				</tr>
+		    				<tr>
+		    					<td>8月11日-8月17日</td>
+		    				<td>谷歌询盘统计</td>
+		    				<td>8月上半月份的询盘量下降，需关注讨论下一步动作</td>
+		    				<td>表格统计</td>
+		    				<td>完成</td>
+		    				</tr>
+		    				<tr>
+		    					<td>8月11日-8月17日</td>
+		    				<td>创伤板查漏补缺
+		    				</td>
+		    				<td>
+		    				<ol>
+		    				<ul>建立产品表格</ul>
+		    				<ul>通用模板文案</ul>
+		    				</ol>
+		    				</td>
+		    				<td>
+		    				全平台
+		    				</td>
+		    				<td>
+		    				<ol>
+		    				<li>3个平台的通用模板搭建，缺少对应配图</li>
+		    				<ul>
+		    				<li>老站筛查未发布产品并补齐</li>
+		    				<li>新站搭建产品链接</li>
+		    				<li>MIC建立详情页模板</li>
+		    				</ul>
+		    				<li>老站和新站产品发布：预计3周</li>
+		    				</ol>
+		    				</td>
+		    				</tr>
+		    				<tr> <th colspan="5">2025/8/18-2025/8/24</th></tr>
+		    				<tr>
+		    					<td>8月18日-8月24日</td>
+		    					<td>新站落地页搭建</td>
+		    					<td>
+		    						<p><a href="https://www.grandermed.com/" target="_blank">目录导航</a></p>
+		    						<p><a href="https://www.grandermed.com/products.html" target="_blank">网址：产品展示页</a></p>
+		    						<p>7个部位的分类落地页设计（本周完成设计和图片要求，下周搭建）</p>
+		    						<ul>
+		    						<li><a href="https://www.grandermed.com/category-foot-bones.html" target="_blank">
+		    								  网址：新站足踝分类落地页</a></li>
+		    															<li><a href="https://www.grandermed.com/category-lower-limb-bones.html" target="_blank">
+		    																  		  网址：下肢分类落地页</a></li>
+		    															<li><a href="https://www.grandermed.com/category-palm-bones.html" target="_blank">
+		    																  		  网址：手掌分类落地页</a></li>
+		    															<li><a href="https://www.grandermed.com/category-pediatric.html" target="_blank">
+		    																		网址：儿童分类落地页</a></li>
+		    															<li><a href="https://www.grandermed.com/category-pelvic-bones.html" target="_blank">
+		    																		网址：盆骨分类落地页</a></li>
+		    															<li><a href="https://www.grandermed.com/category-trunk-bones.html" target="_blank">
+		    																		网址：躯干分类落地页</a></li>
+		    															<li><a href="https://www.grandermed.com/category-upper-limb-bones.html" target="_blank">
+		    																		网址：上肢分类落地页</a></li>	</ul>
+		    					</td>
+		    					<td>创伤新站</td>
+		    					<td>电动工具产品链接搭建</td>
+		    				</tr>
+		    				<tr>
+		    					<td>8月18日-9月7日</td>
+		    					<td>创伤板查漏补缺</td>
+		    					<td>
+		    				<ol>
+		    				<li>3个平台的通用模板搭建，缺少对应配图</li>
+		    				<ul>
+		    				<li>老站筛查未发布产品并补齐</li>
+		    				<li>新站搭建产品链接</li>
+		    				<li>MIC建立详情页模板</li>
+		    				</ul>
+		    				<li>老站和新站产品发布：预计3周</li>
+		    				</ol>
+		    				</td>
+		    					<td>全平台</td>
+		    					<td><p>剩余2周</p><p>新站总计预发品92个，目前进度（20/92）</p><p>老站总计预发品26个，目前进度（26/26）</p></td>
+		    				</tr>
+		    				<tr>
+		    					<td>8月18日-8月24日</td>
+		    				<td>MIC发品4个</td>
+		    				<td>锁定板系列</td>
+		    				<td>MIC</td>
+		    				<td>锁定板系列发品持续</td>
+		    				</tr>
+		    				<tr>
+		    					<td>8月18日-8月24日</td>
+		    					<td>老站落地页优化</td>
+		    					<td>
+		    					<p>Become our Dealer有专门的文字文案，后续内容要再调整，等宋总安排</p>
+		    					<p>About Us文案和图片细节调整</p>
+		    					<p><a href="https://www.czmeditech.com/about-us.html" target="_blank">关于我们网址</a></p></td>
+		    					<td>老站</td>
+		    					<td></td>
+		    				</tr>
+		    				<tr>
+		    					<td>8月18日-8月24日</td>
+		    				<td>业务员询盘登记表</td>
+		    				<td></td>
+		    				<td>表格统计</td>
+		    				<td></td>
+		    				</tr>
+							<tr> <th colspan="5">2025/8/25-2025/8/31</th></tr>
 							<tr>
-								<th style="width: 10%;">任务时间</th>
-								<th style="width: 10%;">任务名称</th>
-								<th style="width: 40%;">备注</th>
-								<th style="width: 10%;">所属</th>
-								<th style="width: 40%;">下一步动作</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr> <th colspan="5">2025/8/11-2025/8/17</th></tr>
-							<!--已经完成工作计划-->
-							<tr>
-								<td>8月11日-8月17日</td>
-								<td>MIC商机回复查看</td>
-								<td>MIC没有联系方式的限制，所有前几轮的沟通集中在联系方式的交换，不存在明显问题</td>
-								<td>平台分析</td>
-								<td>完成
-								</td>
-							</tr>
-							<tr>
-								<td>8月11日-8月17日</td>
-								<td>新站落地页搭建</td>
+								<td>8月18日-9月7日</td>
+								<td>创伤板查漏补缺</td>
 								<td>
-									<p><a href="http://en-medituauma.tw.ldyjz.com/exhibition.html" target="_blank">网址：展会</a></p>
-									<p><a href="https://en-medituauma.tw.ldyjz.com/news.html" target="_blank">网址：Blog</a></p>
-									<p><a href="http://en-medituauma.tw.ldyjz.com/download.html" target="_blank">网址：下载</a></p>
-									<p><a href="https://en-medituauma.tw.ldyjz.com/contactus.html" target="_blank">网址：Coutact Us</a></p></td>
-								<td>创伤新站</td>
-								<td>完成</td>
-							</tr>
-							<tr>
-								<td>8月11日-8月17日</td>
-								<td>8月Blog发布</td>
-								<td>
-									<p>产品链接和配图完成</p></td>
-								<td>老站</td>
-								<td>完成</td>
-							</tr>
-							<tr>
-								<td>8月11日-8月17日</td>
-								<td>老站落地页优化</td>
-								<td>
-								<p><a href="https://www.czmeditech.com/" target="_blank">网址：首页6个流程和3个身份</a></p>
-								<p><a href="https://www.czmeditech.com/become-our-dealer.html" target="_blank">网址：Become our Dealer</a></p>
-								<p><a href="https://www.czmeditech.com/about-us.html" target="_blank">网址：About Us</a></p></td>
-								<td>老站</td>
-								<td>
-								<p>老站的页面优化英语站的修改和西语站是不同步的</p>
-								<ul>
-								<li>产品，文章，下载会同步</li>
-								<li>但是只在首次发布同步，后续更新不同步</li>
-								</ul>
-								<ol>
-								  <li>6个流程增加了View More的箭头，将对应内容放在About Us内，3个身份增加了Deatails链接，将详细内容放在Become our Dealer中</li>
-								  <li>Become our Dealer有专门的文字文案，后续内容要再调整，等宋总安排</li>
-								  <li>搭建6个流程的详细文案</li>
-								</ol></td>
-							</tr>
-							<tr>
-								<td>8月11日-8月17日</td>
-							<td>业务员询盘登记表</td>
-							<td></td>
-							<td>表格统计</td>
-							<td>完成</td>
-							</tr>
-							<tr>
-								<td>8月11日-8月17日</td>
-							<td>MIC发品</td>
-							<td>锁定板系列</td>
-							<td>MIC</td>
-							<td>锁定板系列发品持续</td>
-							</tr>
-							<tr>
-								<td>8月11日-8月17日</td>
-							<td>谷歌询盘统计</td>
-							<td>8月上半月份的询盘量下降，需关注讨论下一步动作</td>
-							<td>表格统计</td>
-							<td>完成</td>
-							</tr>
-							<tr>
-								<td>8月11日-8月17日</td>
-							<td>创伤板查漏补缺
-							</td>
-							<td>
-							<ol>
-							<ul>建立产品表格</ul>
-							<ul>通用模板文案</ul>
-							</ol>
-							</td>
-							<td>
-							全平台
-							</td>
-							<td>
 							<ol>
 							<li>3个平台的通用模板搭建，缺少对应配图</li>
 							<ul>
@@ -310,198 +658,581 @@
 							<li>老站和新站产品发布：预计3周</li>
 							</ol>
 							</td>
+								<td>全平台</td>
+								<td><p>剩余1周</p><p>新站总计预发品92个，目前进度（70/92）</p><p>老站总计预发品26个，目前进度（26/26）</p></td>
 							</tr>
-						</tbody>
-					</table>
-				</details>
-				<p>本周任务</p>
-				<!-- 第二个表格 -->
-				<table id="current-table">
-					<thead>
-						<tr>
-							<th style="width: 10%;">任务时间</th>
-							<th style="width: 10%;">任务名称</th>
-							<th style="width: 40%;">备注</th>
-							<th style="width: 10%;">所属</th>
-							<th style="width: 40%;">下一步动作</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr> <th colspan="5">2025/8/18-2025/8/24</th></tr>
-						<tr>
-							<td>8月18日-8月24日</td>
-							<td>新站落地页搭建</td>
-							<td>
-								<p>目录导航</a></p>
-								<p><a href="https://en-medituauma.tw.ldyjz.com/products.html" target="_blank">网址：产品展示页</a></p>
-								<p>7个部位的分类落地页设计（本周完成设计和图片要求，下周搭建）</p>
+							<tr>
+								<td>8月25日-9月21日</td>
+								<td>电动工具查漏补缺</td>
+								<td>
+							<ol>
+							<li>3个平台的通用模板搭建，对应配图</li>
+							<ul>
+							<li>老站筛查未发布产品并补齐</li>
+							<li>新站搭建产品链接</li>
+							<li>MIC建立详情页模板</li>
+							</ul>
+							<li>老站和新站产品发布：预计4周</li>
+							</ol>
 							</td>
-							<td>创伤新站</td>
+								<td>全平台</td>
+								<td><p>剩余3周</p><p>新站总计预发品65个，目前进度（50/65）</p></td>
+							</tr>
+							<tr>
+								<td>8月25日-8月31日</td>
+								<td>电动工具通用模板</td>
+								<td>
+									<p><a href="https://www.grandermed.com/Power-Tool-pd560488448.html"
+										target="_blank">网址：新站电动工具通用</a></p>
+									<p><a href="https://www.czmeditech.com/--pd510877448.html"
+										target="_blank">网址：老站电动工具通用</a></p>
+										
+								</td>
+								<td>全平台</td>
+								<td></td>
+							</tr>
+							<tr>
+								<td>8月25日-8月31日</td>
+								<td>网站上线</td>
+								<td>分类页面的标题，描述和URL需要更正
+								<ol>
+									<li>64个分类页面</li>
+									<li>解析使用的手机号是Rachel手上工作机的手机号，接收验证码</li>
+								</ol>
+								</td>
+								<td>新站－临时性任务</td>
+								<td>FAQHTML代码生成并添加在页面内</td>
+							</tr>
+							<tr>
+								<td>8月25日-8月31日</td>
+								<td>MIC展示厅更新</td>
+								<td>因为新品的更新，所以MIC展示厅展示的产品和Banner也要同步更新
+								</td>
+								<td></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td>8月25日-8月31日</td>
+							<td>业务员询盘登记表</td>
 							<td></td>
+							<td>表格统计</td>
+							<td></td>
+							</tr>
+							<tr>
+								<td>8月25日-8月31日</td>
+							<td>MIC发品4个</td>
+							<td>锁定板系列</td>
+							<td>MIC</td>
+							<td>锁定板系列发品持续</td>
+							</tr>
+							<tr>
+							<td>8月25日-8月31日</td>
+							<td>MIC访客营销4个</td>
+							<td>访客营销是对浏览过展示厅的买家进行二次营销</td>
+							<td>MIC</td>
+							<td>正好最近进行了展示厅的更新，所以后续的访客营销可以分为2个方向
+							<ol>
+								<li>没有相关的搜索词（分为又搜索词但不匹配和无搜索词）进行新品的营销</li>
+								<li>有相关的搜索词，对关键词产品进行营销</li>
+							</ol>
+							</td>
+							</tr>
+							<tr>
+							<td>8月25日-8月31日</td>
+							<td>老站锁定板新品颜色素材替换</td>
+							<td></td>
+							<td>老站</td>
+							<td>
+							</td>
+							</tr>
+							<tr> <th colspan="5">2025/9/1-2025/9/7</th></tr>
+							<tr>
+								<td>8月18日-9月7日</td>
+								<td>创伤板查漏补缺</td>
+								<td>
+							<ol>
+							<li>3个平台的通用模板搭建，缺少对应配图</li>
+							<ul>
+							<li>老站筛查未发布产品并补齐</li>
+							<li>新站搭建产品链接</li>
+							<li>MIC建立详情页模板</li>
+							</ul>
+							<li>老站和新站产品发布：预计3周</li>
+							</ol>
+							</td>
+								<td>全平台</td>
+								<td><p>剩余1周</p><p>新站总计预发品92个，目前进度（92/92）</p><p>老站总计预发品26个，目前进度（26/26）</p></td>
+							</tr>						
+							<tr>
+								<td>8月25日-9月21日</td>
+								<td>电动工具查漏补缺</td>
+								<td>
+							<ol>
+							<li>3个平台的通用模板搭建，对应配图</li>
+							<ul>
+							<li>老站筛查未发布产品并补齐</li>
+							<li>新站搭建产品链接</li>
+							<li>MIC建立详情页模板</li>
+							</ul>
+							<li>老站和新站产品发布：预计4周</li>
+							</ol>
+							</td>
+								<td>全平台</td>
+								<td><p>剩余3周</p><p>新站总计预发品65个，目前进度（65/65）</p><p>老站总计预发品65个，目前进度（20/65）</p>
+								<p>配件与电动工具主体放在一个链接发布</p></td>
+							</tr>
+							<tr>
+								<td>9月1日-9月7日</td>
+							<td>MIC发品4个</td>
+							<td>锁定板系列</td>
+							<td>MIC</td>
+							<td>锁定板系列发品持续</td>
+							</tr>
+							<tr>
+								<td>9月1日-9月7日</td>
+							<td>MIC平台分析</td>
+							<td>月度分析</td>
+							<td>MIC</td>
+							<td>确定9月的计划安排</td>
+							</tr>
+							<tr>
+								<td>9月1日-9月7日</td>
+							<td>谷歌Blog分析</td>
+							<td>月度分析</td>
+							<td>老站</td>
+							<td>确定9月的Blog主题，采用Top系列</td>
+							</tr>
+							<tr>
+								<td>9月1日-9月7日</td>
+							<td>创伤板落地页优化</td>
+							<td><a href="https://www.czmeditech.com/Non-locking-Plate-pl3148339.html" target="_blank">网址:创伤板落地页</a></td>
+							<td>老站</td>
+							<td></td>
+							</tr>
+							<tr>
+								<td>9月1日-9月7日</td>
+							<td>电动工具落地页优化</td>
+							<td><a href="https://www.czmeditech.com/Medical-Power-Tool-pl3418339.html" target="_blank">网址:电动工具落地页</a></td>
+							<td>老站</td>
+							<td></td>
+							</tr>						
+							<tr>
+							<td>9月1日-9月7日</td>
+							<td>新站小语种确定</td>
+							<td></td>
+							<td>新站</td>
+							<td></td>
+							</tr>
+							<tr>
+							<td>9月1日-9月7日</td>
+							<td>锁定板更新发品</td>
+							<td>新站的产品对照图册发现由产品更新，新老站均需要补全。</td>
+							<td>全站</td>
+							<td></td>
+							</tr>
+							<tr>
+							<td>9月1日-9月7日</td>
+							<td>Sarah和Jay账号更换</td>
+							<td>周一更换并提醒，前2天进行询盘监控</td>
+							<td>MIC</td>
+							<td></td>
+							</tr>
+							<td>9月1日-9月7日</td>
+							<td>访客营销5个</td>
+							<td></td>
+							<td>MIC</td>
+							<td></td>
+							</tr>
+		    			</tbody>
+		    		</table>
+		    	</details>
+		    	<p>9月工作任务</p>
+		    	<!-- 第二个表格 -->
+		    	<table id="current-table">
+		    		<thead>
+		    			<tr>
+		    				<th style="width: 10%;">任务时间</th>
+		    				<th style="width: 10%;">任务名称</th>
+		    				<th style="width: 40%;">备注</th>
+		    				<th style="width: 10%;">所属</th>
+		    				<th style="width: 40%;">下一步动作</th>
+		    			</tr>
+		    		</thead>
+		    		<tbody>
+						<tr> <th colspan="5">2025/9/8-2025/9/14</th></tr>
+						<tr>
+							<td>9月8日-9月14日</td>
+						<td>外固定落地页优化</td>
+						<td></td>
+						<td>老站</td>
+						<td></td>
 						</tr>
 						<tr>
-							<td>8月18日-8月24日</td>
-							<td>创伤板查漏补缺</td>
+							<td>9月8日-9月14日</td>
+						<td>谷歌外链分析和手机</td>
+						<td></td>
+						<td>老站</td>
+						<td></td>
+						</tr>
+						<tr>
+							<td>9月8日-9月14日</td>
+						<td>老站Blog一篇</td>
+						<td></td>
+						<td>老站</td>
+						<td></td>
+						</tr>
+						<tr>
+							<td>9月8日-9月14日</td>
+						<td>MIC流量品发布</td>
+						<td></td>
+						<td>MIC</td>
+						<td></td>
+						</tr>
+						<tr>
+						<td>9月8日-9月14日</td>
+						<td>访客营销5个</td>
+						<td></td>
+						<td>MIC</td>
+						<td></td>
+						</tr>
+						<tr>
+							<td>9月8日-9月14日</td>
+						<td>MIC日常发品4个</td>
+						<td>锁定板系列</td>
+						<td>MIC</td>
+						<td>锁定板系列发品持续</td>
+						</tr>
+						<tr>
+							<td>8月25日-9月21日</td>
+							<td>电动工具查漏补缺</td>
 							<td>
 						<ol>
-						<li>3个平台的通用模板搭建，缺少对应配图</li>
+						<li>3个平台的通用模板搭建，对应配图</li>
 						<ul>
 						<li>老站筛查未发布产品并补齐</li>
 						<li>新站搭建产品链接</li>
 						<li>MIC建立详情页模板</li>
 						</ul>
-						<li>老站和新站产品发布：预计3周</li>
+						<li>老站和新站产品发布：预计4周</li>
 						</ol>
 						</td>
 							<td>全平台</td>
-							<td></td>
+							<td><p>剩余2周</p><p>新站总计预发品65个，目前进度（65/65）</p><p>老站总计预发品65个，目前进度（20/65）</p></td>
+						</tr>
+						<tr> <th colspan="5">2025/9/15-2025/9/21</th></tr>
+						<tr>
+							<td>9月15日-9月21日</td>
+						<td>运动医学落地页优化</td>
+						<td></td>
+						<td>老站</td>
+						<td></td>
 						</tr>
 						<tr>
-							<td>8月18日-8月24日</td>
-							<td>老站落地页优化</td>
+							<td>9月15日-9月21日</td>
+						<td>老站3个流量产品页优化</td>
+						<td></td>
+						<td>老站</td>
+						<td></td>
+						</tr>
+						<tr>
+							<td>9月15日-9月21日</td>
+						<td>老站展会Blog一篇</td>
+						<td></td>
+						<td>老站</td>
+						<td></td>
+						</tr>
+						<tr>
+						<td>9月15日-9月21日</td>
+						<td>访客营销5个</td>
+						<td></td>
+						<td>MIC</td>
+						<td></td>
+						</tr>
+						<td>9月15日-9月21日</td>
+						<td>谷歌询盘统计</td>
+						<td></td>
+						<td>老站</td>
+						<td></td>
+						</tr>
+						<tr>
+							<td>9月15日-9月21日</td>
+						<td>MIC日常发品4个</td>
+						<td>锁定板系列</td>
+						<td>MIC</td>
+						<td>锁定板系列发品持续</td>
+						</tr>
+						<tr>
+							<td>8月25日-9月21日</td>
+							<td>电动工具查漏补缺</td>
 							<td>
-							Become our Dealer有专门的文字文案，后续内容要再调整，等宋总安排</td>
-							<td>老站</td>
-							<td></td>
+						<ol>
+						<li>3个平台的通用模板搭建，对应配图</li>
+						<ul>
+						<li>老站筛查未发布产品并补齐</li>
+						<li>新站搭建产品链接</li>
+						<li>MIC建立详情页模板</li>
+						</ul>
+						<li>老站和新站产品发布：预计4周</li>
+						</ol>
+						</td>
+							<td>全平台</td>
+							<td><p>剩余1周</p><p>新站总计预发品65个，目前进度（/65）</p><p>老站总计预发品65个，目前进度（/65）</p></td>
+						</tr>
+						<tr> <th colspan="5">2025/9/22-2025/9/28</th></tr>
+						<tr>
+							<td>9月22日-9月28日</td>
+						<td>宠物落地页优化</td>
+						<td></td>
+						<td>老站</td>
+						<td></td>
 						</tr>
 						<tr>
-							<td>8月18日-8月24日</td>
-						<td>业务员询盘登记表</td>
+						<td>9月22日-9月28日</td>
+						<td>访客营销5个</td>
 						<td></td>
-						<td>表格统计</td>
+						<td>MIC</td>
 						<td></td>
 						</tr>
-					</tbody>
-				</table>
-
-				<!-- 第三个表格 -->
-				<details>
-					<summary>其他任务表格</summary>
-					<table id="other-table">
-						<thead>
+						<tr>
+							<td>9月22日-9月28日</td>
+						<td>MIC日常发品4个</td>
+						<td>锁定板系列</td>
+						<td>MIC</td>
+						<td>锁定板系列发品持续</td>
+						</tr>																							
+		    		</tbody>
+		    	</table>				
+		    	<!-- 第三个表格 -->
+		    	<details>
+		    		<summary>其他任务表格</summary>
+		    		<table id="other-table">
+		    			<thead>
+		    				<tr>
+		    					<th style="width: 10%;">任务时间</th>
+		    					<th style="width: 10%;">任务名称</th>
+		    					<th style="width: 40%;">备注</th>
+		    					<th style="width: 10%;">所属</th>
+		    					<th style="width: 40%;">下一步动作</th>
+		    				</tr>
+		    			</thead>
+		    			<tbody>
+		    				<tr>
+		    					<td>2025/8/11-2025/8/17</td>
+		    					<td>OEM/ODM</td>
+		    					<td>
+		    						<a href="https://www.czmeditech.com/oem-odm.html" target="_blank">网址：OEM/ODM</a>
+		    					</td>
+		    					<td>老站OEM/ODM优化</td>
+		    					<td>Rachel负责</td>
+		    				</tr>
 							<tr>
-								<th style="width: 10%;">任务时间</th>
-								<th style="width: 10%;">任务名称</th>
-								<th style="width: 40%;">备注</th>
-								<th style="width: 10%;">所属</th>
-								<th style="width: 40%;">下一步动作</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>2025/8/11-2025/8/17</td>
-								<td>OEM/ODM</td>
+								<td>2025/10/1-2025/10/20</td>
+								<td>老站resource模块搭建-关节素材</td>
 								<td>
-									<a href="https://www.czmeditech.com/oem-odm.html" target="_blank">网址：OEM/ODM</a>
+									<p><a href="https://www.acumed.net/resources/images/" target="_blank">网址参考</a></p>
+									<p><a href="https://www.orthoimplantcompany.com/resources" target="_blank">网址参考</a></p>
 								</td>
 								<td>老站OEM/ODM优化</td>
 								<td>Rachel负责</td>
 							</tr>
-						</tbody>
-					</table>
-				</details>
-				<!-- 第四个表格 -->
-				<details>
-					<summary>下周任务表格</summary>
-					<table id="other-table">
-						<thead>
-							<tr>
-								<th style="width: 10%;">任务时间</th>
-								<th style="width: 10%;">任务名称</th>
-								<th style="width: 40%;">备注</th>
-								<th style="width: 10%;">所属</th>
-								<th style="width: 40%;">下一步动作</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>2025/8/25-2025/8/31</td>
-								<td>电动工具通用模板</td>
-								<td>
-									<a href="https://en-medituauma.tw.ldyjz.com/Power-Tool-pd560488448.html"
-										target="_blank">网址：电动工具通用</a>
-								</td>
-								<td>全平台</td>
-								<td></td>
-							</tr>
-						</tbody>
-					</table>
-				</details>
-
-				<div class="no-results" id="no-results">
-					没有找到匹配的记录，请尝试其他搜索词。
-				</div>
-			</div>
+		    			</tbody>
+		    		</table>
+		    	</details>
+		    	<div class="no-results" id="no-results">
+		    		没有找到匹配的记录，请尝试其他搜索词。
+		    	</div>
+		    </div>
 
 			<footer>
-				<p>多表格搜索筛选功能 &copy; 2025</p>
+				<p>© 2025 Hugh的工作网站. 保留所有权利.</p>
 			</footer>
 		</div>
 
-		<script>
-			document.addEventListener('DOMContentLoaded', function() {
-				const searchInput = document.getElementById('search-input');
-				const searchBtn = document.getElementById('search-btn');
-				const tables = document.querySelectorAll('table'); // 获取所有表格
-				const resultsCount = document.getElementById('results-count');
-				const noResults = document.getElementById('no-results');
+		<a href="#" class="back-to-top">
+			<i class="fas fa-arrow-up"></i>
+		</a>
 
-				// 初始显示所有行并计算总数
-				let totalRows = 0;
-				tables.forEach(table => {
-					const tbody = table.getElementsByTagName('tbody')[0];
-					if (tbody) {
-						totalRows += tbody.getElementsByTagName('tr').length;
+		<script>
+			// 加载导航栏
+			function loadNavbar() {
+				const navbarContainer = document.getElementById('navbar-container');
+				const navbarHTML = `
+					<nav class="navbar">
+						<div class="nav-container">
+							<a href="#" class="logo">
+								<i class="fas fa-rocket"></i>
+								<span>Hugh的工作网站</span>
+							</a>
+
+							<ul class="nav-menu">
+								<li class="nav-item">
+									<a href="#" class="nav-link">首页</a>
+								</li>
+								<li class="nav-item">
+									<a href="#" class="nav-link has-dropdown">报表资料</a>
+									<div class="dropdown">
+										<a href="https://hugh2024-han.github.io/My-website/TonyTask.html" class="dropdown-item">Tony任务卡</a>
+										<a href="https://hugh2024-han.github.io/My-website/%E6%AF%8F%E5%91%A8%E5%91%A8%E6%8A%A5.html"
+											class="dropdown-item">每周周报</a>
+										<a href="https://hugh2024-han.github.io/My-website/%E5%8F%82%E8%80%83%E7%BD%91%E5%9D%80.html"
+											class="dropdown-item">参考网址</a>
+									</div>
+								</li>
+								<li class="nav-item">
+									<a href="https://hugh2024-han.github.io/My-website/%E5%91%A8%E6%8A%A5.html" class="nav-link">Hugh的工作周记</a>
+								</li>
+								<li class="nav-item">
+									<a href="#" class="nav-link">分析</a>
+									<div class="dropdown">
+										<a href="https://hugh2024-han.github.io/My-website/MIC%E5%88%86%E6%9E%90.html" class="dropdown-item">MIC</a>
+										<a href="#"
+											class="dropdown-item">Blog</a>
+									</div>
+								</li>
+							</ul>
+
+							<div class="nav-search-box">
+								<input type="text" class="nav-search-input" placeholder="搜索...">
+								<button class="nav-search-btn">
+									<i class="fas fa-search"></i>
+								</button>
+							</div>
+
+							<button class="hamburger">
+								<i class="fas fa-bars"></i>
+							</button>
+						</div>
+					</nav>
+				`;
+				navbarContainer.innerHTML = navbarHTML;
+				initNavbar();
+			}
+
+			// 初始化导航菜单功能
+			function initNavbar() {
+				const hamburger = document.querySelector('.hamburger');
+				const navMenu = document.querySelector('.nav-menu');
+
+				if (hamburger && navMenu) {
+					hamburger.addEventListener('click', (e) => {
+						e.stopPropagation();
+						navMenu.classList.toggle('active');
+						hamburger.innerHTML = navMenu.classList.contains('active') ?
+							'<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+					});
+
+					// 移动端下拉菜单处理
+					document.querySelectorAll('.nav-link.has-dropdown').forEach(link => {
+						link.addEventListener('click', (e) => {
+							if (window.innerWidth <= 768) {
+								e.preventDefault();
+								e.stopPropagation();
+								link.classList.toggle('active');
+								link.nextElementSibling.classList.toggle('active');
+							}
+						});
+					});
+
+					// 点击其他地方关闭菜单
+					document.addEventListener('click', (e) => {
+						if (window.innerWidth <= 768) {
+							if (!e.target.closest('.nav-menu') && !e.target.closest('.hamburger')) {
+								navMenu.classList.remove('active');
+								hamburger.innerHTML = '<i class="fas fa-bars"></i>';
+
+								document.querySelectorAll('.dropdown').forEach(dropdown => {
+									dropdown.classList.remove('active');
+								});
+								document.querySelectorAll('.nav-link.has-dropdown').forEach(link => {
+									link.classList.remove('active');
+								});
+							}
+						}
+					});
+				}
+			}
+
+			// 返回顶部功能
+			function initBackToTop() {
+				const backToTopButton = document.querySelector('.back-to-top');
+
+				window.addEventListener('scroll', () => {
+					if (window.pageYOffset > 300) {
+						backToTopButton.classList.add('visible');
+					} else {
+						backToTopButton.classList.remove('visible');
 					}
 				});
-				resultsCount.textContent = totalRows;
 
-				// 搜索功能
+				backToTopButton.addEventListener('click', (e) => {
+					e.preventDefault();
+					window.scrollTo({
+						top: 0,
+						behavior: 'smooth'
+					});
+				});
+			}
+
+			// 防抖函数
+			function debounce(func, wait) {
+				let timeout;
+				return function() {
+					const context = this;
+					const args = arguments;
+					clearTimeout(timeout);
+					timeout = setTimeout(() => func.apply(context, args), wait);
+				};
+			}
+
+			// 搜索功能
+			function initSearch() {
+				const searchInput = document.getElementById('search-input');
+				const searchBtn = document.getElementById('search-btn');
+				const tables = document.querySelectorAll('table');
+				const resultsCount = document.getElementById('results-count');
+				const noResults = document.querySelector('.no-results');
+
+				if (!searchInput || !searchBtn || !tables.length) return;
+
+				function escapeRegExp(string) {
+					return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+				}
+
 				function performSearch() {
 					const searchText = searchInput.value.toLowerCase().trim();
 					let matchCount = 0;
 
-					// 遍历所有表格
 					tables.forEach(table => {
 						const tbody = table.getElementsByTagName('tbody')[0];
 						if (!tbody) return;
-
+						
 						const rows = tbody.getElementsByTagName('tr');
 
-						// 遍历当前表格的所有行
 						for (let i = 0; i < rows.length; i++) {
 							const cells = rows[i].getElementsByTagName('td');
 							let rowMatch = false;
 
-							// 跳过表头行（如果表头行有th标签）
 							if (rows[i].getElementsByTagName('th').length > 0) {
-								// 如果是表头行，根据需求决定是否参与搜索
-								// 这里我们让表头行始终显示
 								rows[i].style.display = '';
 								continue;
 							}
 
-							// 遍历行中的每个单元格
 							for (let j = 0; j < cells.length; j++) {
 								const cellText = cells[j].textContent.toLowerCase();
 
-								// 如果搜索关键词为空，或者单元格内容包含关键词
 								if (searchText === '' || cellText.includes(searchText)) {
 									rowMatch = true;
 
-									// 高亮显示匹配的文本
 									if (searchText !== '') {
 										const regex = new RegExp(`(${escapeRegExp(searchText)})`, 'gi');
 										cells[j].innerHTML = cells[j].textContent.replace(regex,
 											'<span class="highlight">$1</span>');
 									}
 								} else {
-									// 移除之前的高亮
 									cells[j].innerHTML = cells[j].textContent;
 								}
 							}
 
-							// 显示或隐藏行
 							if (rowMatch) {
 								rows[i].style.display = '';
 								matchCount++;
@@ -511,10 +1242,8 @@
 						}
 					});
 
-					// 更新结果计数
 					resultsCount.textContent = matchCount;
 
-					// 显示或隐藏"无结果"消息
 					if (matchCount === 0 && searchText !== '') {
 						noResults.style.display = 'block';
 					} else {
@@ -522,22 +1251,22 @@
 					}
 				}
 
-				// 辅助函数：转义正则表达式特殊字符
-				function escapeRegExp(string) {
-					return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-				}
-
-				// 添加事件监听器
-				searchInput.addEventListener('input', performSearch);
 				searchBtn.addEventListener('click', performSearch);
-
-				// 支持按回车键搜索
 				searchInput.addEventListener('keypress', function(e) {
 					if (e.key === 'Enter') {
 						performSearch();
 					}
 				});
+				searchInput.addEventListener('input', debounce(performSearch, 300));
+			}
+
+			// 页面加载完成后初始化
+			document.addEventListener('DOMContentLoaded', () => {
+				loadNavbar();
+				initBackToTop();
+				initSearch();
 			});
 		</script>
 	</body>
 </html>
+
